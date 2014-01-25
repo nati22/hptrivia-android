@@ -4,6 +4,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     
+    <dimen name="app_logo_width">350dp</dimen>
+    <dimen name="app_logo_height">75dp</dimen>
+    
     <dimen name="question_width">350dp</dimen>
     <dimen name="question_height">100dp</dimen>
     <dimen name="answer_width">300dp</dimen>
