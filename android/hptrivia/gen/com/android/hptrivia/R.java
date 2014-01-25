@@ -48,13 +48,15 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f090006;
-        public static final int button_answer1=0x7f090005;
-        public static final int button_answer2=0x7f090004;
-        public static final int button_answer3=0x7f090003;
-        public static final int button_answer4=0x7f090002;
+        public static final int action_settings=0x7f090008;
+        public static final int button_answer1=0x7f090007;
+        public static final int button_answer2=0x7f090006;
+        public static final int button_answer3=0x7f090005;
+        public static final int button_answer4=0x7f090004;
+        public static final int button_shout_outs=0x7f090002;
+        public static final int button_start_quiz=0x7f090001;
         public static final int textView_app_title=0x7f090000;
-        public static final int textView_question=0x7f090001;
+        public static final int textView_question=0x7f090003;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
