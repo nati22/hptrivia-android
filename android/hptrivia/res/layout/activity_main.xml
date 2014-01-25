@@ -9,11 +9,43 @@
     tools:context=".MainActivity" >
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-    
-    
-    
+        android:id="@+id/textView_question"
+        android:layout_width="@dimen/question_width"
+        android:layout_height="@dimen/question_height"
+        android:layout_margin="10dp"
+        android:text="Sample question text sample question text sample question text"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/button_answer1"
+        android:layout_width="@dimen/answer_width"
+        android:layout_height="50dp"
+        android:layout_above="@id/button_answer2"
+        android:layout_margin="5dp"
+        android:text="answer 1" />
+
+    <Button
+        android:id="@+id/button_answer2"
+        android:layout_width="@dimen/answer_width"
+        android:layout_height="50dp"
+        android:layout_above="@id/button_answer3"
+        android:layout_margin="5dp"
+        android:text="answer 2" />
+
+    <Button
+        android:id="@+id/button_answer3"
+        android:layout_width="@dimen/answer_width"
+        android:layout_height="50dp"
+        android:layout_above="@id/button_answer4"
+        android:layout_margin="5dp"
+        android:text="answer 3" />
+
+    <Button
+        android:id="@+id/button_answer4"
+        android:layout_width="@dimen/answer_width"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp"
+        android:text="answer 4" />
 
 </RelativeLayout>
