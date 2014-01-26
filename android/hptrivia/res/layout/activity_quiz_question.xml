@@ -21,7 +21,7 @@
         android:id="@+id/textView_question_num"
         android:layout_width="@dimen/string_question_number_width"
         android:layout_height="@dimen/string_question_number_height"
-        android:text="Question X 0f XX"
+        android:text="Question X of XX"
         android:textColor="@color/white"
         android:textSize="16dp"
         android:textStyle="bold" />
@@ -29,11 +29,12 @@
     <TextView
         android:id="@+id/textView_question"
         android:layout_width="@dimen/question_width"
-        android:layout_height="@dimen/question_height"
+        android:layout_height="wrap_content"
+        android:maxLines="6"
         android:layout_below="@id/textView_question_num"
         android:layout_marginTop="15dp"
         android:gravity="center_horizontal"
-        android:text="Sample question text sample question text sample question text"
+        android:text="sample question text sample question text sample question text "
         android:textColor="@color/white"
         android:textSize="22dp"
         android:textStyle="bold" />
