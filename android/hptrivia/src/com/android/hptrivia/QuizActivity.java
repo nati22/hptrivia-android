@@ -39,7 +39,6 @@ public class QuizActivity extends Activity {
 
 	private void addClickListeners() {
 		OnClickListener cl = new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				Button thisButton = (Button) v;
