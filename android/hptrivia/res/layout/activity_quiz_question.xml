@@ -1,4 +1,3 @@
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,15 +9,33 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
+    <!--
+    TODO: I need to decide whether it's better to have a whole string 
+    "Question 2 of 10" updated in a single TextView (like now) or whether it's 
+    worth holding a TextView for each part of the sentence within a horizontal 
+    LinearLayout and have each TextView modified programmatically for each 
+    question.
+    -->
+
+    <TextView
+        android:id="@+id/textView_question_num"
+        android:layout_width="@dimen/string_question_number_width"
+        android:layout_height="@dimen/string_question_number_height"
+        android:text="Question X 0f XX"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
     <TextView
         android:id="@+id/textView_question"
         android:layout_width="@dimen/question_width"
         android:layout_height="@dimen/question_height"
-        android:layout_margin="10dp"
+        android:layout_below="@id/textView_question_num"
+        android:layout_marginTop="15dp"
         android:gravity="center_horizontal"
         android:text="Sample question text sample question text sample question text"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="22dp"
         android:textStyle="bold" />
 
     <Button
@@ -26,8 +43,9 @@
         android:layout_width="@dimen/answer_width"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
-        android:background="@color/yellow"
+        android:background="@color/aqua"
         android:text="answer 4" />
 
     <Button
@@ -35,6 +53,7 @@
         android:layout_width="@dimen/answer_width"
         android:layout_height="50dp"
         android:layout_above="@id/button_answer4"
+        android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
         android:background="@color/aqua"
         android:text="answer 3" />
@@ -44,6 +63,7 @@
         android:layout_width="@dimen/answer_width"
         android:layout_height="50dp"
         android:layout_above="@id/button_answer3"
+        android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
         android:background="@color/aqua"
         android:text="answer 2" />
@@ -53,6 +73,7 @@
         android:layout_width="@dimen/answer_width"
         android:layout_height="50dp"
         android:layout_above="@id/button_answer2"
+        android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
         android:background="@color/aqua"
         android:text="answer 1" />
