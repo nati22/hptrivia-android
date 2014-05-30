@@ -15,17 +15,11 @@ import java.util.List;
 
 /**
  * Created by ntessema on 5/30/14.
- *
- * Never use an AsyncTask directly, in the whole codebase. Instead, extend this
- * class. This class bakes in several checks and GUI notifications related to
- * network calls right into it.
- *
- * Don't forget to call "super(context)" in the constructor of your subclass.
- *
  */
 abstract class BasePostRequestAsyncTask<ResultT> extends
         BaseHttpRequest<ResultT> {
 
+    private static final String TAG = BasePostRequestAsyncTask.class.getSimpleName();
     protected List<NameValuePair> parameters = null;
 
     protected BasePostRequestAsyncTask(Context context, String uriSuffix,

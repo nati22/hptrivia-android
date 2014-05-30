@@ -2,7 +2,6 @@ package com.titan.hptrivia.network;
 
 import android.content.Context;
 import android.util.Log;
-
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -14,6 +13,8 @@ import org.apache.http.util.EntityUtils;
  */
 abstract class BaseGetRequestAsyncTask<ResultT> extends
         BaseHttpRequest<ResultT> {
+
+    private static final String TAG = BaseGetRequestAsyncTask.class.getSimpleName();
 
     protected BaseGetRequestAsyncTask(Context context, String uriSuffix) {
         super(context, uriSuffix);

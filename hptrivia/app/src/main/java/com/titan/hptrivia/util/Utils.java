@@ -3,6 +3,7 @@ package com.titan.hptrivia.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.Toast;
 
 /**
  * Created by ntessema on 5/30/14.
@@ -22,4 +23,9 @@ public class Utils {
 
         return activeNetworkInfo != null;
     }
+
+    public static void makeShortToast(Context context, String text) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+    }
+
 }
