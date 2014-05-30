@@ -1,4 +1,4 @@
-package com.titan.hptrivia.utils;
+package com.titan.hptrivia.util;
 
 import android.app.Application;
 
