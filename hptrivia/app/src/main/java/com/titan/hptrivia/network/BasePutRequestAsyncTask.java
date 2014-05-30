@@ -19,6 +19,7 @@ import java.util.List;
 abstract class BasePutRequestAsyncTask<ResultT> extends
         BaseHttpRequest<ResultT> {
 
+    private static final String TAG = BasePutRequestAsyncTask.class.getSimpleName();
     protected List<NameValuePair> parameters = null;
 
     protected BasePutRequestAsyncTask(Context context, String uriSuffix,

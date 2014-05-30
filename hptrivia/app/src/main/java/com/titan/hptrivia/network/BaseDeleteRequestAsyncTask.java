@@ -1,19 +1,19 @@
 package com.titan.hptrivia.network;
 
-/**
- * Created by ntessema on 5/30/14.
- */
-
 import android.content.Context;
 import android.util.Log;
-
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+/**
+ * Created by ntessema on 5/30/14.
+ */
 class BaseDeleteRequestAsyncTask<ResultT> extends BaseHttpRequest<ResultT> {
+
+    private static final String TAG = BaseDeleteRequestAsyncTask.class.getSimpleName();
 
     protected BaseDeleteRequestAsyncTask(Context context, String uriSuffix) {
         super(context, uriSuffix);

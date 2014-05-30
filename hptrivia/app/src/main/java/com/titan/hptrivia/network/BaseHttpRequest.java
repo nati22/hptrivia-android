@@ -2,7 +2,6 @@ package com.titan.hptrivia.network;
 
 import android.content.Context;
 import android.util.Log;
-
 import com.titan.hptrivia.util.PRIVATE_CONSTANTS;
 import com.titan.hptrivia.util.SafeAsyncTask;
 import com.titan.hptrivia.util.Utils;
@@ -14,7 +13,6 @@ import com.titan.hptrivia.util.Utils;
 abstract class BaseHttpRequest<ResultT> extends SafeAsyncTask<ResultT> {
 
     private static final String TAG = BaseHttpRequest.class.getSimpleName();
-
     static final String BASE_URL = PRIVATE_CONSTANTS.getSERVER_URL();
 
     protected String responseString = "";
