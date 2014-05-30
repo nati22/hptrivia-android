@@ -5,8 +5,12 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.android.tools.build:gradle:0.10.0+'
     }
+}
+
+task sample {
+    println 'Hello there'
 }
 
 allprojects {
