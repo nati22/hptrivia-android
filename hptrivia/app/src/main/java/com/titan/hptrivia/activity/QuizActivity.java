@@ -1,4 +1,4 @@
-package com.titan.hptrivia;
+package com.titan.hptrivia.activity;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
+import com.titan.hptrivia.R;
 
 
 public class QuizActivity extends ActionBarActivity {
