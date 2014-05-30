@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/Users/ntessema/Documents/workspace/hptrivia-android/hptrivia/app/build/pre-dexed/debug/classes-28aae9750b71993f27378ae3994a8cb3739330a3.jar"
+        jar="/Users/ntessema/Documents/workspace/hptrivia-android/hptrivia/build/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
+
+</pre-dex-items>

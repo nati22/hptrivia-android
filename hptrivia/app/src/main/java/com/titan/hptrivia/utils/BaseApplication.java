@@ -29,6 +29,8 @@ public class BaseApplication extends Application {
             Log.e(TAG, "envName = " + envName);
         }
 
+        Log.e(TAG, "PATH = " + env.get("PATH"));
+
         String url = System.getenv(SERVER_URL_KEY);
         Constants.setSERVER_URL(url);
         Log.i(TAG, "url = " + url);

@@ -11,4 +11,5 @@ public class Constants {
         SERVER_URL = url;
     }
 
+    private int testingIfThisWillBeCheckedByGit;
 }
