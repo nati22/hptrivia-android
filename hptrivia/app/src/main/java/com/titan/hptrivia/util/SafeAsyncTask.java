@@ -1,10 +1,9 @@
-package com.titan.hptrivia.utils;
+package com.titan.hptrivia.util;
 
 
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-
 import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.Arrays;
