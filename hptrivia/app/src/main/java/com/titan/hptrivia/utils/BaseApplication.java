@@ -9,8 +9,7 @@ import android.app.Application;
  */
 public class BaseApplication extends Application {
 
-    private static final String SERVER_URL_KEY = "SERVER_URL";
-    private static final String TAG = BaseApplication.class.getName();
+    private static final String SERVER_URL_KEY = PRIVATE_CONSTANTS.getSERVER_URL();
 
     @Override
     public void onCreate() {

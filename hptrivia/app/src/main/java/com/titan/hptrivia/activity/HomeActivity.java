@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.titan.hptrivia.R;
 
@@ -19,8 +20,12 @@ public class HomeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_home);
 
         Log.d(TAG, "onCreate");
+        makeShortToast("HomeActivity created");
     }
 
+    private void makeShortToast(String txt) {
+        Toast.makeText(getApplicationContext(), txt, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
