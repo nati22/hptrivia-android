@@ -1,17 +1,24 @@
-package com.titan.hptrivia;
+package com.titan.hptrivia.activity;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.titan.hptrivia.R;
+
 
 public class HomeActivity extends ActionBarActivity {
+
+    private static final String TAG = HomeActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        Log.d(TAG, "onCreate");
     }
 
 
