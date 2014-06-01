@@ -2,26 +2,41 @@ package com.titan.hptrivia.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.titan.hptrivia.R;
-import com.titan.hptrivia.util.Utils;
 
 
 public class HomeActivity extends ActionBarActivity {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
 
+    // UI elements
+    private Button buttonStartQuiz;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Log.d(TAG, "onCreate");
-        Utils.makeShortToast(this, "HomeActivity created");
+        inflateXML();
+
     }
+
+    private void inflateXML() {
+        buttonStartQuiz = (Button) findViewById(R.id.buttonStartQuiz);
+        buttonStartQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
