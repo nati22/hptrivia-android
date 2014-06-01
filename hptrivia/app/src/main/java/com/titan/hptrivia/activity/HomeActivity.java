@@ -1,5 +1,6 @@
 package com.titan.hptrivia.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -8,19 +9,24 @@ import android.view.View;
 import android.widget.Button;
 
 import com.titan.hptrivia.R;
+import com.titan.hptrivia.model.QuizManager;
 
 
 public class HomeActivity extends ActionBarActivity {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
+    private QuizManager quizManager;
 
     // UI elements
     private Button buttonStartQuiz;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        quizManager = QuizManager.getInstance();
 
         inflateXML();
 
@@ -34,6 +40,8 @@ public class HomeActivity extends ActionBarActivity {
                 // TODO: Should look like QuizManager.startQuiz
 
                 // get Quiz information
+            //    quizManager.startQuiz(getApplicationContext(), getParent());
+                startActivity(new Intent(getApplicationContext(), QuizActivity.class));
             }
         });
     }
