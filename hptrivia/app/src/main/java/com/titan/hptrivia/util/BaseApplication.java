@@ -2,6 +2,8 @@ package com.titan.hptrivia.util;
 
 import android.app.Application;
 
+import com.titan.hptrivia.model.QuizManager;
+
 /**
  * Created by ntessema on 5/26/14.
  *
@@ -14,6 +16,10 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Initialize the QuizManager
+        QuizManager qMgr = QuizManager.getInstance();
+        qMgr.initialize(getApplicationContext());
 
     }
 }

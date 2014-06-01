@@ -31,7 +31,9 @@ public class HomeActivity extends ActionBarActivity {
         buttonStartQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO: Should look like QuizManager.startQuiz
 
+                // get Quiz information
             }
         });
     }
