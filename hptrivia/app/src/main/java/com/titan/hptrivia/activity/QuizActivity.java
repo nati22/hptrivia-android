@@ -20,7 +20,7 @@ public class QuizActivity extends ActionBarActivity {
         setContentView(R.layout.activity_quiz);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new QuizFragment())
                     .commit();
         }
     }
@@ -48,9 +48,9 @@ public class QuizActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class QuizFragment extends Fragment {
 
-        public PlaceholderFragment() {
+        public QuizFragment() {
         }
 
         @Override
