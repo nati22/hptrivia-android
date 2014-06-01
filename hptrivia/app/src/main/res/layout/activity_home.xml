@@ -20,6 +20,7 @@
         android:layout_centerInParent="true"
         android:textSize="24dp"
         android:textStyle="bold"
-        android:text="@string/button_start_quiz" />
+        android:text="@string/button_start_quiz"
+        android:onClick="startQuizButtonClicked"/>
 
 </RelativeLayout>

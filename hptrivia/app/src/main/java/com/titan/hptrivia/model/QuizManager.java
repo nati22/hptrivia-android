@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.titan.hptrivia.activity.QuizActivity;
 
@@ -15,6 +16,8 @@ import java.util.List;
  * Created by ntessema on 6/1/14.
  */
 public class QuizManager {
+
+    private static final String TAG = QuizManager.class.getSimpleName();
 
     /* Only one QuizManager for the entire app */
     private static QuizManager instance = new QuizManager();
@@ -41,10 +44,17 @@ public class QuizManager {
         this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public void startQuiz(Context context, Activity activity) {
+    public void startQuiz(Activity activity) {
         hasQuiz = true; // just for now.
         if (hasQuiz) {
-            activity.startActivity(new Intent(context, QuizActivity.class));
+            if (activity == null) Log.e(TAG, "activity == null");
+            else Log.e(TAG, "activity != null");
+            if (activity.getApplicationContext() == null) Log.e(TAG, "context == null");
+            else Log.e(TAG, "context != null");
+            Intent intent = new Intent();
+            intent.setClass(activity.getApplicationContext(), QuizActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            activity.startActivity(intent);
         }
 
     }
