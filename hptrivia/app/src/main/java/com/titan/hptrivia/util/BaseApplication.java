@@ -3,6 +3,7 @@ package com.titan.hptrivia.util;
 import android.app.Application;
 
 import com.titan.hptrivia.model.QuizManager;
+import com.titan.hptrivia.model.QuizPersister;
 
 /**
  * Created by ntessema on 5/26/14.
@@ -20,6 +21,10 @@ public class BaseApplication extends Application {
         // Initialize the QuizManager
         QuizManager qMgr = QuizManager.getInstance();
         qMgr.initialize(getApplicationContext());
+
+        //
+        QuizPersister quizPersister = QuizPersister.getInstance();
+        quizPersister.initialize(getApplicationContext());
 
     }
 }

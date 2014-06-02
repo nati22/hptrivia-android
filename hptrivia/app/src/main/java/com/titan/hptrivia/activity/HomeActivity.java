@@ -1,7 +1,9 @@
 package com.titan.hptrivia.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,14 +12,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.titan.hptrivia.R;
-import com.titan.hptrivia.model.QuizManager;
+import com.titan.hptrivia.model.QuizPersister;
 import com.titan.hptrivia.util.Utils;
 
 
 public class HomeActivity extends ActionBarActivity {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
-    private QuizManager quizManager;
+//    private QuizManager quizManager;
+    private QuizPersister quizPersister;
 
     // UI elements
     private Button buttonStartQuiz;
@@ -29,10 +32,83 @@ public class HomeActivity extends ActionBarActivity {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_home);
 
-        quizManager = QuizManager.getInstance();
+//        quizManager = QuizManager.getInstance();
+        quizPersister = QuizPersister.getInstance();
+
+        fillQuizPersisterWithFakeQuestions();
 
         inflateXML();
 
+    }
+
+    private void fillQuizPersisterWithFakeQuestions() {
+
+/*
+        JSONObject jsonQuestion1 = new JSONObject();
+        try {
+            jsonQuestion1.put(Keys.JSON.QUESTION_TEXT.name(), "What is Harry's last name?");
+            jsonQuestion1.put(Keys.JSON.ANSWER_TEXT.name(), "Potter");
+            jsonQuestion1.put(Keys.JSON.WRONG1_TEXT.name(), "Granger");
+            jsonQuestion1.put(Keys.JSON.WRONG2_TEXT.name(), "Evans");
+            jsonQuestion1.put(Keys.JSON.WRONG3_TEXT.name(), "Black");
+            jsonQuestion1.put(Keys.JSON.SEEN_BEFORE.name(), false);
+        } catch (JSONException e) {
+            Log.e(TAG, "Error constructing JSONObject.");
+            Utils.makeShortToast(getApplicationContext(), "Error constructing JSONObject");
+        }
+
+        JSONObject jsonQuestion2 = new JSONObject();
+        try {
+            jsonQuestion2.put(Keys.JSON.QUESTION_TEXT.name(), "What is Hermione's last name?");
+            jsonQuestion2.put(Keys.JSON.ANSWER_TEXT.name(), "Granger");
+            jsonQuestion2.put(Keys.JSON.WRONG1_TEXT.name(), "Potter");
+            jsonQuestion2.put(Keys.JSON.WRONG2_TEXT.name(), "Weasley");
+            jsonQuestion2.put(Keys.JSON.WRONG3_TEXT.name(), "Jean");
+            jsonQuestion2.put(Keys.JSON.SEEN_BEFORE.name(), true);
+        } catch (JSONException e) {
+            Log.e(TAG, "Error constructing JSONObject.");
+            Utils.makeShortToast(getApplicationContext(), "Error constructing JSONObject");
+        }
+
+        JSONObject jsonQuestion3 = new JSONObject();
+        try {
+            jsonQuestion3.put(Keys.JSON.QUESTION_TEXT.name(), "What is Ron's last name?");
+            jsonQuestion3.put(Keys.JSON.ANSWER_TEXT.name(), "Weasley");
+            jsonQuestion3.put(Keys.JSON.WRONG1_TEXT.name(), "Potter");
+            jsonQuestion3.put(Keys.JSON.WRONG2_TEXT.name(), "Percy");
+            jsonQuestion3.put(Keys.JSON.WRONG3_TEXT.name(), "Scabbers");
+            jsonQuestion3.put(Keys.JSON.SEEN_BEFORE.name(), false);
+        } catch (JSONException e) {
+            Log.e(TAG, "Error constructing JSONObject.");
+            Utils.makeShortToast(getApplicationContext(), "Error constructing JSONObject");
+        }
+*/
+
+        String result = "{ \"question1\" : { \"answer\" : \"Potter\",\n" +
+                "      \"question\" : \"What is Harry's last name?\",\n" +
+                "      \"seenBefore\" : \"false\",\n" +
+                "      \"wrong1\" : \"James\",\n" +
+                "      \"wrong2\" : \"Evans\",\n" +
+                "      \"wrong3\" : \"Podder\"\n" +
+                "    },\n" +
+                "  \"question2\" : { \"answer\" : \"Granger\",\n" +
+                "      \"question\" : \"What is Hermione's last name?\",\n" +
+                "      \"seenBefore\" : \"true\",\n" +
+                "      \"wrong1\" : \"Snape\",\n" +
+                "      \"wrong2\" : \"Evans\",\n" +
+                "      \"wrong3\" : \"Crookshanks\"\n" +
+                "    },\n" +
+                "  \"question3\" : { \"Percy\" : \"Evans\",\n" +
+                "      \"answer\" : \"Weasley\",\n" +
+                "      \"question\" : \"What is Ron's last name?\",\n" +
+                "      \"seenBefore\" : \"false\",\n" +
+                "      \"wrong1\" : \"Granger\",\n" +
+                "      \"wrong3\" : \"Billius\"\n" +
+                "    }\n" +
+                "}";
+        quizPersister.storeNewQuiz(result);
+
+    //    quizManager.storeQuiz();
     }
 
     private void inflateXML() {
@@ -46,8 +122,12 @@ public class HomeActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                if (quizManager.hasQuiz()) {
-                    quizManager.startQuiz(HomeActivity.this);
+                Log.d(TAG, "button clicked.");
+
+                if (quizPersister.hasQuiz()) {
+                    // quizManager.startQuiz(HomeActivity.this);
+                    Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
+                    startActivity(intent);
 
                 } else {
                     // go get a quiz
@@ -57,11 +137,12 @@ public class HomeActivity extends ActionBarActivity {
                             // start loading spinner
                             // send request to server
                             // stop spinner on response
+                    setProgressBarIndeterminateVisibility(true);
+    //                quizManager.startQuiz(HomeActivity.this);
                 }
 
 
-                setProgressBarIndeterminateVisibility(true);
-                quizManager.startQuiz(HomeActivity.this);
+
             }
         });
     }
@@ -88,4 +169,10 @@ public class HomeActivity extends ActionBarActivity {
 /*    public void startQuizButtonClicked(View view) {
         quizManager.startQuiz(this);
     }*/
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(0, 0);
+    }
 }
