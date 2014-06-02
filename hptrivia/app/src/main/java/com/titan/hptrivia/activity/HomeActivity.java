@@ -5,10 +5,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.titan.hptrivia.R;
 import com.titan.hptrivia.model.QuizManager;
+import com.titan.hptrivia.util.Utils;
 
 
 public class HomeActivity extends ActionBarActivity {
@@ -23,6 +26,7 @@ public class HomeActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_home);
 
         quizManager = QuizManager.getInstance();
@@ -32,17 +36,34 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     private void inflateXML() {
+        // set title font
+        TextView titleText = ((TextView) findViewById(R.id.textView_appTitle));
+        titleText.setTypeface(Utils.getPotterTypeface(getApplicationContext()));
+        titleText.setTextSize(80);
+
         buttonStartQuiz = (Button) findViewById(R.id.buttonStartQuiz);
-        /*buttonStartQuiz.setOnClickListener(new View.OnClickListener() {
+        buttonStartQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Should look like QuizManager.startQuiz
 
-                // get Quiz information
-            //    quizManager.startQuiz(getParent());
-            //    startActivity(new Intent(getApplicationContext(), QuizActivity.class));
+                if (quizManager.hasQuiz()) {
+                    quizManager.startQuiz(HomeActivity.this);
+
+                } else {
+                    // go get a quiz
+                    // start loading quiz
+
+                        // order should be:
+                            // start loading spinner
+                            // send request to server
+                            // stop spinner on response
+                }
+
+
+                setProgressBarIndeterminateVisibility(true);
+                quizManager.startQuiz(HomeActivity.this);
             }
-        });*/
+        });
     }
 
     @Override
@@ -64,7 +85,7 @@ public class HomeActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void startQuizButtonClicked(View view) {
+/*    public void startQuizButtonClicked(View view) {
         quizManager.startQuiz(this);
-    }
+    }*/
 }
