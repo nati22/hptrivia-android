@@ -2,27 +2,26 @@ package com.titan.hptrivia.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.TextView;
+import android.text.*;
+import android.view.*;
+import android.widget.*;
 
 import com.titan.hptrivia.R;
 import com.titan.hptrivia.model.QuizPersister;
-import com.titan.hptrivia.util.Utils;
+import com.titan.hptrivia.util.*;
 
 
 public class HomeActivity extends ActionBarActivity {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
+
+    /** Manages the storage and retrieval of Quiz data. */
     private QuizPersister quizPersister;
 
     // UI elements
     private Button buttonStartQuiz;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +30,16 @@ public class HomeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_home);
 
         quizPersister = QuizPersister.getInstance();
-    //    fillQuizPersisterWithFakeQuestions();
+        makeSureQuizPersisterHasQuestions();
 
         inflateXML();
 
+        setTitleFont();
     }
 
-    private void fillQuizPersisterWithFakeQuestions() {
+    private void makeSureQuizPersisterHasQuestions() {
+
+        if (quizPersister.hasQuiz()) return;
 
         String result = "{" +
                 "\"QUESTION1\":{" +
@@ -94,6 +96,16 @@ public class HomeActivity extends ActionBarActivity {
                 }
             }
         });
+    }
+
+    private void setTitleFont() {
+        SpannableString s = new SpannableString(getResources().getString(R.string.app_name));
+        s.setSpan(new TypefaceSpan(this, "HARRYP.TTF"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        // Update the action bar title with the TypefaceSpan instance
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(s);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.titan.hptrivia.model;
 
+import android.util.Log;
+
 import com.titan.hptrivia.util.Keys;
 
 import org.json.JSONException;
@@ -22,6 +24,18 @@ public class Question {
 
     public Question(JSONObject questionJson) {
 
+        try {
+            Question q = Question.parseQuestion(questionJson.toString());
+            this.questionText = q.questionText;
+            this.correctAnswerText = q.correctAnswerText;
+            this.wrongAnswer1Text = q.wrongAnswer1Text;
+            this.wrongAnswer2Text = q.wrongAnswer2Text;
+            this.wrongAnswer3Text = q.wrongAnswer3Text;
+            this.seenBefore = q.seenBefore;
+
+        } catch (JSONException e) {
+            Log.e(TAG, "Couldn't parse JSON string: " + questionJson.toString());
+        }
     }
 
     public Question(String questionText, String correctAnswerText,
