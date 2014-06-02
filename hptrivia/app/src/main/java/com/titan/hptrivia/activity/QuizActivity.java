@@ -23,6 +23,7 @@ import com.titan.hptrivia.util.Keys;
 import com.titan.hptrivia.util.Utils;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,7 +61,7 @@ public class QuizActivity extends ActionBarActivity {
         QuizFragment quizFragment = new QuizFragment();
         Bundle bundle = new Bundle();
         try {
-            bundle.putString(Keys.QUIZ_JSON.QUESTION.name(), Question.convertQuestionToJsonString(quiz.getQuestion(questionNumber++)));
+            bundle.putString(Keys.QUIZ_JSON.QUESTION.name(), Question.convertQuestionToJsonObject(quiz.getQuestion(questionNumber++)).toString());
             bundle.putBoolean(Keys.PREFS.LAST_QUESTION.name(), questionNumber == quiz.size() ? true : false);
             quizFragment.setArguments(bundle);
         } catch (JSONException e) {
@@ -75,22 +76,6 @@ public class QuizActivity extends ActionBarActivity {
         fragmentTransaction.add(R.id.fragment_container, quizFragment);
         fragmentTransaction.commit();
 
-    }
-
-    @Override
-    public void onBackPressed() {
-        Log.d(TAG, "onBackPressed");
-        super.onBackPressed();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
     @Override
@@ -134,6 +119,7 @@ public class QuizActivity extends ActionBarActivity {
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
+
             Bundle bundle = getArguments();
             if (bundle == null) {
                 Log.e(TAG, "bundle == null");
@@ -141,7 +127,7 @@ public class QuizActivity extends ActionBarActivity {
                 String questionString = bundle.getString(Keys.QUIZ_JSON.QUESTION.name());
                 isLastQuestion = bundle.getBoolean(Keys.PREFS.LAST_QUESTION.name());
                 try {
-                    question = Question.parseQuestion(questionString);
+                    question = Question.convertJSONObjectToQuestion(new JSONObject(questionString));
                 } catch (JSONException e) {
                     Log.e(TAG, "Can't parse the Question string: " + questionString);
                     return;
@@ -172,10 +158,10 @@ public class QuizActivity extends ActionBarActivity {
 
             // set values
             textView_questionText.setText(question.getQuestionText());
-            button_correct.setText(question.getCorrectAnswerText());
-            button_wrong1.setText(question.getWrongAnswer1Text());
-            button_wrong2.setText(question.getWrongAnswer2Text());
-            button_wrong3.setText(question.getWrongAnswer3Text());
+            button_correct.setText(question.getCorrectAnswer().getText());
+            button_wrong1.setText(question.getWrongAnswer1().getText());
+            button_wrong2.setText(question.getWrongAnswer2().getText());
+            button_wrong3.setText(question.getWrongAnswer3().getText());
             // TODO add Book name, Movie name, etc
 
             setOnClickListeners();
