@@ -25,6 +25,7 @@ public class QuizActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+        Log.d(TAG, "onCreate called");
     /*    if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new QuizFragment())
@@ -35,8 +36,7 @@ public class QuizActivity extends ActionBarActivity {
 
         Quiz quiz = quizPersister.getStoredQuiz();
         Log.d(TAG, "QuizActivity got Question from QuizPersister...");
-        Log.d(TAG, "First question: " + quiz.getNextQuestion().toString());
-
+        getResources().
     }
 
     @Override
@@ -48,13 +48,14 @@ public class QuizActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

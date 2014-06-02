@@ -31,6 +31,7 @@ public class HomeActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_home);
+        Log.d(TAG, "onCreate called");
 
 //        quizManager = QuizManager.getInstance();
         quizPersister = QuizPersister.getInstance();
