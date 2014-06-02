@@ -3,7 +3,6 @@ package com.titan.hptrivia.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,9 +30,7 @@ public class HomeActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_home);
-        Log.d(TAG, "onCreate called");
 
-//        quizManager = QuizManager.getInstance();
         quizPersister = QuizPersister.getInstance();
 
         fillQuizPersisterWithFakeQuestions();
@@ -43,47 +40,6 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     private void fillQuizPersisterWithFakeQuestions() {
-
-/*
-        JSONObject jsonQuestion1 = new JSONObject();
-        try {
-            jsonQuestion1.put(Keys.JSON.QUESTION_TEXT.name(), "What is Harry's last name?");
-            jsonQuestion1.put(Keys.JSON.ANSWER_TEXT.name(), "Potter");
-            jsonQuestion1.put(Keys.JSON.WRONG1_TEXT.name(), "Granger");
-            jsonQuestion1.put(Keys.JSON.WRONG2_TEXT.name(), "Evans");
-            jsonQuestion1.put(Keys.JSON.WRONG3_TEXT.name(), "Black");
-            jsonQuestion1.put(Keys.JSON.SEEN_BEFORE.name(), false);
-        } catch (JSONException e) {
-            Log.e(TAG, "Error constructing JSONObject.");
-            Utils.makeShortToast(getApplicationContext(), "Error constructing JSONObject");
-        }
-
-        JSONObject jsonQuestion2 = new JSONObject();
-        try {
-            jsonQuestion2.put(Keys.JSON.QUESTION_TEXT.name(), "What is Hermione's last name?");
-            jsonQuestion2.put(Keys.JSON.ANSWER_TEXT.name(), "Granger");
-            jsonQuestion2.put(Keys.JSON.WRONG1_TEXT.name(), "Potter");
-            jsonQuestion2.put(Keys.JSON.WRONG2_TEXT.name(), "Weasley");
-            jsonQuestion2.put(Keys.JSON.WRONG3_TEXT.name(), "Jean");
-            jsonQuestion2.put(Keys.JSON.SEEN_BEFORE.name(), true);
-        } catch (JSONException e) {
-            Log.e(TAG, "Error constructing JSONObject.");
-            Utils.makeShortToast(getApplicationContext(), "Error constructing JSONObject");
-        }
-
-        JSONObject jsonQuestion3 = new JSONObject();
-        try {
-            jsonQuestion3.put(Keys.JSON.QUESTION_TEXT.name(), "What is Ron's last name?");
-            jsonQuestion3.put(Keys.JSON.ANSWER_TEXT.name(), "Weasley");
-            jsonQuestion3.put(Keys.JSON.WRONG1_TEXT.name(), "Potter");
-            jsonQuestion3.put(Keys.JSON.WRONG2_TEXT.name(), "Percy");
-            jsonQuestion3.put(Keys.JSON.WRONG3_TEXT.name(), "Scabbers");
-            jsonQuestion3.put(Keys.JSON.SEEN_BEFORE.name(), false);
-        } catch (JSONException e) {
-            Log.e(TAG, "Error constructing JSONObject.");
-            Utils.makeShortToast(getApplicationContext(), "Error constructing JSONObject");
-        }
-*/
 
         String result = "{" +
                 "\"QUESTION\":{" +
@@ -126,8 +82,6 @@ public class HomeActivity extends ActionBarActivity {
         buttonStartQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Log.d(TAG, "button clicked.");
 
                 if (quizPersister.hasQuiz()) {
                     // quizManager.startQuiz(HomeActivity.this);
