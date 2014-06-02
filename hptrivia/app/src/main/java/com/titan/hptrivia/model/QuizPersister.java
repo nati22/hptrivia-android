@@ -52,11 +52,16 @@ public class QuizPersister {
     public Quiz getStoredQuiz() {
 
         String entireQuiz = prefs.getString(Keys.PREFS.ALL_QUESTIONS.name(), null);
+        if (entireQuiz == null) {
+            Log.e(TAG, "There is no stored Quiz");
+            return new Quiz(null);
+        }
         Log.d(TAG, "Got entireQuiz.");
+
         Quiz inflatedQuiz = new Quiz(null);
         try {
             inflatedQuiz = Quiz.parseQuiz(entireQuiz);
-            Log.d(TAG, "Retrieved the stored Quiz. First Question is " + inflatedQuiz.getNextQuestion().toString());
+            Log.d(TAG, "Retrieved the stored Quiz.");
 
         } catch (JSONException e ) {
             Log.e(TAG, "Could not parse stored Quiz.");
