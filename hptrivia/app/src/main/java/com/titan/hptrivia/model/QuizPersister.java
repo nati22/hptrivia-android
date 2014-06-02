@@ -46,7 +46,6 @@ public class QuizPersister {
         editor.putBoolean(Keys.PREFS.QUIZ_EXISTS.name(), true);
 
         editor.commit();
-//        Log.d(TAG, "QuizPersister just stored a new Quiz.");
     }
 
     public Quiz getStoredQuiz() {
@@ -56,14 +55,10 @@ public class QuizPersister {
             Log.e(TAG, "There is no stored Quiz");
             return new Quiz(null);
         }
-        Log.d(TAG, "Got entireQuiz.");
 
         Quiz inflatedQuiz = new Quiz(null);
         try {
             inflatedQuiz = Quiz.parseQuiz(entireQuiz);
-            Log.d(TAG, "inflatedQuiz has size " + inflatedQuiz.size());
-//            Log.d(TAG, "Retrieved the stored Quiz.");
-
         } catch (JSONException e ) {
             Log.e(TAG, "Could not parse stored Quiz.");
         }
