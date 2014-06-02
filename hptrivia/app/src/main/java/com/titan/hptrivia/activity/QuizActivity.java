@@ -1,8 +1,6 @@
 package com.titan.hptrivia.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -51,7 +49,6 @@ public class QuizActivity extends ActionBarActivity {
 
         // start quiz
         displayQuizFragment(quiz.getNextQuestion());
-
     }
 
     private void displayQuizFragment(Question question) {
@@ -65,56 +62,28 @@ public class QuizActivity extends ActionBarActivity {
         }
         quizFragment.setArguments(bundle);
 
-//        Log.d(TAG, "I added " + quizFragment.getArguments().getString(Keys.QUIZ_JSON.QUESTION.name()));
-
         // add the fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, quizFragment);
         fragmentTransaction.commit();
 
-    //    getSupportFragmentManager().beginTransaction().add(R.id.container, quizFragment).commit();
     }
 
     @Override
     public void onBackPressed() {
         Log.d(TAG, "onBackPressed");
-
-        new AlertDialog.Builder(this)
-                .setTitle("Quit quiz")
-                .setMessage("Are you sure you want to give up on this question?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        QuizActivity.this.finish();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-
+        super.onBackPressed();
     }
 
     @Override
     protected void onPause() {
-        Utils.makeShortToast(getApplicationContext(), "okayy...");
-//        Log.d(TAG, "onPause");
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-//        Log.d(TAG, "onStop");
         super.onStop();
-    }
-
-    @Override
-    protected void onUserLeaveHint() {
-        super.onUserLeaveHint();
     }
 
     @Override
