@@ -36,32 +36,16 @@ public class Quiz {
         int numQuestions = quizJSON.length();
 
         for (int i = 1; i <= numQuestions; i++) {
-
             JSONObject questionJSON = (JSONObject) quizJSON.remove(Keys.QUIZ_JSON.QUESTION.name() + i);
             if (questionJSON == null) {
                 Log.e("parseQuiz", "Could not find " + (Keys.QUIZ_JSON.QUESTION.name() + i));
                 continue;
             }
 
-            String questionText = (String) questionJSON.get(Keys.QUESTION_JSON.QUESTION_TEXT.name());
-            String answerText = (String) questionJSON.get(Keys.QUESTION_JSON.ANSWER_TEXT.name());
-            String wrong1Text = (String) questionJSON.get(Keys.QUESTION_JSON.WRONG1_TEXT.name());
-            String wrong2Text = (String) questionJSON.get(Keys.QUESTION_JSON.WRONG2_TEXT.name());
-            String wrong3Text = (String) questionJSON.get(Keys.QUESTION_JSON.WRONG3_TEXT.name());
-            boolean seenBefore = (Boolean) questionJSON.get(Keys.QUESTION_JSON.SEEN_BEFORE.name());
-
-            Question question = new Question(questionText, answerText, wrong1Text, wrong2Text, wrong3Text, seenBefore);
-            questionList.add(question);
-
-            Log.i("parseQuiz", "added question");
+            questionList.add(new Question(questionJSON));
+    //        Log.i("parseQuiz", "added question");
         }
 
-        Quiz quiz = new Quiz(questionList);
-        return quiz;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
+        return new Quiz(questionList);
     }
 }
