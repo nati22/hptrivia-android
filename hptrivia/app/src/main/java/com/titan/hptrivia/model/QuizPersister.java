@@ -10,6 +10,7 @@ import com.titan.hptrivia.util.Keys;
 import org.json.JSONException;
 
 /**
+ * This class will handle storage and retrieval of Quiz data on the device.
  * Created by ntessema on 6/1/14.
  */
 public class QuizPersister {
@@ -20,9 +21,6 @@ public class QuizPersister {
     private static QuizPersister instance = new QuizPersister();
 
     private SharedPreferences prefs;
-
-    /* Tells whether the QuizManager has a quiz at all */
-    private boolean hasQuiz;
 
     /* QuizPersister cannot be instantiated */
     private QuizPersister() {}

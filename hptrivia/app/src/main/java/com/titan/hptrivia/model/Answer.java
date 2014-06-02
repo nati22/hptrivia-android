@@ -15,12 +15,14 @@ public class Answer {
 
     public Answer(String answerText, String answerExplanation) {
         this.answerText = answerText;
-        this.answerExplanation = null;
+        this.answerExplanation = answerExplanation;
     }
 
     public String getText() {
         return answerText;
     }
+
+    public String getExplanation() { return answerExplanation; }
 
     public boolean hasExplanation() {
         return answerExplanation != null;

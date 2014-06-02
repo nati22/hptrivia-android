@@ -16,21 +16,22 @@ public class Question {
 
     //TODO change String to Answer
     private String questionText;
-    private String correctAnswerText;
-    private String wrongAnswer1Text;
-    private String wrongAnswer2Text;
-    private String wrongAnswer3Text;
     private boolean seenBefore;
+
+    private Answer correctAnswer;
+    private Answer wrongAnswer1;
+    private Answer wrongAnswer2;
+    private Answer wrongAnswer3;
 
     public Question(JSONObject questionJson) {
 
         try {
-            Question q = Question.parseQuestion(questionJson.toString());
+            Question q = Question.convertJSONObjectToQuestion(questionJson);
             this.questionText = q.questionText;
-            this.correctAnswerText = q.correctAnswerText;
-            this.wrongAnswer1Text = q.wrongAnswer1Text;
-            this.wrongAnswer2Text = q.wrongAnswer2Text;
-            this.wrongAnswer3Text = q.wrongAnswer3Text;
+            this.correctAnswer = q.correctAnswer;
+            this.wrongAnswer1 = q.wrongAnswer1;
+            this.wrongAnswer2 = q.wrongAnswer2;
+            this.wrongAnswer3 = q.wrongAnswer3;
             this.seenBefore = q.seenBefore;
 
         } catch (JSONException e) {
@@ -38,77 +39,73 @@ public class Question {
         }
     }
 
-    public Question(String questionText, String correctAnswerText,
-                    String wrongAnswer1Text, String wrongAnswer2Text,
-                    String wrongAnswer3Text, boolean seenBefore) {
+    public Question(String questionText, Answer correctAnswer,
+                    Answer wrongAnswer1, Answer wrongAnswer2,
+                    Answer wrongAnswer3, boolean seenBefore) {
 
         this.questionText = questionText;
-        this.correctAnswerText = correctAnswerText;
-        this.wrongAnswer1Text = wrongAnswer1Text;
-        this.wrongAnswer2Text = wrongAnswer2Text;
-        this.wrongAnswer3Text = wrongAnswer3Text;
+        this.correctAnswer = correctAnswer;
+        this.wrongAnswer1 = wrongAnswer1;
+        this.wrongAnswer2 = wrongAnswer2;
+        this.wrongAnswer3 = wrongAnswer3;
         this.seenBefore = seenBefore;
-
     }
 
     public String getQuestionText() {
         return questionText;
     }
 
-    public String getCorrectAnswerText() {
-        return correctAnswerText;
+    public Answer getCorrectAnswer() { return correctAnswer; }
+
+    public Answer getWrongAnswer1() { return wrongAnswer1; }
+
+    public Answer getWrongAnswer2() { return wrongAnswer2; }
+
+    public Answer getWrongAnswer3() { return wrongAnswer3; }
+
+    public boolean hasBeenSeenBefore() { return seenBefore; }
+
+/*    public static Question convertJSONObjectToQuestion(JSONObject questionJSONObject) throws JSONException {
+
+        String questionText = (String) questionJSONObject.get(Keys.QUESTION_JSON.QUESTION_TEXT.name());
+        String answerText = (String) questionJSONObject.get(Keys.QUESTION_JSON.ANSWER_TEXT.name());
+        String wrong1Text = (String) questionJSONObject.get(Keys.QUESTION_JSON.WRONG1_TEXT.name());
+        String wrong2Text = (String) questionJSONObject.get(Keys.QUESTION_JSON.WRONG2_TEXT.name());
+        String wrong3Text = (String) questionJSONObject.get(Keys.QUESTION_JSON.WRONG3_TEXT.name());
+        boolean seenBefore = (Boolean) questionJSONObject.get(Keys.QUESTION_JSON.SEEN_BEFORE.name());
+
+        return new Question(questionText, answerText, wrong1Text, wrong2Text, wrong3Text, seenBefore);
+    }*/
+
+    public static Question convertJSONObjectToQuestion(JSONObject questionJSONObject) throws JSONException {
+
+        String questionText = (String) questionJSONObject.get(Keys.QUESTION_JSON.QUESTION_TEXT.name());
+        Answer answer = new Answer((String)questionJSONObject.get(Keys.QUESTION_JSON.ANSWER_TEXT.name()));
+        Answer wrong1 = new Answer ((String) questionJSONObject.get(Keys.QUESTION_JSON.WRONG1_TEXT.name()));
+        Answer wrong2 = new Answer((String) questionJSONObject.get(Keys.QUESTION_JSON.WRONG2_TEXT.name()));
+        Answer wrong3 = new Answer((String) questionJSONObject.get(Keys.QUESTION_JSON.WRONG3_TEXT.name()));
+        boolean seenBefore = (Boolean) questionJSONObject.get(Keys.QUESTION_JSON.SEEN_BEFORE.name());
+
+        return new Question(questionText, answer, wrong1, wrong2, wrong3, seenBefore);
     }
 
-    public String getWrongAnswer1Text() {
-        return wrongAnswer1Text;
-    }
-
-    public String getWrongAnswer2Text() {
-        return wrongAnswer2Text;
-    }
-
-    public String getWrongAnswer3Text() {
-        return wrongAnswer3Text;
-    }
-
-    public boolean isSeenBefore() {
-        return seenBefore;
-    }
-
-    public static Question parseQuestion(String questionJSONString) throws JSONException {
-
-        JSONObject questionJSON = new JSONObject(questionJSONString);
-
-        String questionText = (String) questionJSON.get(Keys.QUESTION_JSON.QUESTION_TEXT.name());
-        String answerText = (String) questionJSON.get(Keys.QUESTION_JSON.ANSWER_TEXT.name());
-        String wrong1Text = (String) questionJSON.get(Keys.QUESTION_JSON.WRONG1_TEXT.name());
-        String wrong2Text = (String) questionJSON.get(Keys.QUESTION_JSON.WRONG2_TEXT.name());
-        String wrong3Text = (String) questionJSON.get(Keys.QUESTION_JSON.WRONG3_TEXT.name());
-        boolean seenBefore = (Boolean) questionJSON.get(Keys.QUESTION_JSON.SEEN_BEFORE.name());
-
-        Question question = new Question(questionText, answerText, wrong1Text, wrong2Text, wrong3Text, seenBefore);
-        return question;
-    }
-
-    public static String convertQuestionToJsonString(Question question) throws JSONException {
+    public static JSONObject convertQuestionToJsonObject(Question question) throws JSONException {
 
         JSONObject questionJSON = new JSONObject();
         questionJSON.put(Keys.QUESTION_JSON.QUESTION_TEXT.name(), question.questionText);
-        questionJSON.put(Keys.QUESTION_JSON.ANSWER_TEXT.name(), question.correctAnswerText);
-        questionJSON.put(Keys.QUESTION_JSON.WRONG1_TEXT.name(), question.wrongAnswer1Text);
-        questionJSON.put(Keys.QUESTION_JSON.WRONG2_TEXT.name(), question.wrongAnswer2Text);
-        questionJSON.put(Keys.QUESTION_JSON.WRONG3_TEXT.name(), question.wrongAnswer3Text);
+        questionJSON.put(Keys.QUESTION_JSON.ANSWER_TEXT.name(), question.getCorrectAnswer().getText());
+        questionJSON.put(Keys.QUESTION_JSON.WRONG1_TEXT.name(), question.getWrongAnswer1().getText());
+        questionJSON.put(Keys.QUESTION_JSON.WRONG2_TEXT.name(), question.getWrongAnswer2().getText());
+        questionJSON.put(Keys.QUESTION_JSON.WRONG3_TEXT.name(), question.getWrongAnswer3().getText());
         questionJSON.put(Keys.QUESTION_JSON.SEEN_BEFORE.name(), question.seenBefore);
-
-        return questionJSON.toString();
+        return questionJSON;
     }
 
     @Override
     public String toString() {
         return String.format("Question text: \"%s\"\nCorrect answer: " +
                 "\"%s\"\nWrong answer: \"%s\"\nWrong answer: \"%s\"\n" +
-                "Wrong answer: \"%s\"", questionText, correctAnswerText,
-                wrongAnswer1Text, wrongAnswer2Text, wrongAnswer3Text);
-        //return super.toString();
+                "Wrong answer: \"%s\"", questionText, getCorrectAnswer().getText(),
+                getWrongAnswer1().getText(), getWrongAnswer2().getText(), getWrongAnswer3().getText());
     }
 }
