@@ -59,6 +59,7 @@ public class Question {
         return seenBefore;
     }
 
+
     @Override
     public String toString() {
         return String.format("Question text: \"%s\"\nCorrect answer: " +
