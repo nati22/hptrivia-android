@@ -56,11 +56,12 @@ public class QuizPersister {
             Log.e(TAG, "There is no stored Quiz");
             return new Quiz(null);
         }
-//        Log.d(TAG, "Got entireQuiz.");
+        Log.d(TAG, "Got entireQuiz.");
 
         Quiz inflatedQuiz = new Quiz(null);
         try {
             inflatedQuiz = Quiz.parseQuiz(entireQuiz);
+            Log.d(TAG, "inflatedQuiz has size " + inflatedQuiz.size());
 //            Log.d(TAG, "Retrieved the stored Quiz.");
 
         } catch (JSONException e ) {

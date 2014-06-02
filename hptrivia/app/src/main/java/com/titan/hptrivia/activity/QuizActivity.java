@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.titan.hptrivia.R;
@@ -35,9 +34,7 @@ public class QuizActivity extends ActionBarActivity {
 
     private QuizPersister quizPersister;
     private Quiz quiz;
-
-    // UI Elements
-    private FrameLayout frameLayout;
+    private int questionNumber = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,16 +43,44 @@ public class QuizActivity extends ActionBarActivity {
 
         quizPersister = QuizPersister.getInstance();
         quiz = quizPersister.getStoredQuiz();
+        Log.d(TAG, "quizPersister had a stored quiz of size " + quiz.size());
 
         // start quiz
-        displayQuizFragment(quiz.getNextQuestion());
+    //    displayQuizFragment(quiz.getQuestion(questionNumber));
+        displayNextQuestion();
     }
 
     private void displayQuizFragment(Question question) {
         QuizFragment quizFragment = new QuizFragment();
         Bundle bundle = new Bundle();
         try {
-            bundle.putString(Keys.QUIZ_JSON.QUESTION.name(), Question.convertQuestionToJsonString(question));
+            Log.d(TAG, "quiz size = " + quiz.size());
+            bundle.putString(Keys.QUIZ_JSON.QUESTION.name(), Question.convertQuestionToJsonString(quiz.getQuestion(questionNumber)));
+        } catch (JSONException e) {
+            Log.e(TAG, "Couldn't convert Question object to JSONString.");
+            return;
+        }
+        quizFragment.setArguments(bundle);
+
+        // add the fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, quizFragment);
+        fragmentTransaction.commit();
+
+    }
+
+    private void displayNextQuestion() {
+
+        if (questionNumber == quiz.size()) {
+            finish(); return;
+        }
+
+        QuizFragment quizFragment = new QuizFragment();
+        Bundle bundle = new Bundle();
+        try {
+            bundle.putString(Keys.QUIZ_JSON.QUESTION.name(), Question.convertQuestionToJsonString(quiz.getQuestion(questionNumber++)));
+            bundle.putBoolean(Keys.PREFS.LAST_QUESTION.name(), questionNumber == quiz.size() ? true : false);
         } catch (JSONException e) {
             Log.e(TAG, "Couldn't convert Question object to JSONString.");
             return;
@@ -112,6 +137,7 @@ public class QuizActivity extends ActionBarActivity {
     public static class QuizFragment extends Fragment {
 
         private Question question;
+        private boolean isLastQuestion = false;
 
         // UI elements
         private TextView textView_questionInfo;
@@ -131,6 +157,7 @@ public class QuizActivity extends ActionBarActivity {
                 Log.e(TAG, "bundle == null");
             } else {
                 String questionString = bundle.getString(Keys.QUIZ_JSON.QUESTION.name());
+                isLastQuestion = bundle.getBoolean(Keys.PREFS.LAST_QUESTION.name());
                 try {
                     question = Question.parseQuestion(questionString);
                 } catch (JSONException e) {
@@ -176,28 +203,36 @@ public class QuizActivity extends ActionBarActivity {
             button_correct.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // TODO store "correctness"
                     Utils.makeShortToast(getActivity().getApplicationContext(), "correct answer");
+                    ((QuizActivity) getActivity()).displayNextQuestion();
                 }
             });
 
             button_wrong1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // TODO store "incorrectness"
                     Utils.makeShortToast(getActivity().getApplicationContext(), "wrong answer");
+                    ((QuizActivity) getActivity()).displayNextQuestion();
                 }
             });
 
             button_wrong2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // TODO store "incorrectness"
                     Utils.makeShortToast(getActivity().getApplicationContext(), "wrong answer");
+                    ((QuizActivity) getActivity()).displayNextQuestion();
                 }
             });
 
             button_wrong3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // TODO store "incorrectness"
                     Utils.makeShortToast(getActivity().getApplicationContext(), "wrong answer");
+                    ((QuizActivity) getActivity()).displayNextQuestion();
                 }
             });
         }
