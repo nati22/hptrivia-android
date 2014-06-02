@@ -18,7 +18,6 @@ import com.titan.hptrivia.util.Utils;
 public class HomeActivity extends ActionBarActivity {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
-//    private QuizManager quizManager;
     private QuizPersister quizPersister;
 
     // UI elements
@@ -32,8 +31,7 @@ public class HomeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_home);
 
         quizPersister = QuizPersister.getInstance();
-
-        fillQuizPersisterWithFakeQuestions();
+    //    fillQuizPersisterWithFakeQuestions();
 
         inflateXML();
 
@@ -68,8 +66,6 @@ public class HomeActivity extends ActionBarActivity {
                 "}" +
                 "}";
         quizPersister.storeNewQuiz(result);
-
-    //    quizManager.storeQuiz();
     }
 
     private void inflateXML() {
@@ -89,9 +85,6 @@ public class HomeActivity extends ActionBarActivity {
                     startActivity(intent);
 
                 } else {
-                    // go get a quiz
-                    // start loading quiz
-
                         // order should be:
                             // start loading spinner
                             // send request to server
@@ -99,9 +92,6 @@ public class HomeActivity extends ActionBarActivity {
                     setProgressBarIndeterminateVisibility(true);
     //                quizManager.startQuiz(HomeActivity.this);
                 }
-
-
-
             }
         });
     }

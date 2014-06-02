@@ -50,29 +50,10 @@ public class QuizActivity extends ActionBarActivity {
         displayNextQuestion();
     }
 
-    private void displayQuizFragment(Question question) {
-        QuizFragment quizFragment = new QuizFragment();
-        Bundle bundle = new Bundle();
-        try {
-            Log.d(TAG, "quiz size = " + quiz.size());
-            bundle.putString(Keys.QUIZ_JSON.QUESTION.name(), Question.convertQuestionToJsonString(quiz.getQuestion(questionNumber)));
-        } catch (JSONException e) {
-            Log.e(TAG, "Couldn't convert Question object to JSONString.");
-            return;
-        }
-        quizFragment.setArguments(bundle);
-
-        // add the fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, quizFragment);
-        fragmentTransaction.commit();
-
-    }
-
     private void displayNextQuestion() {
 
         if (questionNumber == quiz.size()) {
+            Utils.makeShortToast(getApplicationContext(), "Quiz complete");
             finish(); return;
         }
 
@@ -81,15 +62,16 @@ public class QuizActivity extends ActionBarActivity {
         try {
             bundle.putString(Keys.QUIZ_JSON.QUESTION.name(), Question.convertQuestionToJsonString(quiz.getQuestion(questionNumber++)));
             bundle.putBoolean(Keys.PREFS.LAST_QUESTION.name(), questionNumber == quiz.size() ? true : false);
+            quizFragment.setArguments(bundle);
         } catch (JSONException e) {
             Log.e(TAG, "Couldn't convert Question object to JSONString.");
             return;
         }
-        quizFragment.setArguments(bundle);
 
         // add the fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);   // TODO remove unnecessary anim files
         fragmentTransaction.add(R.id.fragment_container, quizFragment);
         fragmentTransaction.commit();
 
