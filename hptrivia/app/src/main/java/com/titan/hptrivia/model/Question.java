@@ -59,4 +59,12 @@ public class Question {
         return seenBefore;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Question text: \"%s\"\nCorrect answer: " +
+                "\"%s\"\nWrong answer: \"%s\"\nWrong answer: \"%s\"\n" +
+                "Wrong answer: \"%s\"", questionText, correctAnswerText,
+                wrongAnswer1Text, wrongAnswer2Text, wrongAnswer3Text);
+        //return super.toString();
+    }
 }

@@ -3,6 +3,7 @@ package com.titan.hptrivia.activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,21 +11,33 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.titan.hptrivia.R;
+import com.titan.hptrivia.model.Quiz;
+import com.titan.hptrivia.model.QuizPersister;
 
 
 public class QuizActivity extends ActionBarActivity {
+
+    private static final String TAG = QuizActivity.class.getSimpleName();
+
+    private QuizPersister quizPersister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
-        if (savedInstanceState == null) {
+    /*    if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new QuizFragment())
                     .commit();
-        }
-    }
+        }*/
 
+        quizPersister = QuizPersister.getInstance();
+
+        Quiz quiz = quizPersister.getStoredQuiz();
+        Log.d(TAG, "QuizActivity got Question from QuizPersister...");
+        Log.d(TAG, "First question: " + quiz.getNextQuestion().toString());
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.titan.hptrivia.util.Keys;
 
+import org.json.JSONException;
+
 /**
  * Created by ntessema on 6/1/14.
  */
@@ -47,10 +49,20 @@ public class QuizPersister {
         Log.d(TAG, "QuizPersister just stored a new Quiz.");
     }
 
-    public void getStoredQuiz() {
+    public Quiz getStoredQuiz() {
 
         String entireQuiz = prefs.getString(Keys.PREFS.ALL_QUESTIONS.name(), null);
-        Log.i(TAG, "entireQuiz: " + entireQuiz + "");
+        Log.d(TAG, "Got entireQuiz.");
+        Quiz inflatedQuiz = new Quiz(null);
+        try {
+            inflatedQuiz = Quiz.parseQuiz(entireQuiz);
+            Log.d(TAG, "Retrieved the stored Quiz. First Question is " + inflatedQuiz.getNextQuestion().toString());
+
+        } catch (JSONException e ) {
+            Log.e(TAG, "Could not parse stored Quiz.");
+        }
+
+        return inflatedQuiz;
     }
 
     public void deleteStoredQuiz() {
