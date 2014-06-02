@@ -1,6 +1,7 @@
 package com.titan.hptrivia.util;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
@@ -26,6 +27,10 @@ public class Utils {
 
     public static void makeShortToast(Context context, String text) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+    }
+
+    public static Typeface getPotterTypeface(Context context) {
+        return Typeface.createFromAsset(context.getAssets(), "fonts/HARRYP.TTF");
     }
 
 }
