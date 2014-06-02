@@ -9,6 +9,7 @@ public class Question {
 
     private static final String TAG = Question.class.getSimpleName();
 
+    //TODO change String to Answer
     private String questionText;
     private String correctAnswerText;
     private String wrongAnswer1Text;
