@@ -84,27 +84,31 @@ public class HomeActivity extends ActionBarActivity {
         }
 */
 
-        String result = "{ \"question1\" : { \"answer\" : \"Potter\",\n" +
-                "      \"question\" : \"What is Harry's last name?\",\n" +
-                "      \"seenBefore\" : \"false\",\n" +
-                "      \"wrong1\" : \"James\",\n" +
-                "      \"wrong2\" : \"Evans\",\n" +
-                "      \"wrong3\" : \"Podder\"\n" +
-                "    },\n" +
-                "  \"question2\" : { \"answer\" : \"Granger\",\n" +
-                "      \"question\" : \"What is Hermione's last name?\",\n" +
-                "      \"seenBefore\" : \"true\",\n" +
-                "      \"wrong1\" : \"Snape\",\n" +
-                "      \"wrong2\" : \"Evans\",\n" +
-                "      \"wrong3\" : \"Crookshanks\"\n" +
-                "    },\n" +
-                "  \"question3\" : { \"Percy\" : \"Evans\",\n" +
-                "      \"answer\" : \"Weasley\",\n" +
-                "      \"question\" : \"What is Ron's last name?\",\n" +
-                "      \"seenBefore\" : \"false\",\n" +
-                "      \"wrong1\" : \"Granger\",\n" +
-                "      \"wrong3\" : \"Billius\"\n" +
-                "    }\n" +
+        String result = "{" +
+                "\"QUESTION\":{" +
+                "\"QUESTION_TEXT\":\"What is Harry's last name?\"," +
+                "\"ANSWER_TEXT\":\"Potter\"," +
+                "\"WRONG1_TEXT\":\"James\"," +
+                "\"WRONG2_TEXT\":\"Granger\"," +
+                "\"WRONG3_TEXT\":\"Weasley\"," +
+                "\"SEEN_BEFORE\":false" +
+                "}," +
+                "\"QUESTION\":{" +
+                "\"QUESTION_TEXT\":\"What is Ron's last name?\"," +
+                "\"WRONG3_TEXT\":\"Potter\"," +
+                "\"WRONG1_TEXT\":\"James\"," +
+                "\"WRONG2_TEXT\":\"Granger\"," +
+                "\"ANSWER_TEXT\":\"Weasley\"," +
+                "\"SEEN_BEFORE\":false" +
+                "}," +
+                "\"Question\":{" +
+                "\"QUESTION_TEXT\":\"What is Hermione's last name?\"," +
+                "\"WRONG2_TEXT\":\"Potter\"," +
+                "\"WRONG1_TEXT\":\"James\"," +
+                "\"ANSWER_TEXT\":\"Granger\"," +
+                "\"WRONG3_TEXT\":\"Weasley\"," +
+                "\"SEEN_BEFORE\":true" +
+                "}" +
                 "}";
         quizPersister.storeNewQuiz(result);
 
