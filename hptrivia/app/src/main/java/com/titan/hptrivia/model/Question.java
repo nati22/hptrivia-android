@@ -1,5 +1,8 @@
 package com.titan.hptrivia.model;
 
+import com.titan.hptrivia.util.Keys;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -34,7 +37,6 @@ public class Question {
 
     }
 
-
     public String getQuestionText() {
         return questionText;
     }
@@ -59,6 +61,33 @@ public class Question {
         return seenBefore;
     }
 
+    public static Question parseQuestion(String questionJSONString) throws JSONException {
+
+        JSONObject questionJSON = new JSONObject(questionJSONString);
+
+        String questionText = (String) questionJSON.get(Keys.QUESTION_JSON.QUESTION_TEXT.name());
+        String answerText = (String) questionJSON.get(Keys.QUESTION_JSON.ANSWER_TEXT.name());
+        String wrong1Text = (String) questionJSON.get(Keys.QUESTION_JSON.WRONG1_TEXT.name());
+        String wrong2Text = (String) questionJSON.get(Keys.QUESTION_JSON.WRONG2_TEXT.name());
+        String wrong3Text = (String) questionJSON.get(Keys.QUESTION_JSON.WRONG3_TEXT.name());
+        boolean seenBefore = (Boolean) questionJSON.get(Keys.QUESTION_JSON.SEEN_BEFORE.name());
+
+        Question question = new Question(questionText, answerText, wrong1Text, wrong2Text, wrong3Text, seenBefore);
+        return question;
+    }
+
+    public static String convertQuestionToJsonString(Question question) throws JSONException {
+
+        JSONObject questionJSON = new JSONObject();
+        questionJSON.put(Keys.QUESTION_JSON.QUESTION_TEXT.name(), question.questionText);
+        questionJSON.put(Keys.QUESTION_JSON.ANSWER_TEXT.name(), question.correctAnswerText);
+        questionJSON.put(Keys.QUESTION_JSON.WRONG1_TEXT.name(), question.wrongAnswer1Text);
+        questionJSON.put(Keys.QUESTION_JSON.WRONG2_TEXT.name(), question.wrongAnswer2Text);
+        questionJSON.put(Keys.QUESTION_JSON.WRONG3_TEXT.name(), question.wrongAnswer3Text);
+        questionJSON.put(Keys.QUESTION_JSON.SEEN_BEFORE.name(), question.seenBefore);
+
+        return questionJSON.toString();
+    }
 
     @Override
     public String toString() {

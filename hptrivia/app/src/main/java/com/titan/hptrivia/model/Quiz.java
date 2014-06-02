@@ -1,7 +1,5 @@
 package com.titan.hptrivia.model;
 
-import android.util.Log;
-
 import com.titan.hptrivia.util.Keys;
 
 import org.json.JSONException;
@@ -16,16 +14,11 @@ public class Quiz {
 
     private ArrayList<Question> questions;
 
-
     public Quiz(ArrayList questions) {
         this.questions = questions;
     }
 
-    public Question getNextQuestion() {
-
-        return questions.get(0);
-    }
-
+    public Question getNextQuestion() { return questions.get(0); }
 
     public static Quiz parseQuiz(String quizJSONString) throws JSONException {
 
@@ -37,12 +30,8 @@ public class Quiz {
         // TODO Do I really not care about the order of the questions?
         JSONObject questionJSON = (JSONObject) quizJSON.remove(Keys.QUIZ_JSON.QUESTION.name());
 
-        int i = 0;
-
         while (questionJSON != null) {
 
-            Log.d("parseQuiz", "questionJSON " + ++i + " != null");
-            //       JSONObject questionJSON = new JSONObject(questionJSONString);
             String questionText = (String) questionJSON.get(Keys.QUESTION_JSON.QUESTION_TEXT.name());
             String answerText = (String) questionJSON.get(Keys.QUESTION_JSON.ANSWER_TEXT.name());
             String wrong1Text = (String) questionJSON.get(Keys.QUESTION_JSON.WRONG1_TEXT.name());
@@ -59,7 +48,6 @@ public class Quiz {
         Quiz quiz = new Quiz(questionList);
         return quiz;
     }
-
 
     @Override
     public String toString() {
