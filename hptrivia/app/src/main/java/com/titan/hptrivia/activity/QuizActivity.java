@@ -1,6 +1,8 @@
 package com.titan.hptrivia.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +23,7 @@ import com.titan.hptrivia.model.Question;
 import com.titan.hptrivia.model.Quiz;
 import com.titan.hptrivia.model.QuizPersister;
 import com.titan.hptrivia.util.Keys;
+import com.titan.hptrivia.util.Utils;
 
 import org.json.JSONException;
 
@@ -33,6 +36,7 @@ public class QuizActivity extends ActionBarActivity {
     private static final String TAG = QuizActivity.class.getSimpleName();
 
     private QuizPersister quizPersister;
+    private Quiz quiz;
 
     // UI Elements
     private FrameLayout frameLayout;
@@ -41,20 +45,13 @@ public class QuizActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
-        Log.d(TAG, "onCreate called");
-    /*    if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new QuizFragment())
-                    .commit();
-        }*/
+
         quizPersister = QuizPersister.getInstance();
+        quiz = quizPersister.getStoredQuiz();
 
-        frameLayout = (FrameLayout) findViewById(R.id.fragment_container);
-
-        Quiz quiz = quizPersister.getStoredQuiz();
-        Log.d(TAG, "QuizActivity got Question from QuizPersister...");
-
+        // start quiz
         displayQuizFragment(quiz.getNextQuestion());
+
     }
 
     private void displayQuizFragment(Question question) {
@@ -68,7 +65,7 @@ public class QuizActivity extends ActionBarActivity {
         }
         quizFragment.setArguments(bundle);
 
-        Log.d(TAG, "I added " + quizFragment.getArguments().getString(Keys.QUIZ_JSON.QUESTION.name()));
+//        Log.d(TAG, "I added " + quizFragment.getArguments().getString(Keys.QUIZ_JSON.QUESTION.name()));
 
         // add the fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -77,6 +74,47 @@ public class QuizActivity extends ActionBarActivity {
         fragmentTransaction.commit();
 
     //    getSupportFragmentManager().beginTransaction().add(R.id.container, quizFragment).commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d(TAG, "onBackPressed");
+
+        new AlertDialog.Builder(this)
+                .setTitle("Quit quiz")
+                .setMessage("Are you sure you want to give up on this question?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        QuizActivity.this.finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+
+    }
+
+    @Override
+    protected void onPause() {
+        Utils.makeShortToast(getApplicationContext(), "okayy...");
+//        Log.d(TAG, "onPause");
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+//        Log.d(TAG, "onStop");
+        super.onStop();
+    }
+
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
     }
 
     @Override
@@ -117,38 +155,6 @@ public class QuizActivity extends ActionBarActivity {
         public QuizFragment() {}
 
         @Override
-        public void onViewCreated(View view, Bundle savedInstanceState) {
-            super.onViewCreated(view, savedInstanceState);
-
-            textView_questionInfo = (TextView) view.findViewById(R.id.textView_questionInfo);
-            textView_questionText = (TextView) view.findViewById(R.id.textView_questionText);
-
-            // shuffle buttons
-            ArrayList<Integer> arrayList = new ArrayList<Integer>();
-            arrayList.add((Integer) R.id.button_answer1);
-            arrayList.add((Integer) R.id.button_answer2);
-            arrayList.add((Integer) R.id.button_answer3);
-            arrayList.add((Integer) R.id.button_answer4);
-            Collections.shuffle(arrayList);
-
-
-            // assign buttons
-            button_correct = (Button) view.findViewById(arrayList.remove(0));
-            button_wrong1 = (Button) view.findViewById(arrayList.remove(0));
-            button_wrong2 = (Button) view.findViewById(arrayList.remove(0));
-            button_wrong3 = (Button) view.findViewById(arrayList.remove(0));
-
-            // set values
-            textView_questionText.setText(question.getQuestionText());
-            button_correct.setText(question.getCorrectAnswerText());
-            button_wrong1.setText(question.getWrongAnswer1Text());
-            button_wrong2.setText(question.getWrongAnswer2Text());
-            button_wrong3.setText(question.getWrongAnswer3Text());
-
-
-        }
-
-        @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
             Bundle bundle = getArguments();
@@ -163,6 +169,68 @@ public class QuizActivity extends ActionBarActivity {
                     return;
                 }
             }
+        }
+
+        @Override
+        public void onViewCreated(View view, Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+
+            textView_questionInfo = (TextView) view.findViewById(R.id.textView_questionInfo);
+            textView_questionText = (TextView) view.findViewById(R.id.textView_questionText);
+
+            // shuffle buttons
+            ArrayList<Integer> arrayList = new ArrayList<Integer>();
+            arrayList.add((Integer) R.id.button_answer1);
+            arrayList.add((Integer) R.id.button_answer2);
+            arrayList.add((Integer) R.id.button_answer3);
+            arrayList.add((Integer) R.id.button_answer4);
+            Collections.shuffle(arrayList);
+
+            // assign buttons
+            button_correct = (Button) view.findViewById(arrayList.remove(0));
+            button_wrong1 = (Button) view.findViewById(arrayList.remove(0));
+            button_wrong2 = (Button) view.findViewById(arrayList.remove(0));
+            button_wrong3 = (Button) view.findViewById(arrayList.remove(0));
+
+            // set values
+            textView_questionText.setText(question.getQuestionText());
+            button_correct.setText(question.getCorrectAnswerText());
+            button_wrong1.setText(question.getWrongAnswer1Text());
+            button_wrong2.setText(question.getWrongAnswer2Text());
+            button_wrong3.setText(question.getWrongAnswer3Text());
+            // TODO add Book name, Movie name, etc
+
+            setOnClickListeners();
+        }
+
+        private void setOnClickListeners() {
+            button_correct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Utils.makeShortToast(getActivity().getApplicationContext(), "correct answer");
+                }
+            });
+
+            button_wrong1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Utils.makeShortToast(getActivity().getApplicationContext(), "wrong answer");
+                }
+            });
+
+            button_wrong2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Utils.makeShortToast(getActivity().getApplicationContext(), "wrong answer");
+                }
+            });
+
+            button_wrong3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Utils.makeShortToast(getActivity().getApplicationContext(), "wrong answer");
+                }
+            });
         }
 
         @Override
