@@ -1,7 +1,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.titan.hptrivia.activity.QuizActivity"
-    tools:ignore="MergeRootFrame" />
+    tools:ignore="MergeRootFrame" >
+
+   <!-- <fragment android:name="com.titan.hptrivia.activity.QuizActivity$QuizFragment"
+        android:id="@+id/fragment_quiz"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />  -->
+
+    </FrameLayout>
