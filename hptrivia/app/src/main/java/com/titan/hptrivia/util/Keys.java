@@ -6,7 +6,7 @@ package com.titan.hptrivia.util;
 public class Keys {
 
     public enum PREFS {
-        QUIZ_EXISTS, ALL_QUESTIONS
+        QUIZ_EXISTS, ALL_QUESTIONS, LAST_QUESTION
     }
 
     public enum QUESTION_JSON {

@@ -42,7 +42,7 @@ public class HomeActivity extends ActionBarActivity {
     private void fillQuizPersisterWithFakeQuestions() {
 
         String result = "{" +
-                "\"QUESTION\":{" +
+                "\"QUESTION1\":{" +
                 "\"QUESTION_TEXT\":\"What is Harry's last name?\"," +
                 "\"ANSWER_TEXT\":\"Potter\"," +
                 "\"WRONG1_TEXT\":\"James\"," +
@@ -50,7 +50,7 @@ public class HomeActivity extends ActionBarActivity {
                 "\"WRONG3_TEXT\":\"Weasley\"," +
                 "\"SEEN_BEFORE\":false" +
                 "}," +
-                "\"QUESTION\":{" +
+                "\"QUESTION2\":{" +
                 "\"QUESTION_TEXT\":\"What is Ron's last name?\"," +
                 "\"WRONG3_TEXT\":\"Potter\"," +
                 "\"WRONG1_TEXT\":\"James\"," +
@@ -58,7 +58,7 @@ public class HomeActivity extends ActionBarActivity {
                 "\"ANSWER_TEXT\":\"Weasley\"," +
                 "\"SEEN_BEFORE\":false" +
                 "}," +
-                "\"Question\":{" +
+                "\"QUESTION3\":{" +
                 "\"QUESTION_TEXT\":\"What is Hermione's last name?\"," +
                 "\"WRONG2_TEXT\":\"Potter\"," +
                 "\"WRONG1_TEXT\":\"James\"," +
