@@ -33,7 +33,6 @@ public class QuizFragment extends Fragment {
     private QuizManager quizManager;
 
     private Question question;
-//    private boolean isLastQuestion = false;
 
     // UI elements
     private TextView textView_questionInfo;
