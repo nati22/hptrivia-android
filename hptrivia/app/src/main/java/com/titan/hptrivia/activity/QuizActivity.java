@@ -1,41 +1,34 @@
 package com.titan.hptrivia.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.titan.hptrivia.R;
+import com.titan.hptrivia.model.Answer;
 import com.titan.hptrivia.model.Question;
+import com.titan.hptrivia.model.QuestionCompletedListener;
 import com.titan.hptrivia.model.Quiz;
+import com.titan.hptrivia.model.QuizManager;
 import com.titan.hptrivia.model.QuizPersister;
 import com.titan.hptrivia.util.Keys;
 import com.titan.hptrivia.util.Utils;
 
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Collections;
 
 
-public class QuizActivity extends ActionBarActivity {
+public class QuizActivity extends ActionBarActivity implements QuestionCompletedListener {
 
     private static final String TAG = QuizActivity.class.getSimpleName();
 
     private boolean isActive = false;
 
     private QuizPersister quizPersister;
+    private QuizManager quizManager;
     private Quiz quiz;
     private int questionNumber = 0;
 
@@ -44,8 +37,13 @@ public class QuizActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+
         quizPersister = QuizPersister.getInstance();
         quiz = quizPersister.getStoredQuiz();
+
+        quizManager = QuizManager.getInstance();
+        quizManager.loadQuiz(quiz);
+
         Log.d(TAG, "quizPersister had a stored quiz of size " + quiz.size());
 
         // start quiz
@@ -85,12 +83,14 @@ public class QuizActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         isActive = true;
+        quizManager.addQuestionCompletedListener(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         isActive = false;
+        quizManager.removeQuestionCompletedListener(this);
     }
 
     @Override
@@ -113,9 +113,14 @@ public class QuizActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
+    @Override
+    public void onQuestionCompleted(Question question, Answer answer) {
+        Log.d(TAG, "QuizActivity detected a question was completed.");
+    }
+
+/*    *//**
      * A placeholder fragment containing a simple view.
-     */
+     *//*
     public static class QuizFragment extends Fragment {
 
         private QuizActivity activity;
@@ -188,7 +193,7 @@ public class QuizActivity extends ActionBarActivity {
             button_wrong3.setText(question.getWrongAnswer3().getText());
             // TODO add Book name, Movie name, etc
 
-        /*    timer = new CountDownTimer(Utils.CONSTANTS.MILLIS_PER_QUESTION, Utils.CONSTANTS.MILLIS_UPDATE_FREQUENCY) {
+        *//*    timer = new CountDownTimer(Utils.CONSTANTS.MILLIS_PER_QUESTION, Utils.CONSTANTS.MILLIS_UPDATE_FREQUENCY) {
 
                 private boolean finished = false;
                 private int millisLeft = Utils.CONSTANTS.MILLIS_PER_QUESTION;
@@ -222,7 +227,7 @@ public class QuizActivity extends ActionBarActivity {
                     finished = true;
                 }
             }.start();
-            Log.d(TAG, "Created new timer");*/
+            Log.d(TAG, "Created new timer");*//*
 
             setOnClickListeners();
         }
@@ -281,5 +286,5 @@ public class QuizActivity extends ActionBarActivity {
             super.onStop();
     //        timer.onFinish();
         }
-    }
+    }*/
 }
