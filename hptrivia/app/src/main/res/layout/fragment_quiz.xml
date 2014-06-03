@@ -9,10 +9,18 @@
     android:background="@color/gold"
     tools:context="com.titan.hptrivia.activity.QuizActivity$QuizFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <TextView
         android:id="@+id/textView_questionInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/progressBar"
         android:text="question info question info question info"
         android:textSize="17dp"
         android:textStyle="bold|italic" />

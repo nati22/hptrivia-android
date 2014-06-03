@@ -2,6 +2,7 @@ package com.titan.hptrivia.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.titan.hptrivia.R;
@@ -32,6 +34,8 @@ import java.util.Collections;
 public class QuizActivity extends ActionBarActivity {
 
     private static final String TAG = QuizActivity.class.getSimpleName();
+
+    private boolean isActive = false;
 
     private QuizPersister quizPersister;
     private Quiz quiz;
@@ -78,6 +82,19 @@ public class QuizActivity extends ActionBarActivity {
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isActive = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isActive = false;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -103,6 +120,8 @@ public class QuizActivity extends ActionBarActivity {
      */
     public static class QuizFragment extends Fragment {
 
+        private QuizActivity activity;
+
         private Question question;
         private boolean isLastQuestion = false;
 
@@ -113,12 +132,17 @@ public class QuizActivity extends ActionBarActivity {
         private Button button_wrong1;
         private Button button_wrong2;
         private Button button_wrong3;
+        private ProgressBar progressBar;
+
+        private CountDownTimer timer;
 
         public QuizFragment() {}
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
+
+            this.activity = (QuizActivity) activity;
 
             Bundle bundle = getArguments();
             if (bundle == null) {
@@ -141,6 +165,8 @@ public class QuizActivity extends ActionBarActivity {
 
             textView_questionInfo = (TextView) view.findViewById(R.id.textView_questionInfo);
             textView_questionText = (TextView) view.findViewById(R.id.textView_questionText);
+            progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+            progressBar.setMax(10);
 
             // shuffle buttons
             ArrayList<Integer> arrayList = new ArrayList<Integer>();
@@ -164,6 +190,42 @@ public class QuizActivity extends ActionBarActivity {
             button_wrong3.setText(question.getWrongAnswer3().getText());
             // TODO add Book name, Movie name, etc
 
+            timer = new CountDownTimer(Utils.CONSTANTS.MILLIS_PER_QUESTION, Utils.CONSTANTS.MILLIS_UPDATE_FREQUENCY) {
+
+                private boolean finished = false;
+                private int millisLeft = Utils.CONSTANTS.MILLIS_PER_QUESTION;
+
+                public void onTick(long millisLeft) {
+
+                    this.millisLeft = (int) millisLeft;
+
+                    if ((millisLeft % 1000) >= 500) {
+                        Log.d("onTick", "millisLeft = " + millisLeft + ", seconds left = " + ((millisLeft + 1000)/ 1000));
+                        textView_questionInfo.setText("Seconds remaining: " + ((millisLeft + 1000)/ 1000));
+                        progressBar.setProgress((int) (millisLeft + 1000)/ 1000);
+                    } else {
+                        Log.d("onTick", "millisLeft = " + millisLeft + ", seconds left = " + (millisLeft/ 1000));
+                        textView_questionInfo.setText("Seconds remaining: " + (millisLeft / 1000));
+                        progressBar.setProgress((int) (millisLeft / 1000));
+                    }
+                }
+
+                public void onFinish() {
+                    Log.d("onFinish called, ", "finished: " + finished + ", millisLeft: " + millisLeft);
+                    if (finished || millisLeft > 0) return;
+                    if (getParentFragment()!= null && getParentFragment().isDetached()) return;
+                    textView_questionInfo.setText("TIME UP!");
+                    textView_questionInfo.setTextColor(getResources().getColor(R.color.red));
+
+                    Log.e(TAG, "TIME UP on question: " + question.getQuestionText());
+                    if (activity.isActive) activity.displayNextQuestion();
+                    else Log.e(TAG, "QuizActivity isActive = " + activity.isActive);
+                    cancel();
+                    finished = true;
+                }
+            }.start();
+            Log.d(TAG, "Created new timer");
+
             setOnClickListeners();
         }
 
@@ -174,6 +236,7 @@ public class QuizActivity extends ActionBarActivity {
                     // TODO store "correctness"
                     Utils.makeShortToast(getActivity().getApplicationContext(), "correct answer");
                     ((QuizActivity) getActivity()).displayNextQuestion();
+                    timer.onFinish();
                 }
             });
 
@@ -183,6 +246,7 @@ public class QuizActivity extends ActionBarActivity {
                     // TODO store "incorrectness"
                     Utils.makeShortToast(getActivity().getApplicationContext(), "wrong answer");
                     ((QuizActivity) getActivity()).displayNextQuestion();
+                    timer.onFinish();
                 }
             });
 
@@ -192,6 +256,7 @@ public class QuizActivity extends ActionBarActivity {
                     // TODO store "incorrectness"
                     Utils.makeShortToast(getActivity().getApplicationContext(), "wrong answer");
                     ((QuizActivity) getActivity()).displayNextQuestion();
+                    timer.onFinish();
                 }
             });
 
@@ -201,6 +266,7 @@ public class QuizActivity extends ActionBarActivity {
                     // TODO store "incorrectness"
                     Utils.makeShortToast(getActivity().getApplicationContext(), "wrong answer");
                     ((QuizActivity) getActivity()).displayNextQuestion();
+                    timer.onFinish();
                 }
             });
         }
@@ -210,6 +276,12 @@ public class QuizActivity extends ActionBarActivity {
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_quiz, container, false);
             return rootView;
+        }
+
+        @Override
+        public void onStop() {
+            super.onStop();
+            timer.onFinish();
         }
     }
 }
