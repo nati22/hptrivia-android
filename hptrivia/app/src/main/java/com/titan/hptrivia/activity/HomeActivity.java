@@ -24,11 +24,11 @@ public class HomeActivity extends ActionBarActivity {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
 
-    /** Manages the storage and retrieval of Quiz data. */
     private QuizPersister quizPersister;
 
     // UI elements
     private Button buttonStartQuiz;
+    private Button buttonContinueQuiz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +103,10 @@ public class HomeActivity extends ActionBarActivity {
                 }
             }
         });
+
+        buttonContinueQuiz = (Button) findViewById(R.id.buttonContinueQuiz);
+        buttonContinueQuiz.setClickable(false);
+        buttonContinueQuiz.setActivated(false);
     }
 
     private void setTitleFont() {
