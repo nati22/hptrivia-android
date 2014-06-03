@@ -6,6 +6,6 @@ package com.titan.hptrivia.network;
 public interface RestClient {
 
     // TODO this should generally have parameters, a QuizSpecification object perhaps?
-    public void getQuiz();
+    public void generateNewQuiz(int numQuestions);
 
 }

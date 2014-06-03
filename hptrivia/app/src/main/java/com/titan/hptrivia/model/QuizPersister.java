@@ -9,6 +9,9 @@ import com.titan.hptrivia.util.Keys;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class will handle storage and retrieval of Quiz data on the device.
  * Created by ntessema on 6/1/14.
@@ -44,6 +47,15 @@ public class QuizPersister {
         editor.putBoolean(Keys.PREFS.QUIZ_EXISTS.name(), true);
 
         editor.commit();
+
+        for (NewQuizListener listener : newQuizListeners) {
+            try {
+                listener.onNewQuizStored(Quiz.parseQuiz(jsonString));
+            } catch (JSONException e) {
+                Log.e(TAG, "Couldn't notify the NewQuizListeners");
+                return;
+            }
+        }
     }
 
     public Quiz getStoredQuiz() {
@@ -67,12 +79,24 @@ public class QuizPersister {
     public void deleteStoredQuiz() {
         SharedPreferences.Editor editor = prefs.edit();
         editor.remove(Keys.PREFS.ALL_QUESTIONS.name());
-        editor.putBoolean(Keys.PREFS.QUIZ_EXISTS.name(), true);
+        editor.putBoolean(Keys.PREFS.QUIZ_EXISTS.name(), false);
         editor.commit();
     }
 
     public boolean hasQuiz() {
         return prefs.getBoolean(Keys.PREFS.QUIZ_EXISTS.name(), false);
+    }
+
+
+    //////////*     NewQuizListener code    *///////////
+    List<NewQuizListener> newQuizListeners = new ArrayList<NewQuizListener>();
+
+    public boolean addNewQuizListener(NewQuizListener listener) {
+        return newQuizListeners.add(listener);
+    }
+
+    public boolean removeNewQuizListener(NewQuizListener listener) {
+        return newQuizListeners.remove(listener);
     }
 
 
