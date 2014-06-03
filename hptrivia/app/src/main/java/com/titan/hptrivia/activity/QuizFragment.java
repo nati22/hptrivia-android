@@ -15,7 +15,6 @@ import com.titan.hptrivia.R;
 import com.titan.hptrivia.model.Question;
 import com.titan.hptrivia.model.QuizManager;
 import com.titan.hptrivia.util.Keys;
-import com.titan.hptrivia.util.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,7 +33,7 @@ public class QuizFragment extends Fragment {
     private QuizManager quizManager;
 
     private Question question;
-    private boolean isLastQuestion = false;
+//    private boolean isLastQuestion = false;
 
     // UI elements
     private TextView textView_questionInfo;
@@ -61,7 +60,7 @@ public class QuizFragment extends Fragment {
             Log.e(TAG, "bundle == null");
         } else {
             String questionString = bundle.getString(Keys.QUIZ_JSON.QUESTION.name());
-            isLastQuestion = bundle.getBoolean(Keys.PREFS.LAST_QUESTION.name());
+    //        isLastQuestion = bundle.getBoolean(Keys.PREFS.LAST_QUESTION.name());
             try {
                 question = Question.convertJSONObjectToQuestion(new JSONObject(questionString));
             } catch (JSONException e) {
@@ -146,7 +145,6 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO store "correctness"
-                Utils.makeShortToast(getActivity().getApplicationContext(), "correct answer");
                 quizManager.questionComplete(question, question.getCorrectAnswer());
                 //        timer.onFinish();
             }
@@ -156,7 +154,6 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO store "incorrectness"
-                Utils.makeShortToast(getActivity().getApplicationContext(), "wrong answer");
                 quizManager.questionComplete(question, question.getWrongAnswer1());
             }
         });
@@ -165,7 +162,6 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO store "incorrectness"
-                Utils.makeShortToast(getActivity().getApplicationContext(), "wrong answer");
                 quizManager.questionComplete(question, question.getWrongAnswer2());
                 //        timer.onFinish();
             }
@@ -175,7 +171,6 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO store "incorrectness"
-                Utils.makeShortToast(getActivity().getApplicationContext(), "wrong answer");
                 quizManager.questionComplete(question, question.getWrongAnswer3());
                 //        timer.onFinish();
             }

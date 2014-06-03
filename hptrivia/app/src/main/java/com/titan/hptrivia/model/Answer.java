@@ -28,4 +28,11 @@ public class Answer {
         return answerExplanation != null;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        Answer otherAnswer = (Answer) o;
+
+        return this.answerText.equals(otherAnswer.getText())
+                && (this.answerExplanation != null && otherAnswer.answerExplanation != null) ? (this.answerExplanation.equals(otherAnswer.getExplanation())) : true;
+    }
 }

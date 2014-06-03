@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.titan.hptrivia.R;
+import com.titan.hptrivia.model.QuizManager;
 import com.titan.hptrivia.model.QuizPersister;
 import com.titan.hptrivia.util.TypefaceSpan;
 import com.titan.hptrivia.util.Utils;
@@ -36,6 +37,7 @@ public class HomeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_home);
 
         quizPersister = QuizPersister.getInstance();
+
         makeSureQuizPersisterHasQuestions();
 
         inflateXML();
@@ -88,7 +90,7 @@ public class HomeActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 if (quizPersister.hasQuiz()) {
-                    // quizManager.startQuiz(HomeActivity.this);
+                    QuizManager.getInstance().loadQuiz(quizPersister.getStoredQuiz());
                     Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
                     startActivity(intent);
                 } else {
