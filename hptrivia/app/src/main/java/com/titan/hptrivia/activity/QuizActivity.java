@@ -2,7 +2,6 @@ package com.titan.hptrivia.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.titan.hptrivia.R;
@@ -132,9 +130,9 @@ public class QuizActivity extends ActionBarActivity {
         private Button button_wrong1;
         private Button button_wrong2;
         private Button button_wrong3;
-        private ProgressBar progressBar;
+    //    private ProgressBar progressBar;
 
-        private CountDownTimer timer;
+    //    private CountDownTimer timer;
 
         public QuizFragment() {}
 
@@ -165,8 +163,8 @@ public class QuizActivity extends ActionBarActivity {
 
             textView_questionInfo = (TextView) view.findViewById(R.id.textView_questionInfo);
             textView_questionText = (TextView) view.findViewById(R.id.textView_questionText);
-            progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-            progressBar.setMax(10);
+        //    progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        //    progressBar.setMax(10);
 
             // shuffle buttons
             ArrayList<Integer> arrayList = new ArrayList<Integer>();
@@ -190,7 +188,7 @@ public class QuizActivity extends ActionBarActivity {
             button_wrong3.setText(question.getWrongAnswer3().getText());
             // TODO add Book name, Movie name, etc
 
-            timer = new CountDownTimer(Utils.CONSTANTS.MILLIS_PER_QUESTION, Utils.CONSTANTS.MILLIS_UPDATE_FREQUENCY) {
+        /*    timer = new CountDownTimer(Utils.CONSTANTS.MILLIS_PER_QUESTION, Utils.CONSTANTS.MILLIS_UPDATE_FREQUENCY) {
 
                 private boolean finished = false;
                 private int millisLeft = Utils.CONSTANTS.MILLIS_PER_QUESTION;
@@ -224,7 +222,7 @@ public class QuizActivity extends ActionBarActivity {
                     finished = true;
                 }
             }.start();
-            Log.d(TAG, "Created new timer");
+            Log.d(TAG, "Created new timer");*/
 
             setOnClickListeners();
         }
@@ -236,7 +234,7 @@ public class QuizActivity extends ActionBarActivity {
                     // TODO store "correctness"
                     Utils.makeShortToast(getActivity().getApplicationContext(), "correct answer");
                     ((QuizActivity) getActivity()).displayNextQuestion();
-                    timer.onFinish();
+            //        timer.onFinish();
                 }
             });
 
@@ -246,7 +244,7 @@ public class QuizActivity extends ActionBarActivity {
                     // TODO store "incorrectness"
                     Utils.makeShortToast(getActivity().getApplicationContext(), "wrong answer");
                     ((QuizActivity) getActivity()).displayNextQuestion();
-                    timer.onFinish();
+            //        timer.onFinish();
                 }
             });
 
@@ -256,7 +254,7 @@ public class QuizActivity extends ActionBarActivity {
                     // TODO store "incorrectness"
                     Utils.makeShortToast(getActivity().getApplicationContext(), "wrong answer");
                     ((QuizActivity) getActivity()).displayNextQuestion();
-                    timer.onFinish();
+            //        timer.onFinish();
                 }
             });
 
@@ -266,7 +264,7 @@ public class QuizActivity extends ActionBarActivity {
                     // TODO store "incorrectness"
                     Utils.makeShortToast(getActivity().getApplicationContext(), "wrong answer");
                     ((QuizActivity) getActivity()).displayNextQuestion();
-                    timer.onFinish();
+            //        timer.onFinish();
                 }
             });
         }
@@ -281,7 +279,7 @@ public class QuizActivity extends ActionBarActivity {
         @Override
         public void onStop() {
             super.onStop();
-            timer.onFinish();
+    //        timer.onFinish();
         }
     }
 }
