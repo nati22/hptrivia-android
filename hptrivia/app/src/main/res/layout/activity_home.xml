@@ -20,11 +20,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+
     <Button
         android:id="@+id/buttonStartQuiz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:background="@color/light_blue"
+        android:padding="2dp"
         android:textSize="24dp"
         android:textStyle="bold"
         android:text="@string/button_start_quiz" />
@@ -34,10 +37,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:padding="2dp"
         android:layout_below="@id/buttonStartQuiz"
         android:layout_margin="5dp"
         android:textSize="24dp"
         android:textStyle="bold"
         android:text="@string/button_continue_quiz" />
+
+    <Button
+        android:id="@+id/buttonCreateQuiz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonContinueQuiz"
+        android:layout_centerHorizontal="true"
+        android:padding="2dp"
+        android:background="@color/light_blue"
+        android:layout_margin="5dp"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:text="@string/button_create_quiz" />
+
+    <Button
+        android:id="@+id/buttonClearDB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonCreateQuiz"
+        android:layout_centerHorizontal="true"
+        android:padding="2dp"
+        android:layout_margin="5dp"
+        android:background="@color/light_blue"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:text="Clear DB"
+        />
 
 </RelativeLayout>

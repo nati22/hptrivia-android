@@ -5,6 +5,8 @@ package com.titan.hptrivia.model;
  */
 public class Answer {
 
+    private static final String TAG = Answer.class.getSimpleName();
+
     private String answerText;
     private String answerExplanation;
 
@@ -32,7 +34,19 @@ public class Answer {
     public boolean equals(Object o) {
         Answer otherAnswer = (Answer) o;
 
-        return this.answerText.equals(otherAnswer.getText())
-                && (this.answerExplanation != null && otherAnswer.answerExplanation != null) ? (this.answerExplanation.equals(otherAnswer.getExplanation())) : true;
+        // compare text
+        if (!answerText.equals(otherAnswer.getText()))
+            return false;
+
+        // compare explanations
+        if (answerExplanation != null && otherAnswer.getExplanation() != null) {
+            return (answerExplanation.equals(otherAnswer.getExplanation()));
+        } else if ((answerExplanation != null && otherAnswer.getExplanation() == null)
+                || (answerExplanation == null && otherAnswer.getExplanation() != null)) {
+            return false;
+        }
+
+        return true;
+
     }
 }

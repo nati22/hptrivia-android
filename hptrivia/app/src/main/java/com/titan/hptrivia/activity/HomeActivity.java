@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,21 +15,27 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.titan.hptrivia.R;
+import com.titan.hptrivia.model.NewQuizListener;
+import com.titan.hptrivia.model.Quiz;
 import com.titan.hptrivia.model.QuizManager;
 import com.titan.hptrivia.model.QuizPersister;
+import com.titan.hptrivia.network.RestClientImpl;
 import com.titan.hptrivia.util.TypefaceSpan;
 import com.titan.hptrivia.util.Utils;
 
 
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends ActionBarActivity implements NewQuizListener {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
 
     private QuizPersister quizPersister;
+    private RestClientImpl restClient;
 
     // UI elements
     private Button buttonStartQuiz;
     private Button buttonContinueQuiz;
+    private Button buttonCreateQuiz;
+    private Button buttonClearDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +44,18 @@ public class HomeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_home);
 
         quizPersister = QuizPersister.getInstance();
+        restClient = new RestClientImpl(getApplicationContext());
 
-        makeSureQuizPersisterHasQuestions();
+//        makeSureQuizPersisterHasQuestions();
 
         inflateXML();
 
-        setTitleFont();
+//        setTitleFont();
     }
 
-    private void makeSureQuizPersisterHasQuestions() {
+/*    private void makeSureQuizPersisterHasQuestions() {
 
-        if (quizPersister.hasQuiz()) return;
+    //    if (quizPersister.hasQuiz()) return;
 
         String result = "{" +
                 "\"QUESTION1\":{" +
@@ -76,7 +84,8 @@ public class HomeActivity extends ActionBarActivity {
                 "}" +
                 "}";
         quizPersister.storeNewQuiz(result);
-    }
+        Log.d(TAG, "result: " + result);
+    }*/
 
     private void inflateXML() {
         // set title font
@@ -85,6 +94,7 @@ public class HomeActivity extends ActionBarActivity {
         titleText.setTextSize(80);
 
         buttonStartQuiz = (Button) findViewById(R.id.buttonStartQuiz);
+        if (!quizPersister.hasQuiz()) buttonStartQuiz.setBackgroundColor(getResources().getColor(R.color.gray));
         buttonStartQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,13 +104,37 @@ public class HomeActivity extends ActionBarActivity {
                     Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
                     startActivity(intent);
                 } else {
+                    Utils.makeShortToast(getApplicationContext(), "Create a quiz first!");
+                    Log.d(TAG, "QuizPersister doesn't have a Quiz.");
                         // order should be:
                             // start loading spinner
                             // send request to server
                             // stop spinner on response
-                    setProgressBarIndeterminateVisibility(true);
-    //                quizManager.startQuiz(HomeActivity.this);
+                //    setProgressBarIndeterminateVisibility(true);
+                //    restClient.generateNewQuiz(5);
                 }
+            }
+        });
+
+        buttonCreateQuiz = (Button) findViewById(R.id.buttonCreateQuiz);
+        buttonCreateQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (quizPersister.hasQuiz()) quizPersister.deleteStoredQuiz();
+
+                Utils.makeShortToast(getApplicationContext(), "Getting quiz from server...");
+                restClient.generateNewQuiz(5);
+
+            }
+        });
+
+        buttonClearDB = (Button) findViewById(R.id.buttonClearDB);
+        buttonClearDB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                quizPersister.deleteStoredQuiz();
+                buttonStartQuiz.setBackgroundColor(getResources().getColor(R.color.gray));
             }
         });
 
@@ -146,5 +180,19 @@ public class HomeActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         overridePendingTransition(0, 0);
+        quizPersister.addNewQuizListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        quizPersister.removeNewQuizListener(this);
+    }
+
+    @Override
+    public void onNewQuizStored(Quiz quiz) {
+        Log.d(TAG, "HomeActivity noticed that a new Quiz was stored.");
+        buttonStartQuiz.setActivated(true);
+        buttonStartQuiz.setBackgroundColor(getResources().getColor(R.color.blue));
     }
 }

@@ -33,6 +33,7 @@ abstract class BasePostRequestAsyncTask<ResultT> extends
 
         HttpClient client = new DefaultHttpClient();
         HttpPost postRequest = new HttpPost(uri);
+        Log.v(TAG, "uri = " + uri);
 
         // Add the parameters in.
         if (parameters != null) {
