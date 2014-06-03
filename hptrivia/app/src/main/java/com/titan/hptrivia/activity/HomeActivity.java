@@ -85,7 +85,6 @@ public class HomeActivity extends ActionBarActivity {
                     // quizManager.startQuiz(HomeActivity.this);
                     Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
                     startActivity(intent);
-
                 } else {
                         // order should be:
                             // start loading spinner

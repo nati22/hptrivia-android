@@ -33,4 +33,9 @@ public class Utils {
         return Typeface.createFromAsset(context.getAssets(), "fonts/HARRYP.TTF");
     }
 
+    public class CONSTANTS {
+        public static final int MILLIS_PER_QUESTION = 10000;
+        public static final int MILLIS_UPDATE_FREQUENCY = 1000;
+    }
+
 }
