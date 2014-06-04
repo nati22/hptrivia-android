@@ -14,6 +14,7 @@ import com.titan.hptrivia.model.Question;
 import com.titan.hptrivia.model.QuestionCompletionListener;
 import com.titan.hptrivia.model.QuizManager;
 import com.titan.hptrivia.util.Keys;
+import com.titan.hptrivia.util.Utils;
 
 import org.json.JSONException;
 
@@ -39,6 +40,7 @@ public class QuizActivity extends ActionBarActivity implements QuestionCompletio
     }
 
     private void displayNextQuestion(Question question) {
+
         QuizFragment quizFragment = new QuizFragment();
         Bundle bundle = new Bundle();
         try {
@@ -101,14 +103,18 @@ public class QuizActivity extends ActionBarActivity implements QuestionCompletio
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.quiz, menu);
+        getMenuInflater().inflate(R.menu.menu_quiz, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
+            case R.id.action_quiz_settings:
+                Utils.makeShortToast(getApplicationContext(), "Settings");
+                return true;
+            case R.id.action_quiz_report:
+                Utils.makeShortToast(getApplicationContext(), "Challenge the question");
                 return true;
             case android.R.id.home:
                 onBackPressed();

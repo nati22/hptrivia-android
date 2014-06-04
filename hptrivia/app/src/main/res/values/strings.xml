@@ -3,8 +3,18 @@
 
     <string name="app_name">hptrivia</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+
+    <!-- HomeActivity menu -->
+    <string name="action_home_settings">Settings</string>
+
+    <!-- QuizActivity menu -->
+    <string name="action_quiz_settings">Settings</string>
+    <string name="action_quiz_report">Challenge</string>
+
+
     <string name="title_activity_quiz">QuizActivity</string>
+
+    <!-- UI Buttons -->
     <string name="button_start_quiz">Start Quiz</string>
     <string name="button_create_quiz">Create Quiz</string> <!-- remove this once Create Quiz button is removed -->
     <string name="button_continue_quiz">Continue</string>
