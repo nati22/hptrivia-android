@@ -35,6 +35,7 @@ public class QuizManager {
             return;
         }
         this.quiz = quiz;
+        quizHasStarted = false;
         questionNumber = 0;
         isQuizComplete = false;
         isLoaded = true;
