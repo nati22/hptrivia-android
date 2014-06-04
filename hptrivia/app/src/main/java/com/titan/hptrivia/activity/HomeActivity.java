@@ -53,41 +53,9 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
         inflateXML();
 
 //        setTitleFont();
+
+
     }
-
-/*    private void makeSureQuizPersisterHasQuestions() {
-
-    //    if (quizPersister.hasQuiz()) return;
-
-        String result = "{" +
-                "\"QUESTION1\":{" +
-                "\"QUESTION_TEXT\":\"What is Harry's last name?\"," +
-                "\"ANSWER_TEXT\":\"Potter\"," +
-                "\"WRONG1_TEXT\":\"James\"," +
-                "\"WRONG2_TEXT\":\"Granger\"," +
-                "\"WRONG3_TEXT\":\"Weasley\"," +
-                "\"SEEN_BEFORE\":false" +
-                "}," +
-                "\"QUESTION2\":{" +
-                "\"QUESTION_TEXT\":\"What is Ron's last name?\"," +
-                "\"WRONG3_TEXT\":\"Potter\"," +
-                "\"WRONG1_TEXT\":\"James\"," +
-                "\"WRONG2_TEXT\":\"Granger\"," +
-                "\"ANSWER_TEXT\":\"Weasley\"," +
-                "\"SEEN_BEFORE\":false" +
-                "}," +
-                "\"QUESTION3\":{" +
-                "\"QUESTION_TEXT\":\"What is Hermione's last name?\"," +
-                "\"WRONG2_TEXT\":\"Potter\"," +
-                "\"WRONG1_TEXT\":\"James\"," +
-                "\"ANSWER_TEXT\":\"Granger\"," +
-                "\"WRONG3_TEXT\":\"Weasley\"," +
-                "\"SEEN_BEFORE\":true" +
-                "}" +
-                "}";
-        quizPersister.storeNewQuiz(result);
-        Log.d(TAG, "result: " + result);
-    }*/
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void inflateXML() {
@@ -125,6 +93,8 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
             public void onClick(View v) {
 
                 if (quizPersister.hasQuiz()) quizPersister.deleteStoredQuiz();
+
+                setProgressBarIndeterminateVisibility(true);
 
                 Utils.makeShortToast(getApplicationContext(), "Getting quiz from server...");
                 restClient.generateNewQuiz(5);
@@ -199,5 +169,6 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
         Log.d(TAG, "HomeActivity noticed that a new Quiz was stored.");
     //    buttonStartQuiz.setActivated(true);
         buttonStartQuiz.setBackgroundColor(getResources().getColor(R.color.blue));
+        setProgressBarIndeterminateVisibility(false);
     }
 }
