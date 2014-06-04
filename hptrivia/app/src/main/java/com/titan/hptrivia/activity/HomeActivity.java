@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,7 +54,24 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
         inflateXML();
 
 //        setTitleFont();
+        setTitleFontNewWay();
 
+
+    }
+
+    private void setTitleFontNewWay() {
+        this.getSupportActionBar().setDisplayShowCustomEnabled(true);
+        this.getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        LayoutInflater inflator = LayoutInflater.from(this);
+        View v = inflator.inflate(R.layout.custom_title, null);
+
+    //if you need to customize anything else about the text, do it here.
+    //I'm using a custom TextView with a custom font in my layout xml so all I need to do is set title
+        ((TextView)v.findViewById(R.id.customTitle)).setText(this.getTitle());
+
+//assign the view to the actionbar
+        this.getSupportActionBar().setCustomView(v);
 
     }
 
