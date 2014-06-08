@@ -56,7 +56,6 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
 //        setTitleFont();
         setTitleFontNewWay();
 
-
     }
 
     private void setTitleFontNewWay() {
@@ -184,7 +183,7 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
 
     @Override
     public void onNewQuizStored(Quiz quiz) {
-        Log.d(TAG, "HomeActivity noticed that a new Quiz was stored.");
+        Log.d(TAG, "HomeActivity noticed that a new Quiz of size " + quiz.size() + " was stored.");
     //    buttonStartQuiz.setActivated(true);
         buttonStartQuiz.setBackgroundColor(getResources().getColor(R.color.blue));
         setProgressBarIndeterminateVisibility(false);

@@ -40,6 +40,9 @@ public class QuizPersister {
     }
 
     public void storeNewQuiz(String jsonString) {
+
+        Log.d(TAG + ".storeNewQuiz", "Storing Quiz: " + jsonString);
+
         // TODO i should store the time that i received the quiz
         SharedPreferences.Editor editor = prefs.edit();
 

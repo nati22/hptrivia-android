@@ -41,6 +41,8 @@ public class QuizActivity extends ActionBarActivity implements QuestionCompletio
 
     private void displayNextQuestion(Question question) {
 
+        Log.d(TAG, "Called display next question with question: " + question.getQuestionText());
+
         QuizFragment quizFragment = new QuizFragment();
         Bundle bundle = new Bundle();
         try {

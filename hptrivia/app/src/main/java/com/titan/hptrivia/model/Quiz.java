@@ -2,12 +2,11 @@ package com.titan.hptrivia.model;
 
 import android.util.Log;
 
-import com.titan.hptrivia.util.Keys;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by ntessema on 6/1/14.
@@ -25,8 +24,9 @@ public class Quiz {
     public int size() { return questions.size(); }
 
     public static Quiz parseQuiz(String quizJSONString) throws JSONException {
+        Log.d("Quiz.parseQuiz", "received " + quizJSONString);
 
-        JSONObject quizJSON = new JSONObject(quizJSONString);
+        JSONObject quizJSON = new JSONObject(quizJSONString.trim());        // TODO should i trim? from (http://stackoverflow.com/questions/9151619/java-iterate-over-jsonobject)
         ArrayList<Question> questionList = new ArrayList<Question>();
 
         // TODO Can I be sure that every element of the Quiz JSON is a Question?
@@ -35,7 +35,20 @@ public class Quiz {
         // as we remove the questions, length will decrease
         int numQuestions = quizJSON.length();
 
-        for (int i = 1; i <= numQuestions; i++) {
+        Iterator<?> iterator = quizJSON.keys();
+
+        Log.d("Quiz", "entering while loop (jsonobj has " + numQuestions + " elements)");
+        while( iterator.hasNext() ){
+            String key = (String)iterator.next();
+            if(quizJSON.get(key) instanceof JSONObject ){
+
+                JSONObject questionJSON = (JSONObject) quizJSON.get(key);
+                questionList.add(new Question(questionJSON));
+            }
+        }
+        Log.d("Quiz", "done with while loop.");
+
+    /*    for (int i = 1; i <= numQuestions; i++) {
             JSONObject questionJSON = (JSONObject) quizJSON.remove(Keys.QUIZ_JSON.QUESTION.name() + i);
             if (questionJSON == null) {
                 Log.e("parseQuiz", "Could not find " + (Keys.QUIZ_JSON.QUESTION.name() + i));
@@ -44,7 +57,7 @@ public class Quiz {
 
             questionList.add(new Question(questionJSON));
     //        Log.i("parseQuiz", "added question");
-        }
+        }*/
 
         return new Quiz(questionList);
     }
