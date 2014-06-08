@@ -51,6 +51,26 @@ public class Question {
         this.seenBefore = seenBefore;
     }
 
+    /**
+     * TODO This constructor is because "seenBefore" can't be implemented w/o user login.
+     * @param questionText
+     * @param correctAnswer
+     * @param wrongAnswer1
+     * @param wrongAnswer2
+     * @param wrongAnswer3
+     */
+    public Question(String questionText, Answer correctAnswer,
+                    Answer wrongAnswer1, Answer wrongAnswer2,
+                    Answer wrongAnswer3) {
+
+        this.questionText = questionText;
+        this.correctAnswer = correctAnswer;
+        this.wrongAnswer1 = wrongAnswer1;
+        this.wrongAnswer2 = wrongAnswer2;
+        this.wrongAnswer3 = wrongAnswer3;
+        this.seenBefore = false;
+    }
+
     public String getQuestionText() {
         return questionText;
     }
@@ -84,9 +104,9 @@ public class Question {
         Answer wrong1 = new Answer ((String) questionJSONObject.get(Keys.QUESTION_JSON.WRONG1_TEXT.name()));
         Answer wrong2 = new Answer((String) questionJSONObject.get(Keys.QUESTION_JSON.WRONG2_TEXT.name()));
         Answer wrong3 = new Answer((String) questionJSONObject.get(Keys.QUESTION_JSON.WRONG3_TEXT.name()));
-        boolean seenBefore = (Boolean) questionJSONObject.get(Keys.QUESTION_JSON.SEEN_BEFORE.name());
+//        boolean seenBefore = (Boolean) questionJSONObject.get(Keys.QUESTION_JSON.SEEN_BEFORE.name());
 
-        return new Question(questionText, answer, wrong1, wrong2, wrong3, seenBefore);
+        return new Question(questionText, answer, wrong1, wrong2, wrong3);
     }
 
     public static JSONObject convertQuestionToJsonObject(Question question) throws JSONException {
@@ -97,7 +117,7 @@ public class Question {
         questionJSON.put(Keys.QUESTION_JSON.WRONG1_TEXT.name(), question.getWrongAnswer1().getText());
         questionJSON.put(Keys.QUESTION_JSON.WRONG2_TEXT.name(), question.getWrongAnswer2().getText());
         questionJSON.put(Keys.QUESTION_JSON.WRONG3_TEXT.name(), question.getWrongAnswer3().getText());
-        questionJSON.put(Keys.QUESTION_JSON.SEEN_BEFORE.name(), question.seenBefore);
+//        questionJSON.put(Keys.QUESTION_JSON.SEEN_BEFORE.name(), question.seenBefore);
         return questionJSON;
     }
 

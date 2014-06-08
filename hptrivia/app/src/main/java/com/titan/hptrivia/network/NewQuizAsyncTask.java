@@ -36,6 +36,7 @@ final class NewQuizAsyncTask extends BasePostRequestAsyncTask<String> {
         Log.v(TAG, "Storing new quiz in the QuizPersister");
         QuizPersister qp = QuizPersister.getInstance();
         qp.storeNewQuiz(s);
+        Log.d(TAG, "about to load quiz");
         QuizManager.getInstance().loadQuiz(qp.getStoredQuiz());
     }
 }
