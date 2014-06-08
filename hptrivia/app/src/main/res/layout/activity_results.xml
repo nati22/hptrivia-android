@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/dark_cyan"
+    tools:context=".activity.ResultsActivity">
+
+    <TextView
+        android:id="@+id/textView_resultsTitle"
+        android:text="@string/title_results"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:layout_margin="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ListView
+        android:id="@+id/listViewResults"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:background="@color/red"
+        android:layout_below="@id/textView_resultsTitle" />
+
+    <RelativeLayout
+        android:id="@android:id/empty"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/textView_resultsTitle"
+        android:background="@color/bisque">
+
+        <TextView
+            android:textSize="17dp"
+            android:text="Hogwarts, Hogwarts, Hoggy Warty Hogwarts,
+teach us something please,
+whether we be old and bald,
+or young with scabby knees,
+our heads could do with filling,
+with some interesting stuff,
+for now they're bare and full of air,
+dead flies and bits of fluff,
+so teach us things worth knowing,
+bring back what we've forgot,
+just do your best, we'll do the rest,
+and learn until our brains all rot"
+            android:textColor="@color/gray"
+            android:textStyle="italic"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>
