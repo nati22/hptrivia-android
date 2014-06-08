@@ -1,5 +1,6 @@
 package com.titan.hptrivia.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -62,34 +63,6 @@ public class QuizActivity extends ActionBarActivity implements QuestionCompletio
         fragmentTransaction.commit();
     }
 
-
-//    private void displayNextQuestion() {
-//
-//        if (questionNumber == quiz.size()) {
-//            Utils.makeShortToast(getApplicationContext(), "Quiz complete");
-//            finish(); return;
-//        }
-//
-//        QuizFragment quizFragment = new QuizFragment();
-//        Bundle bundle = new Bundle();
-//        try {
-//            bundle.putString(Keys.QUIZ_JSON.QUESTION.name(), Question.convertQuestionToJsonObject(quiz.getQuestion(questionNumber++)).toString());
-//            bundle.putBoolean(Keys.PREFS.LAST_QUESTION.name(), questionNumber == quiz.size() ? true : false);
-//            quizFragment.setArguments(bundle);
-//        } catch (JSONException e) {
-//            Log.e(TAG, "Couldn't convert Question object to JSONString.");
-//            return;
-//        }
-//
-//        // add the fragment
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);   // TODO remove unnecessary anim files
-//        fragmentTransaction.add(R.id.fragment_container, quizFragment);
-//        fragmentTransaction.commit();
-//
-//    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -137,6 +110,8 @@ public class QuizActivity extends ActionBarActivity implements QuestionCompletio
             Log.d(TAG, "Quiz complete.");
             quizManager.reset();
             finish();
+            Intent intent = new Intent(getApplicationContext(), ResultsActivity.class);
+            startActivity(intent);
         }
     }
 
