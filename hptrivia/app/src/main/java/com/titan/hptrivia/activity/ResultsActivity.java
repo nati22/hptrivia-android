@@ -88,7 +88,13 @@ public class ResultsActivity extends ActionBarActivity {
 
         QuizResponse quizResp = new QuizResponse();
         quizResp.addNewResponse(sameQR);
-        quizResp.addNewResponse(sameQR);
+        quizResp.addNewResponse(new QuestionResponse(quiz.getQuestion(4), quiz.getQuestion(4).getCorrectAnswer()));
+        quizResp.addNewResponse(new QuestionResponse(quiz.getQuestion(2), quiz.getQuestion(2).getCorrectAnswer()));
+
+        Log.d(TAG, "original quizResp size = " + quizResp.size());
+
+        for (QuestionResponse resp : quizResp.getAllQuestionResponses())
+            Log.d(TAG, "\tquestion : " + resp.getQuestion().getQuestionText());
 
         Parcel quizR = Parcel.obtain();
 
@@ -99,6 +105,15 @@ public class ResultsActivity extends ActionBarActivity {
         QuizResponse sameQuizResp = new QuizResponse(quizR);
 
         Log.d(TAG, "same QuizResp size = " + sameQuizResp.size());
+
+        for (QuestionResponse resp : sameQuizResp.getAllQuestionResponses()) {
+            if (resp != null) {
+                if (resp.getQuestion() != null) {
+                    Log.d(TAG, "\tquestion : " + resp.getQuestion().getQuestionText());
+                } else Log.d(TAG, "question = NULL");
+            }
+            else Log.d(TAG, "questionResponse : NULLL");
+        }
 
         // get views
         listViewResults = (ListView) findViewById(R.id.listViewResults);

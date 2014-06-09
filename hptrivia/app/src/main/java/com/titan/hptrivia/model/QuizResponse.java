@@ -2,6 +2,7 @@ package com.titan.hptrivia.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,6 @@ public class QuizResponse implements Parcelable {
         questionResponses.clear();
     }
 
-
     // Parcelable code
 
     public QuizResponse(Parcel in) {
@@ -48,6 +48,7 @@ public class QuizResponse implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        Log.d("QuizResponse.writeToParcel", "writing " + questionResponses.size() + " elements to the Parcel");
         dest.writeList(questionResponses);
     }
 
