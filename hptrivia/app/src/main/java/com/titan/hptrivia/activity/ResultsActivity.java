@@ -2,6 +2,7 @@ package com.titan.hptrivia.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.titan.hptrivia.R;
+import com.titan.hptrivia.model.Answer;
 import com.titan.hptrivia.model.QuestionResponse;
 import com.titan.hptrivia.model.Quiz;
 import com.titan.hptrivia.model.QuizManager;
@@ -42,6 +44,16 @@ public class ResultsActivity extends ActionBarActivity {
 //        for (int i = 0; i < quiz.size(); i++) {
 //            arrayListQuestionResponses.add(quiz.getQuestion(i));
 //        }
+
+        Answer ans = quiz.getQuestion(0).getCorrectAnswer();
+        Parcel parcelAns = Parcel.obtain();
+        ans.writeToParcel(parcelAns, 1);
+
+        parcelAns.setDataPosition(0);
+
+        Answer sameAnswer = new Answer(parcelAns);
+        Log.d(TAG, "Answer : " + ans.getText());
+        Log.d(TAG, "Parcelled Answer : " + sameAnswer.getText());
 
         // get views
         listViewResults = (ListView) findViewById(R.id.listViewResults);

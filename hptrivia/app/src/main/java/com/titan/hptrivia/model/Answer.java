@@ -67,7 +67,6 @@ public class Answer implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(answerText);
         dest.writeString(answerExplanation);
-
     }
 
     // Android apparently needs this
