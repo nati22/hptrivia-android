@@ -43,7 +43,7 @@ public class QuestionResponse implements Parcelable {
         dest.writeParcelable(question, flags);
         dest.writeParcelable(answer, flags);
 
-        dest.setDataPosition(0);
+    //    dest.setDataPosition(0);
 
 //        Log.d("writeToParcel QuestionResponse", "" + dest.readParcelable(Question.class.getClassLoader()));
     }

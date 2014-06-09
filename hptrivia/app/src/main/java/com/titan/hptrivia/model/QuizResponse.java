@@ -39,6 +39,7 @@ public class QuizResponse implements Parcelable {
     public QuizResponse(Parcel in) {
         questionResponses = new ArrayList<QuestionResponse>();
         in.readTypedList(questionResponses, QuestionResponse.CREATOR);
+        Log.d("QuizResponse.constructor", "read " + questionResponses.size() + " elements from the Parcel");
     }
 
     @Override
@@ -49,7 +50,7 @@ public class QuizResponse implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         Log.d("QuizResponse.writeToParcel", "writing " + questionResponses.size() + " elements to the Parcel");
-        dest.writeList(questionResponses);
+        dest.writeTypedList(questionResponses);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
