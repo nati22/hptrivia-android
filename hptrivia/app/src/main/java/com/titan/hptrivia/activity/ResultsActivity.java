@@ -15,9 +15,8 @@ import android.widget.TextView;
 
 import com.titan.hptrivia.R;
 import com.titan.hptrivia.model.QuestionResponse;
-import com.titan.hptrivia.model.Quiz;
-import com.titan.hptrivia.model.QuizPersister;
 import com.titan.hptrivia.model.QuizResponse;
+import com.titan.hptrivia.util.Keys;
 
 import java.util.ArrayList;
 
@@ -33,13 +32,8 @@ public class ResultsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
-
-
         // get questions from stored quiz
-        Quiz quiz = QuizPersister.getInstance().getStoredQuiz();
-        QuizResponse datResponse = getIntent().getParcelableExtra("doz_quiz_results_doe");
-        Log.d(TAG, "response length = " + datResponse.size());
-
+        QuizResponse datResponse = getIntent().getParcelableExtra(Keys.KEY_QUIZ_RESPONSE);
 
         // get views
         listViewResults = (ListView) findViewById(R.id.listViewResults);
@@ -51,6 +45,31 @@ public class ResultsActivity extends ActionBarActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.results, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy called");
+    }
 
     private class ResultsAdapter extends BaseAdapter {
 
@@ -68,20 +87,17 @@ public class ResultsActivity extends ActionBarActivity {
 
         @Override
         public int getCount() {
-            Log.d(TAG, "getCount called");
             return questionResponses.size();
         }
 
         @Override
         public Object getItem(int position) {
-            Log.d(TAG, "getItem called");
-            return null;
+            return questionResponses.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            Log.d(TAG, "getItemId called");
-            return 0;
+            return position;
         }
 
         @Override
@@ -111,28 +127,7 @@ public class ResultsActivity extends ActionBarActivity {
                 Log.d(TAG, "ListView view at index " + position + " != null");
             }
 
-            Log.d(TAG, "getView called. got question " + questionResponse.getQuestion().getQuestionText());
             return convertView;
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.results, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

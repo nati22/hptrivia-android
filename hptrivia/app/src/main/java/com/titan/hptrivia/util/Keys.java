@@ -22,4 +22,6 @@ public class Keys {
         NUM_QUESTIONS
     }
 
+    public static final String KEY_QUIZ_RESPONSE = "quiz_response";
+
 }

@@ -23,6 +23,7 @@ import com.titan.hptrivia.model.Quiz;
 import com.titan.hptrivia.model.QuizManager;
 import com.titan.hptrivia.model.QuizPersister;
 import com.titan.hptrivia.network.RestClientImpl;
+import com.titan.hptrivia.util.CustomTextView;
 import com.titan.hptrivia.util.TypefaceSpan;
 import com.titan.hptrivia.util.Utils;
 
@@ -55,22 +56,6 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
 
 //        setTitleFont();
         setTitleFontNewWay();
-
-    }
-
-    private void setTitleFontNewWay() {
-        this.getSupportActionBar().setDisplayShowCustomEnabled(true);
-        this.getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        LayoutInflater inflator = LayoutInflater.from(this);
-        View v = inflator.inflate(R.layout.custom_title, null);
-
-    //if you need to customize anything else about the text, do it here.
-    //I'm using a custom TextView with a custom font in my layout xml so all I need to do is set title
-        ((TextView)v.findViewById(R.id.customTitle)).setText(this.getTitle());
-
-//assign the view to the actionbar
-        this.getSupportActionBar().setCustomView(v);
 
     }
 
@@ -143,6 +128,20 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
         actionBar.setTitle(s);
     }
 
+    private void setTitleFontNewWay() {
+        this.getSupportActionBar().setDisplayShowCustomEnabled(true);
+        this.getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        LayoutInflater inflator = LayoutInflater.from(this);
+        View v = inflator.inflate(R.layout.custom_title, null);
+
+        // if you need to customize anything else about the text, do it here.
+        ((CustomTextView)v.findViewById(R.id.customTitle)).setText(this.getTitle());
+
+        // assign the view to the actionbar
+        this.getSupportActionBar().setCustomView(v);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -164,10 +163,6 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
         return super.onOptionsItemSelected(item);
     }
 
-/*    public void startQuizButtonClicked(View view) {
-        quizManager.startQuiz(this);
-    }*/
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -183,7 +178,6 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
 
     @Override
     public void onNewQuizStored(Quiz quiz) {
-        Log.d(TAG, "HomeActivity noticed that a new Quiz of size " + quiz.size() + " was stored.");
     //    buttonStartQuiz.setActivated(true);
         buttonStartQuiz.setBackgroundColor(getResources().getColor(R.color.blue));
         setProgressBarIndeterminateVisibility(false);

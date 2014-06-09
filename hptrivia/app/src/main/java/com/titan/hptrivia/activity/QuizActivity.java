@@ -33,8 +33,6 @@ public class QuizActivity extends ActionBarActivity implements QuestionCompletio
 
         quizManager = QuizManager.getInstance();
 
-        Log.d(TAG, "QuizActivity started with a quiz of size " + quizManager.getNumberOfQuestions());
-
         // Kickstarts start quiz
         if (!quizManager.hasStarted())
             displayNextQuestion(quizManager.getNextQuestion());
@@ -42,13 +40,10 @@ public class QuizActivity extends ActionBarActivity implements QuestionCompletio
 
     private void displayNextQuestion(Question question) {
 
-        Log.d(TAG, "Called display next question with question: " + question.getQuestionText());
-
         QuizFragment quizFragment = new QuizFragment();
         Bundle bundle = new Bundle();
         try {
             bundle.putString(Keys.QUIZ_JSON.QUESTION.name(), Question.convertQuestionToJsonObject(question).toString());
-    //        bundle.putBoolean(Keys.PREFS.LAST_QUESTION.name(), questionNumber == quiz.size() ? true : false);
             quizFragment.setArguments(bundle);
         } catch (JSONException e) {
             Log.e(TAG, "Couldn't convert Question object to JSONString.");
@@ -102,14 +97,13 @@ public class QuizActivity extends ActionBarActivity implements QuestionCompletio
     @Override
     public void onQuestionCompleted(Question question, Answer answer) {
 
-        Log.d(TAG, "QuizActivity detected a question was completed.");
         Log.d(TAG, "User selected answer " + answer.getText());
         if (quizManager.hasMoreQuestions()) {
             displayNextQuestion(quizManager.getNextQuestion());
         } else { // last question was completed
             Log.d(TAG, "Quiz complete.");
             Intent intent = new Intent(getApplicationContext(), ResultsActivity.class);
-            intent.putExtra("doz_quiz_results_doe", quizManager.getQuizResponse());
+            intent.putExtra(Keys.KEY_QUIZ_RESPONSE, quizManager.getQuizResponse());
             startActivity(intent);
 
             quizManager.reset();
