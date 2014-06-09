@@ -108,10 +108,12 @@ public class QuizActivity extends ActionBarActivity implements QuestionCompletio
             displayNextQuestion(quizManager.getNextQuestion());
         } else { // last question was completed
             Log.d(TAG, "Quiz complete.");
+            Intent intent = new Intent(getApplicationContext(), ResultsActivity.class);
+            intent.putExtra("doz_quiz_results_doe", quizManager.getQuizResponse());
+            startActivity(intent);
+
             quizManager.reset();
             finish();
-            Intent intent = new Intent(getApplicationContext(), ResultsActivity.class);
-            startActivity(intent);
         }
     }
 
