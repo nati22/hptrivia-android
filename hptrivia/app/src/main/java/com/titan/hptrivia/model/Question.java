@@ -147,7 +147,6 @@ public class Question implements Parcelable {
         public Question createFromParcel(Parcel in) {
             return new Question(in);
         }
-
         public Question[] newArray(int size) {
             return new Question[size];
         }

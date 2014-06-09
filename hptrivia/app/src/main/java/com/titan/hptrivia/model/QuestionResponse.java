@@ -29,9 +29,8 @@ public class QuestionResponse implements Parcelable {
     }
 
     public QuestionResponse(Parcel in) {
-          QuestionResponse huh = in.readParcelable(Question.class.getClassLoader());
-    //    question = in.readParcelable(Question.class.getClassLoader());
-    //    answer = in.readParcelable(Answer.class.getClassLoader());
+        this.question = in.readParcelable(Question.class.getClassLoader());
+        this.answer = in.readParcelable(Answer.class.getClassLoader());
     }
 
     @Override
@@ -43,6 +42,10 @@ public class QuestionResponse implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(question, flags);
         dest.writeParcelable(answer, flags);
+
+        dest.setDataPosition(0);
+
+//        Log.d("writeToParcel QuestionResponse", "" + dest.readParcelable(Question.class.getClassLoader()));
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

@@ -65,21 +65,24 @@ public class ResultsActivity extends ActionBarActivity {
 
         Question sameQuestion = new Question(pQ);
         Log.d(TAG, "same question = " + sameQuestion.getQuestionText());
+        Log.d(TAG, "same question ans = " + sameQuestion.getCorrectAnswer().getText());
 
-        QuestionResponse qResp = new QuestionResponse(question, ans);
+        QuestionResponse qResp = new QuestionResponse(sameQuestion, sameQuestion.getCorrectAnswer());
         Parcel pQR = Parcel.obtain();
         qResp.writeToParcel(pQR, 1);
 
         pQR.setDataPosition(0);
 
         QuestionResponse sameQR = new QuestionResponse(pQR);
+
         if (sameQR != null) {
             if (sameQR.getQuestion() != null) {
-                if (sameQR.getAnswer() != null) {
-                    Log.d(TAG, "same QuestiongResponse...q: " + sameQR.getQuestion().getQuestionText()
-                            + ", \n\ta: " + sameQR.getAnswer().getText());
-                } else Log.e(TAG, "sameQR ans == null");
+                Log.d(TAG, "! sameQuestionResponse q = " + sameQR.getQuestion().getQuestionText());
             } else Log.e(TAG, "sameQR question == null");
+
+            if (sameQR.getAnswer() != null) {
+                Log.d(TAG, "same QuestiongResponse...a: " + sameQR.getAnswer().getText());
+            } else Log.e(TAG, "sameQR ans == null");
         } else Log.e(TAG, "sameQR == null");
 
 
