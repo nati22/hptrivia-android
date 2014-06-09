@@ -37,6 +37,9 @@ public class ResultsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
+        QuizResponse datResponse = getIntent().getParcelableExtra("doz_quiz_results_doe");
+        Log.d(TAG, "response length = " + datResponse.size());
+
         // get questions from stored quiz
         Quiz quiz = QuizPersister.getInstance().getStoredQuiz();
         arrayListQuestionResponses = QuizManager.getInstance().getQuizResponse().getAllQuestionResponses();
