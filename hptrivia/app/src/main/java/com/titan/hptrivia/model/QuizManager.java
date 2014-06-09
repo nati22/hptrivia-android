@@ -15,12 +15,14 @@ public class QuizManager {
     /* Only one QuizManager for the entire app */
     private static QuizManager instance = new QuizManager();
 
+    private QuizResponse quizResponse;
+    private Quiz quiz;
+
     /* Tells whether the QuizManager has been loaded with a Quiz */
     private boolean isLoaded = false;
     private boolean isQuizComplete = false;
     private boolean quizHasStarted = false;
 
-    private Quiz quiz;
 
     /* The Question element that we're on in the list */
     private int questionNumber = 0;
@@ -39,6 +41,7 @@ public class QuizManager {
         questionNumber = 0;
         isQuizComplete = false;
         isLoaded = true;
+        quizResponse = new QuizResponse();
     }
 
     /** Resets the QuizManager. Duhhh. */
@@ -48,23 +51,29 @@ public class QuizManager {
         isQuizComplete = false;
         quizHasStarted = false;
         isLoaded = false;
+        quizResponse.clear();
     }
 
 
     /** Returns null if there are no more questions. */
     public Question getNextQuestion() {
 
+        Log.d(TAG, "QuizManager has " + quiz.size() + " elements");
+        Log.d(TAG, "we're on question # " + questionNumber);
+
         if (!isLoaded()) {
             Log.e(TAG, "QuizManager isn't loaded.");
             return null;
         }
+
+        Log.d(TAG, "next question is " + quiz.getQuestion(questionNumber));
 
         quizHasStarted = true;
 
         if (questionNumber < quiz.size()) {
             return quiz.getQuestion(questionNumber++);
         } else {
-            Log.e(TAG, "This shouldn't be happeining. getNextQuestion called when there are no more questions.");
+            Log.e(TAG, "This shouldn't be happening. getNextQuestion called when there are no more questions.");
             return null;
         }
     }
@@ -97,6 +106,10 @@ public class QuizManager {
         }
     }
 
+    public QuizResponse getQuizResponse() {
+        return this.quizResponse;
+    }
+
     ///////*  QuestionCompletionListener code  *////////
 
     private List<QuestionCompletionListener> qcListeners = new ArrayList<QuestionCompletionListener>();
@@ -115,9 +128,10 @@ public class QuizManager {
 
         // store the data about the User's feedback
         Log.d(TAG, "\nQuestion " + (questionNumber - 1) + ": " + question.getQuestionText()
-                + "\nCorrect answer:" + question.getCorrectAnswer().getText()
-                + "\nUser answer: " + answer.getText()
-                + "\nCorrect: " + (answer.equals(question.getCorrectAnswer())));
+                + "\n\tUser answer: " + answer.getText()  + ((answer.equals(question.getCorrectAnswer())) ? "Correct" : "Wrong"));
+
+        quizResponse.addNewResponse(new QuestionResponse(question, answer));
+        Log.d(TAG, "quizResponse has size " + quizResponse.size());
 
         // check if we're done
         isQuizComplete = (questionNumber == quiz.size());

@@ -14,8 +14,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.titan.hptrivia.R;
-import com.titan.hptrivia.model.Question;
+import com.titan.hptrivia.model.QuestionResponse;
 import com.titan.hptrivia.model.Quiz;
+import com.titan.hptrivia.model.QuizManager;
 import com.titan.hptrivia.model.QuizPersister;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class ResultsActivity extends ActionBarActivity {
     private final String TAG = ResultsActivity.class.getSimpleName();
     private ResultsAdapter adapter;
     private ListView listViewResults;
-    private ArrayList<Question> arrayListQuestions;
+    private ArrayList<QuestionResponse> arrayListQuestionResponses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,17 +35,19 @@ public class ResultsActivity extends ActionBarActivity {
 
         // get questions from stored quiz
         Quiz quiz = QuizPersister.getInstance().getStoredQuiz();
-        arrayListQuestions = new ArrayList<Question>();
+        arrayListQuestionResponses = QuizManager.getInstance().getQuizResponse().getAllQuestionResponses();
 
-        for (int i = 0; i < quiz.size(); i++) {
-            arrayListQuestions.add(quiz.getQuestion(i));
-        }
+        Log.d(TAG, "ResultsActivity received a questionResponse with size " + arrayListQuestionResponses.size());
+
+//        for (int i = 0; i < quiz.size(); i++) {
+//            arrayListQuestionResponses.add(quiz.getQuestion(i));
+//        }
 
         // get views
         listViewResults = (ListView) findViewById(R.id.listViewResults);
 
         // set up list adapter
-        adapter = new ResultsAdapter(getApplicationContext(), arrayListQuestions);
+        adapter = new ResultsAdapter(getApplicationContext(), arrayListQuestionResponses);
         listViewResults.setAdapter(adapter);
         listViewResults.setEmptyView(findViewById(android.R.id.empty));
 
@@ -56,19 +59,19 @@ public class ResultsActivity extends ActionBarActivity {
         private final String TAG = ResultsAdapter.class.getSimpleName();
         private Context context;
         private LayoutInflater inflater;
-        private ArrayList<Question> questions;
+        private ArrayList<QuestionResponse> questionResponses;
 
-        public ResultsAdapter(Context context, ArrayList<Question> questions) {
+        public ResultsAdapter(Context context, ArrayList<QuestionResponse> questionResponses) {
             Log.d(TAG, "constructor called");
             this.context = context;
             inflater = LayoutInflater.from(context);
-            this.questions = questions;
+            this.questionResponses = questionResponses;
         }
 
         @Override
         public int getCount() {
             Log.d(TAG, "getCount called");
-            return questions.size();
+            return questionResponses.size();
         }
 
         @Override
@@ -86,28 +89,30 @@ public class ResultsActivity extends ActionBarActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            final Question question = questions.get(position);
+            QuestionResponse questionResponse = questionResponses.get(position);
+
+            TextView textViewQuestionNumber =  ((TextView) convertView.findViewById(R.id.textView_questionNumber));
+            TextView textViewQuestionText = ((TextView) convertView.findViewById(R.id.textView_question));
+            TextView textViewUserAnswer = ((TextView) convertView.findViewById(R.id.textView_yourAnsText));
 
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.cell_question_result, null);
 
                 // set the question number
-                ((TextView) convertView.findViewById(R.id.textView_questionNumber)).setText("Question " + (position + 1));
+                textViewQuestionNumber.setText("Question " + (position + 1));
 
                 // set the question text
-                ((TextView) convertView.findViewById(R.id.textView_question)).setText(question.getQuestionText());
-
-                // set the correct answer
-                ((TextView) convertView.findViewById(R.id.textView_correctAns)).setText(question.getCorrectAnswer().getText());
+                textViewQuestionText.setText(questionResponse.getQuestion().getQuestionText());
 
                 // set the user's answer
-                ((TextView) convertView.findViewById(R.id.textView_yourAnsText)).setText("need to implement this");
+                textViewUserAnswer.setText(questionResponse.getAnswer().getText());
+                textViewUserAnswer.setBackgroundColor(getResources().getColor(questionResponse.isCorrect() ? R.color.green : R.color.red));
 
             } else {
                 Log.d(TAG, "ListView view at index " + position + " != null");
             }
 
-            Log.d(TAG, "getView called. got question " + question.getQuestionText());
+            Log.d(TAG, "getView called. got question " + questionResponse.getQuestion().getQuestionText());
             return convertView;
         }
     }
@@ -128,6 +133,7 @@ public class ResultsActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 }
