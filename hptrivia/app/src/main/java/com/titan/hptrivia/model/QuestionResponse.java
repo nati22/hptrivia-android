@@ -29,8 +29,9 @@ public class QuestionResponse implements Parcelable {
     }
 
     public QuestionResponse(Parcel in) {
-        in.readParcelable(Question.class.getClassLoader());
-        in.readParcelable(Answer.class.getClassLoader());
+          QuestionResponse huh = in.readParcelable(Question.class.getClassLoader());
+    //    question = in.readParcelable(Question.class.getClassLoader());
+    //    answer = in.readParcelable(Answer.class.getClassLoader());
     }
 
     @Override
