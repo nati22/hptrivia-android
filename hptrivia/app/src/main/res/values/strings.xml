@@ -26,6 +26,6 @@
 
     <!-- ResultsActivity cells -->
     <string name="correct_answer">correct answer: </string>
-    <string name="your_answer">your answer:</string>
+    <string name="your_answer">you answered:</string>
 
 </resources>

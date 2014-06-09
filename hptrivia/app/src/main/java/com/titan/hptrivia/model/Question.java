@@ -1,5 +1,7 @@
 package com.titan.hptrivia.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.titan.hptrivia.util.Keys;
@@ -10,13 +12,13 @@ import org.json.JSONObject;
 /**
  * Created by ntessema on 6/1/14.
  */
-public class Question {
+public class Question implements Parcelable {
 
     private static final String TAG = Question.class.getSimpleName();
 
     //TODO change String to Answer
     private String questionText;
-    private boolean seenBefore;
+//    private boolean seenBefore;
 
     private Answer correctAnswer;
     private Answer wrongAnswer1;
@@ -32,7 +34,7 @@ public class Question {
             this.wrongAnswer1 = q.wrongAnswer1;
             this.wrongAnswer2 = q.wrongAnswer2;
             this.wrongAnswer3 = q.wrongAnswer3;
-            this.seenBefore = q.seenBefore;
+//            this.seenBefore = q.seenBefore;
 
         } catch (JSONException e) {
             Log.e(TAG, "Couldn't parse JSON string: " + questionJson.toString());
@@ -48,7 +50,7 @@ public class Question {
         this.wrongAnswer1 = wrongAnswer1;
         this.wrongAnswer2 = wrongAnswer2;
         this.wrongAnswer3 = wrongAnswer3;
-        this.seenBefore = seenBefore;
+//        this.seenBefore = seenBefore;
     }
 
     /**
@@ -68,7 +70,7 @@ public class Question {
         this.wrongAnswer1 = wrongAnswer1;
         this.wrongAnswer2 = wrongAnswer2;
         this.wrongAnswer3 = wrongAnswer3;
-        this.seenBefore = false;
+//        this.seenBefore = false;
     }
 
     public String getQuestionText() {
@@ -83,19 +85,7 @@ public class Question {
 
     public Answer getWrongAnswer3() { return wrongAnswer3; }
 
-    public boolean hasBeenSeenBefore() { return seenBefore; }
-
-/*    public static Question convertJSONObjectToQuestion(JSONObject questionJSONObject) throws JSONException {
-
-        String questionText = (String) questionJSONObject.get(Keys.QUESTION_JSON.QUESTION_TEXT.name());
-        String answerText = (String) questionJSONObject.get(Keys.QUESTION_JSON.ANSWER_TEXT.name());
-        String wrong1Text = (String) questionJSONObject.get(Keys.QUESTION_JSON.WRONG1_TEXT.name());
-        String wrong2Text = (String) questionJSONObject.get(Keys.QUESTION_JSON.WRONG2_TEXT.name());
-        String wrong3Text = (String) questionJSONObject.get(Keys.QUESTION_JSON.WRONG3_TEXT.name());
-        boolean seenBefore = (Boolean) questionJSONObject.get(Keys.QUESTION_JSON.SEEN_BEFORE.name());
-
-        return new Question(questionText, answerText, wrong1Text, wrong2Text, wrong3Text, seenBefore);
-    }*/
+//    public boolean hasBeenSeenBefore() { return seenBefore; }
 
     public static Question convertJSONObjectToQuestion(JSONObject questionJSONObject) throws JSONException {
 
@@ -128,4 +118,38 @@ public class Question {
                 "Wrong answer: \"%s\"", questionText, getCorrectAnswer().getText(),
                 getWrongAnswer1().getText(), getWrongAnswer2().getText(), getWrongAnswer3().getText());
     }
+
+    public Question(Parcel in) {
+        questionText = in.readString();
+//        seenBefore = in.readInt() == 1;
+        correctAnswer = in.readParcelable(Answer.class.getClassLoader());
+        wrongAnswer1 = in.readParcelable(Answer.class.getClassLoader());
+        wrongAnswer2 = in.readParcelable(Answer.class.getClassLoader());
+        wrongAnswer3 = in.readParcelable(Answer.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(questionText);
+//        dest.writeInt(seenBefore ? 1 : 0);
+        dest.writeParcelable(correctAnswer, flags);
+        dest.writeParcelable(wrongAnswer1, flags);
+        dest.writeParcelable(wrongAnswer2, flags);
+        dest.writeParcelable(wrongAnswer3, flags);
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Question createFromParcel(Parcel in) {
+            return new Question(in);
+        }
+
+        public Question[] newArray(int size) {
+            return new Question[size];
+        }
+    };
 }
