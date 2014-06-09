@@ -16,10 +16,12 @@ import android.widget.TextView;
 
 import com.titan.hptrivia.R;
 import com.titan.hptrivia.model.Answer;
+import com.titan.hptrivia.model.Question;
 import com.titan.hptrivia.model.QuestionResponse;
 import com.titan.hptrivia.model.Quiz;
 import com.titan.hptrivia.model.QuizManager;
 import com.titan.hptrivia.model.QuizPersister;
+import com.titan.hptrivia.model.QuizResponse;
 
 import java.util.ArrayList;
 
@@ -54,6 +56,46 @@ public class ResultsActivity extends ActionBarActivity {
         Answer sameAnswer = new Answer(parcelAns);
         Log.d(TAG, "Answer : " + ans.getText());
         Log.d(TAG, "Parcelled Answer : " + sameAnswer.getText());
+
+        Question question = quiz.getQuestion(0);
+        Parcel pQ = Parcel.obtain();
+        question.writeToParcel(pQ, 1);
+
+        pQ.setDataPosition(0);
+
+        Question sameQuestion = new Question(pQ);
+        Log.d(TAG, "same question = " + sameQuestion.getQuestionText());
+
+        QuestionResponse qResp = new QuestionResponse(question, ans);
+        Parcel pQR = Parcel.obtain();
+        qResp.writeToParcel(pQR, 1);
+
+        pQR.setDataPosition(0);
+
+        QuestionResponse sameQR = new QuestionResponse(pQR);
+        if (sameQR != null) {
+            if (sameQR.getQuestion() != null) {
+                if (sameQR.getAnswer() != null) {
+                    Log.d(TAG, "same QuestiongResponse...q: " + sameQR.getQuestion().getQuestionText()
+                            + ", \n\ta: " + sameQR.getAnswer().getText());
+                } else Log.e(TAG, "sameQR ans == null");
+            } else Log.e(TAG, "sameQR question == null");
+        } else Log.e(TAG, "sameQR == null");
+
+
+        QuizResponse quizResp = new QuizResponse();
+        quizResp.addNewResponse(sameQR);
+        quizResp.addNewResponse(sameQR);
+
+        Parcel quizR = Parcel.obtain();
+
+        quizResp.writeToParcel(quizR, 1);
+
+        quizR.setDataPosition(0);
+
+        QuizResponse sameQuizResp = new QuizResponse(quizR);
+
+        Log.d(TAG, "same QuizResp size = " + sameQuizResp.size());
 
         // get views
         listViewResults = (ListView) findViewById(R.id.listViewResults);

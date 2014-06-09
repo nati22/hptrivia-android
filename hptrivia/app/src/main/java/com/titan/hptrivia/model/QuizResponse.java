@@ -33,6 +33,9 @@ public class QuizResponse implements Parcelable {
         questionResponses.clear();
     }
 
+
+    // Parcelable code
+
     public QuizResponse(Parcel in) {
         questionResponses = new ArrayList<QuestionResponse>();
         in.readTypedList(questionResponses, QuestionResponse.CREATOR);
