@@ -4,11 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +20,6 @@ import com.titan.hptrivia.model.QuizManager;
 import com.titan.hptrivia.model.QuizPersister;
 import com.titan.hptrivia.network.RestClientImpl;
 import com.titan.hptrivia.util.CustomTextView;
-import com.titan.hptrivia.util.TypefaceSpan;
 import com.titan.hptrivia.util.Utils;
 
 
@@ -50,17 +45,15 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
         quizPersister = QuizPersister.getInstance();
         restClient = new RestClientImpl(getApplicationContext());
 
-//        makeSureQuizPersisterHasQuestions();
-
         inflateXML();
 
-//        setTitleFont();
-        setTitleFontNewWay();
+        setTitleFont();
 
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void inflateXML() {
+
         // set title font
         TextView titleText = ((TextView) findViewById(R.id.textView_appTitle));
         titleText.setTypeface(Utils.getPotterTypeface(getApplicationContext()));
@@ -78,13 +71,6 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
                     startActivity(intent);
                 } else {
                     Utils.makeShortToast(getApplicationContext(), "Create a quiz first!");
-                    Log.d(TAG, "QuizPersister doesn't have a Quiz.");
-                        // order should be:
-                            // start loading spinner
-                            // send request to server
-                            // stop spinner on response
-                //    setProgressBarIndeterminateVisibility(true);
-                //    restClient.generateNewQuiz(5);
                 }
             }
         });
@@ -98,9 +84,7 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
 
                 setProgressBarIndeterminateVisibility(true);
 
-                Utils.makeShortToast(getApplicationContext(), "Getting quiz from server...");
                 restClient.generateNewQuiz(5);
-
             }
         });
 
@@ -119,16 +103,6 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
     }
 
     private void setTitleFont() {
-        SpannableString s = new SpannableString(getResources().getString(R.string.app_name));
-        s.setSpan(new TypefaceSpan(this, "HARRYP.TTF"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        // Update the action bar title with the TypefaceSpan instance
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(s);
-    }
-
-    private void setTitleFontNewWay() {
         this.getSupportActionBar().setDisplayShowCustomEnabled(true);
         this.getSupportActionBar().setDisplayShowTitleEnabled(false);
 
