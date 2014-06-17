@@ -14,6 +14,7 @@ import com.titan.hptrivia.model.Answer;
 import com.titan.hptrivia.model.Question;
 import com.titan.hptrivia.model.QuestionCompletionListener;
 import com.titan.hptrivia.model.QuizManager;
+import com.titan.hptrivia.model.QuizPersister;
 import com.titan.hptrivia.util.Keys;
 import com.titan.hptrivia.util.Utils;
 
@@ -105,8 +106,8 @@ public class QuizActivity extends ActionBarActivity implements QuestionCompletio
             Intent intent = new Intent(getApplicationContext(), ResultsActivity.class);
             intent.putExtra(Keys.KEY_QUIZ_RESPONSE, quizManager.getQuizResponse());
             startActivity(intent);
-
             quizManager.reset();
+            QuizPersister.getInstance().deleteStoredQuiz();
             finish();
         }
     }

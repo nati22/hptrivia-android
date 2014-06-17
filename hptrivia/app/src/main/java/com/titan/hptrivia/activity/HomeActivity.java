@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.titan.hptrivia.R;
 import com.titan.hptrivia.model.NewQuizListener;
 import com.titan.hptrivia.model.Quiz;
-import com.titan.hptrivia.model.QuizManager;
 import com.titan.hptrivia.model.QuizPersister;
 import com.titan.hptrivia.network.RestClientImpl;
 import com.titan.hptrivia.util.CustomTextView;
@@ -32,15 +31,12 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
 
     // UI elements
     private Button buttonStartQuiz;
-    private Button buttonContinueQuiz;
-    private Button buttonCreateQuiz;
-    private Button buttonClearDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_home_new);
 
         quizPersister = QuizPersister.getInstance();
         restClient = new RestClientImpl(getApplicationContext());
@@ -65,17 +61,20 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
             @Override
             public void onClick(View v) {
 
-                if (quizPersister.hasQuiz()) {
+/*                if (quizPersister.hasQuiz()) {
                     QuizManager.getInstance().loadQuiz(quizPersister.getStoredQuiz());
                     Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
                     startActivity(intent);
                 } else {
-                    Utils.makeShortToast(getApplicationContext(), "Create a quiz first!");
-                }
+                    setProgressBarIndeterminateVisibility(true);
+                    restClient.generateNewQuiz(5);
+                }*/
+                setProgressBarIndeterminateVisibility(true);
+                restClient.generateNewQuiz(5);
             }
         });
 
-        buttonCreateQuiz = (Button) findViewById(R.id.buttonCreateQuiz);
+/*        buttonCreateQuiz = (Button) findViewById(R.id.buttonCreateQuiz);
         buttonCreateQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +98,8 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
 
         buttonContinueQuiz = (Button) findViewById(R.id.buttonContinueQuiz);
         buttonContinueQuiz.setClickable(false);
-//TODO setActivated is API 11        buttonContinueQuiz.setActivated(false);
+        //TODO setActivated is API 11        buttonContinueQuiz.setActivated(false);
+    */
     }
 
     private void setTitleFont() {
@@ -153,7 +153,9 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
     @Override
     public void onNewQuizStored(Quiz quiz) {
     //    buttonStartQuiz.setActivated(true);
-        buttonStartQuiz.setBackgroundColor(getResources().getColor(R.color.blue));
+    //    buttonStartQuiz.setBackgroundColor(getResources().getColor(R.color.blue));
         setProgressBarIndeterminateVisibility(false);
+        Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
+        startActivity(intent);
     }
 }

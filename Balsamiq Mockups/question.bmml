@@ -1,27 +1,27 @@
-<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="523" measuredH="550" mockupW="282" mockupH="510">
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="744" measuredH="544" mockupW="282" mockupH="510">
   <controls>
-    <control controlID="0" controlTypeID="com.balsamiq.mockups::iPhone" x="241" y="40" w="-1" h="-1" measuredW="282" measuredH="510" zOrder="0" locked="false" isInGroup="-1"/>
-    <control controlID="4" controlTypeID="com.balsamiq.mockups::Button" x="289" y="412" w="185" h="36" measuredW="80" measuredH="27" zOrder="1" locked="false" isInGroup="-1">
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::iPhone" x="462" y="34" w="-1" h="-1" measuredW="282" measuredH="510" zOrder="0" locked="false" isInGroup="-1"/>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::Button" x="510" y="406" w="185" h="36" measuredW="80" measuredH="27" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Answer%20D</text>
       </controlProperties>
     </control>
-    <control controlID="5" controlTypeID="com.balsamiq.mockups::Button" x="289" y="368" w="185" h="36" measuredW="80" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Button" x="510" y="362" w="185" h="36" measuredW="80" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Answer%20C</text>
       </controlProperties>
     </control>
-    <control controlID="6" controlTypeID="com.balsamiq.mockups::Button" x="289" y="323" w="185" h="36" measuredW="80" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::Button" x="510" y="317" w="185" h="36" measuredW="80" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Answer%20B</text>
       </controlProperties>
     </control>
-    <control controlID="7" controlTypeID="com.balsamiq.mockups::Button" x="289" y="279" w="185" h="36" measuredW="80" measuredH="27" zOrder="4" locked="false" isInGroup="-1">
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Button" x="510" y="273" w="185" h="36" measuredW="80" measuredH="27" zOrder="4" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Answer%20A</text>
       </controlProperties>
     </control>
-    <control controlID="8" controlTypeID="com.balsamiq.mockups::Label" x="284" y="189" w="196" h="56" measuredW="537" measuredH="21" zOrder="5" locked="false" isInGroup="-1">
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::Label" x="505" y="183" w="196" h="56" measuredW="532" measuredH="21" zOrder="5" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Here%20is%20a%20sample%20question%20I%20might%20ask%20the%20user%20to%20answer%20by%20tapping%20one%20of%20the%20buttons%20below</text>
       </controlProperties>

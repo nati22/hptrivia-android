@@ -1,25 +1,33 @@
-<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="464" measuredH="613" mockupW="282" mockupH="510">
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1093" measuredH="545" mockupW="631" mockupH="510">
   <controls>
-    <control controlID="3" controlTypeID="com.balsamiq.mockups::Canvas" x="206" y="166" w="235" h="410" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="-1">
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Canvas" x="486" y="98" w="235" h="410" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
         <color>16767334</color>
       </controlProperties>
     </control>
-    <control controlID="4" controlTypeID="com.balsamiq.mockups::iPhone" x="182" y="103" w="-1" h="-1" measuredW="282" measuredH="510" zOrder="1" locked="false" isInGroup="-1">
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::iPhone" x="462" y="35" w="-1" h="-1" measuredW="282" measuredH="510" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
         <bgPattern>allBlack</bgPattern>
         <bgTransparent>true</bgTransparent>
       </controlProperties>
     </control>
-    <control controlID="5" controlTypeID="com.balsamiq.mockups::Button" x="249" y="341" w="149" h="35" measuredW="83" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Button" x="529" y="378" w="149" h="35" measuredW="83" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
       <controlProperties>
+        <color>6989903</color>
         <text>Start%20Quiz</text>
       </controlProperties>
     </control>
-    <control controlID="6" controlTypeID="com.balsamiq.mockups::Image" x="274" y="219" w="99" h="81" measuredW="500" measuredH="411" zOrder="3" locked="false" isInGroup="-1">
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::Image" x="994" y="163" w="99" h="81" measuredW="500" measuredH="411" zOrder="3" locked="false" isInGroup="-1">
       <controlProperties>
         <src>./56651304_a85c58d7c3.jpg</src>
         <text/>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Label" x="529" y="184" w="148" h="48" measuredW="143" measuredH="50" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>40</size>
+        <text>hptrivia</text>
       </controlProperties>
     </control>
   </controls>
