@@ -38,6 +38,10 @@ public class ResultsActivity extends ActionBarActivity {
         // get views
         listViewResults = (ListView) findViewById(R.id.listViewResults);
 
+        // set ListView header (title)
+        View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.cell_results_listview_header, null);
+        listViewResults.addHeaderView(v);
+
         // set up list adapter
         adapter = new ResultsAdapter(getApplicationContext(), datResponse.getAllQuestionResponses());
         listViewResults.setAdapter(adapter);
