@@ -199,15 +199,14 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
 
     @Override
     public void onConnected(Bundle bundle) {
-        Toast.makeText(getApplicationContext(), "connected", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onConnected called");
 
         if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
             String personName = currentPerson.getDisplayName();
             Log.d(TAG, "personName = " + personName);
-            Toast.makeText(getApplicationContext(), personName, Toast.LENGTH_SHORT).show();
-            String personPhoto = currentPerson.getImage().toString();
+            Log.d(TAG, "img url: " + currentPerson.getImage().getUrl());
+
             String personGooglePlusProfile = currentPerson.getUrl();
         } else Log.e(TAG, "current person == NULL");
     }
@@ -224,6 +223,8 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
         Log.e(TAG, "error code " + connectionResult.getErrorCode());
         Log.e(TAG, "connectionResult resolution: " + connectionResult.getResolution());
         Log.e(TAG, "connectionResult.toString" + connectionResult.toString());
+
+        // handle different issues: http://goo.gl/WkezlF
 
         if (!mIntentInProgress && connectionResult.hasResolution()) {
             try {
