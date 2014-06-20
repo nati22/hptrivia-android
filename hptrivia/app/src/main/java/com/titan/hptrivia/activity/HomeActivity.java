@@ -114,7 +114,7 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
                 if (v.getId() == R.id.sign_in_button
                         && !mGoogleApiClient.isConnecting()) {
                     if (mSignInClicked) {
-                        resolveSignInError();
+                        if (!mGoogleApiClient.isConnected()) resolveSignInError();
                     } else {
                         mGoogleApiClient.connect();
                         mSignInClicked = true;
