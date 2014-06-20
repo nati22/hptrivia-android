@@ -8,11 +8,11 @@
         revision="19.1.0"
         sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
     <item
-        dex="/Users/ntessema/Documents/workspace/hptrivia-android/hptrivia/app/build/intermediates/pre-dexed/debug/classes-288e3e7e895c02cb269f8ee7f82db1540f90d3a4.jar"
-        jar="/Users/ntessema/Documents/workspace/hptrivia-android/hptrivia/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.4.52/classes.jar"
+        dex="/Users/ntessema/Documents/workspace/hptrivia-android/hptrivia/app/build/intermediates/pre-dexed/debug/classes-68db894011bb4de2b059ce8314e6abad27dfdf27.jar"
+        jar="/Users/ntessema/Documents/workspace/hptrivia-android/hptrivia/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.2.42/classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="3dfdf1db5ce5ea2999a5dcde8c8e650b02660059"/>
+        sha1="e5f81129dfb3d02df80126512bc98278ed2bb40a"/>
     <item
         dex="/Users/ntessema/Documents/workspace/hptrivia-android/hptrivia/app/build/intermediates/pre-dexed/debug/classes-c6b1c1567d045e27120374faac4855938cb464f9.jar"
         jar="/Users/ntessema/Documents/workspace/hptrivia-android/hptrivia/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
