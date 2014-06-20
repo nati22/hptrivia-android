@@ -2,6 +2,7 @@ package com.titan.hptrivia.activity;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.IntentSender.SendIntentException;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
@@ -37,6 +39,7 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
 
     // UI elements
     private Button buttonStartQuiz;
+    private SignInButton buttonGoogleSignIn;
 
     // Google+ auth
     /* Request code used to invoke sign in user interactions. */
@@ -49,6 +52,16 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
      * us from starting further intents.
      */
     private boolean mIntentInProgress;
+
+    /* Track whether the sign-in button has been clicked so that we know to resolve
+    * all issues preventing sign-in without waiting.
+    */
+    private boolean mSignInClicked = false;
+
+    /* Store the connection result from onConnectionFailed callbacks so that we can
+    * resolve them when the user clicks sign-in.
+    */
+    private ConnectionResult mConnectionResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +77,12 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .build();
 
-        // set Google+ button click listener
 
         quizPersister = QuizPersister.getInstance();
         restClient = new RestClientImpl(getApplicationContext());
 
         inflateXML();
-
-        setTitleFont();
+        setTitleBarFont();
 
     }
 
@@ -84,53 +95,36 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
         titleText.setTextSize(80);
 
         buttonStartQuiz = (Button) findViewById(R.id.buttonStartQuiz);
-        if (!quizPersister.hasQuiz()) buttonStartQuiz.setBackgroundColor(getResources().getColor(R.color.gray));
+        if (!quizPersister.hasQuiz())
+            buttonStartQuiz.setBackgroundColor(getResources().getColor(R.color.gray));
         buttonStartQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-/*                if (quizPersister.hasQuiz()) {
-                    QuizManager.getInstance().loadQuiz(quizPersister.getStoredQuiz());
-                    Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
-                    startActivity(intent);
-                } else {
-                    setProgressBarIndeterminateVisibility(true);
-                    restClient.generateNewQuiz(5);
-                }*/
                 setProgressBarIndeterminateVisibility(true);
                 restClient.generateNewQuiz(5);
             }
         });
 
-/*        buttonCreateQuiz = (Button) findViewById(R.id.buttonCreateQuiz);
-        buttonCreateQuiz.setOnClickListener(new View.OnClickListener() {
+        // Google+ sign in button
+        buttonGoogleSignIn = (SignInButton) findViewById(R.id.sign_in_button);
+        buttonGoogleSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (quizPersister.hasQuiz()) quizPersister.deleteStoredQuiz();
-
-                setProgressBarIndeterminateVisibility(true);
-
-                restClient.generateNewQuiz(5);
+                if (v.getId() == R.id.sign_in_button
+                        && !mGoogleApiClient.isConnecting()) {
+                    if (mSignInClicked) {
+                        resolveSignInError();
+                    } else {
+                        mGoogleApiClient.connect();
+                        mSignInClicked = true;
+                    }
+                }
             }
         });
-
-        buttonClearDB = (Button) findViewById(R.id.buttonClearDB);
-        buttonClearDB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                quizPersister.deleteStoredQuiz();
-                buttonStartQuiz.setBackgroundColor(getResources().getColor(R.color.gray));
-            }
-        });
-
-        buttonContinueQuiz = (Button) findViewById(R.id.buttonContinueQuiz);
-        buttonContinueQuiz.setClickable(false);
-        //TODO setActivated is API 11        buttonContinueQuiz.setActivated(false);
-    */
     }
 
-    private void setTitleFont() {
+    private void setTitleBarFont() {
         this.getSupportActionBar().setDisplayShowCustomEnabled(true);
         this.getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -175,7 +169,7 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+//        mGoogleApiClient.connect();
     }
 
     @Override
@@ -183,9 +177,9 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
         super.onStop();
         quizPersister.removeNewQuizListener(this);
 
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
+//        if (mGoogleApiClient.isConnected()) {
+//            mGoogleApiClient.disconnect();
+//        }
     }
 
     @Override
@@ -204,6 +198,7 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
         if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
             String personName = currentPerson.getDisplayName();
+            Toast.makeText(getApplicationContext(), "connected as " + personName, Toast.LENGTH_SHORT).show();
             Log.d(TAG, "personName = " + personName);
             Log.d(TAG, "img url: " + currentPerson.getImage().getUrl());
 
@@ -226,7 +221,19 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
 
         // handle different issues: http://goo.gl/WkezlF
 
-        if (!mIntentInProgress && connectionResult.hasResolution()) {
+        if (!mIntentInProgress) {
+            // Store the ConnectionResult so that we can use it later when the user clicks
+            // 'sign-in'.
+            mConnectionResult = connectionResult;
+
+            if (mSignInClicked) {
+                // The user has already clicked 'sign-in' so we attempt to resolve all
+                // errors until the user is signed in, or they cancel.
+                resolveSignInError();
+            }
+        }
+
+/*        if (!mIntentInProgress && connectionResult.hasResolution()) {
             try {
                 mIntentInProgress = true;
             //    startIntentSenderForResult(connectionResult.getResolution().getIntentSender(),
@@ -238,16 +245,34 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
                 mIntentInProgress = false;
                 mGoogleApiClient.connect();
             }
-        }
-        Toast.makeText(getApplicationContext(), "connection failed", Toast.LENGTH_SHORT).show();
+        }*/
     //    Log.e(TAG, "connection failed: (error code " + connectionResult.getErrorCode()
     //            + "), \ntoString" + connectionResult.toString() + ",\nresolution.toString: " + connectionResult.getResolution().toString());
     }
 
+    /* A helper method to resolve the current ConnectionResult error. */
+    private void resolveSignInError() {
+        if (mConnectionResult.hasResolution()) {
+            try {
+                mIntentInProgress = true;
+                startIntentSenderForResult(mConnectionResult.getResolution().getIntentSender(),
+                        RC_SIGN_IN, null, 0, 0, 0);
+            } catch (SendIntentException e) {
+                // The intent was canceled before it was sent.  Return to the default
+                // state and attempt to connect to get an updated ConnectionResult.
+                mIntentInProgress = false;
+                mGoogleApiClient.connect();
+            }
+        }
+    }
+
     protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
+        Log.d(TAG, "onActivityResult called");
         if (requestCode == RC_SIGN_IN) {
+/*            if (responseCode != RESULT_OK) {
+                mSignInClicked = false;
+            }*/
             mIntentInProgress = false;
-            Log.d(TAG, "onActivityResult called");
 
             if (!mGoogleApiClient.isConnecting()) {
                 mGoogleApiClient.connect();
