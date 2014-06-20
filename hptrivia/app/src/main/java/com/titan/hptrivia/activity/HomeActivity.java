@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 import com.titan.hptrivia.R;
 import com.titan.hptrivia.model.NewQuizListener;
 import com.titan.hptrivia.model.Quiz;
@@ -60,7 +61,7 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(Plus.API)
-    //            .addScope(Plus.SCOPE_PLUS_LOGIN)
+                .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .build();
 
         // set Google+ button click listener
@@ -200,6 +201,15 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
     public void onConnected(Bundle bundle) {
         Toast.makeText(getApplicationContext(), "connected", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onConnected called");
+
+        if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+            Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+            String personName = currentPerson.getDisplayName();
+            Log.d(TAG, "personName = " + personName);
+            Toast.makeText(getApplicationContext(), personName, Toast.LENGTH_SHORT).show();
+            String personPhoto = currentPerson.getImage().toString();
+            String personGooglePlusProfile = currentPerson.getUrl();
+        } else Log.e(TAG, "current person == NULL");
     }
 
     @Override
