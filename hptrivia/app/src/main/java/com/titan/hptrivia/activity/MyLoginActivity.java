@@ -57,6 +57,7 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().hide();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -95,19 +96,22 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
 
         if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-            Log.d(TAG, "id = " + currentPerson.getId());
+
             String personName = currentPerson.getDisplayName();
             Toast.makeText(getApplicationContext(), "connected as " + personName, Toast.LENGTH_SHORT).show();
             String personGooglePlusProfile = currentPerson.getUrl();
-            Log.d(TAG, "about me: " + currentPerson.getAboutMe());
-            Log.d(TAG, "img url = " + currentPerson.getImage().getUrl());
-            Log.d(TAG, "brag = " + currentPerson.getBraggingRights());
-            Toast.makeText(getApplicationContext(), "brag = " + currentPerson.getBraggingRights(), Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "+1 count = " + currentPerson.getPlusOneCount());
+
+            // halt UI thread while i store new User on my server
 
             // store in SharedPrefs that user should auto-login next time
             prefs.edit().putBoolean(Keys.PREFS.AUTO_LOGIN.name(), true).commit();
             // TODO remove this from SharedPrefs when the user signs out
+
+            // send user to HomeActivity
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+
+            finish();
 
         } else Log.e(TAG, "current person == NULL");
     }
