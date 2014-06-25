@@ -2,9 +2,12 @@ package com.titan.hptrivia.activity;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,8 +22,8 @@ import com.titan.hptrivia.model.Quiz;
 import com.titan.hptrivia.model.QuizPersister;
 import com.titan.hptrivia.network.RestClientImpl;
 import com.titan.hptrivia.util.CustomTextView;
+import com.titan.hptrivia.util.Keys;
 import com.titan.hptrivia.util.Utils;
-
 
 public class HomeActivity extends ActionBarActivity implements NewQuizListener {
 
@@ -29,6 +32,8 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
     private QuizPersister quizPersister;
     private RestClientImpl restClient;
 
+    private SharedPreferences prefs;
+
     // UI elements
     private Button buttonStartQuiz;
 
@@ -36,14 +41,18 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_home_new);
 
         quizPersister = QuizPersister.getInstance();
         restClient = new RestClientImpl(getApplicationContext());
 
-        inflateXML();
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        setTitleFont();
+        inflateXML();
+        setTitleBarFont();
+
+        // Make sure we're logged in
 
     }
 
@@ -56,53 +65,20 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
         titleText.setTextSize(80);
 
         buttonStartQuiz = (Button) findViewById(R.id.buttonStartQuiz);
-        if (!quizPersister.hasQuiz()) buttonStartQuiz.setBackgroundColor(getResources().getColor(R.color.gray));
+        if (!quizPersister.hasQuiz())
+            buttonStartQuiz.setBackgroundColor(getResources().getColor(R.color.gray));
         buttonStartQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-/*                if (quizPersister.hasQuiz()) {
-                    QuizManager.getInstance().loadQuiz(quizPersister.getStoredQuiz());
-                    Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
-                    startActivity(intent);
-                } else {
-                    setProgressBarIndeterminateVisibility(true);
-                    restClient.generateNewQuiz(5);
-                }*/
                 setProgressBarIndeterminateVisibility(true);
                 restClient.generateNewQuiz(5);
             }
         });
 
-/*        buttonCreateQuiz = (Button) findViewById(R.id.buttonCreateQuiz);
-        buttonCreateQuiz.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (quizPersister.hasQuiz()) quizPersister.deleteStoredQuiz();
-
-                setProgressBarIndeterminateVisibility(true);
-
-                restClient.generateNewQuiz(5);
-            }
-        });
-
-        buttonClearDB = (Button) findViewById(R.id.buttonClearDB);
-        buttonClearDB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                quizPersister.deleteStoredQuiz();
-                buttonStartQuiz.setBackgroundColor(getResources().getColor(R.color.gray));
-            }
-        });
-
-        buttonContinueQuiz = (Button) findViewById(R.id.buttonContinueQuiz);
-        buttonContinueQuiz.setClickable(false);
-        //TODO setActivated is API 11        buttonContinueQuiz.setActivated(false);
-    */
     }
 
-    private void setTitleFont() {
+    private void setTitleBarFont() {
         this.getSupportActionBar().setDisplayShowCustomEnabled(true);
         this.getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -114,6 +90,26 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
 
         // assign the view to the actionbar
         this.getSupportActionBar().setCustomView(v);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(0, 0);
+        quizPersister.addNewQuizListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        quizPersister.removeNewQuizListener(this);
+    }
+
+    @Override
+    public void onNewQuizStored(Quiz quiz) {
+        setProgressBarIndeterminateVisibility(false);
+        Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -132,30 +128,13 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
             case R.id.action_home_settings:
                 Utils.makeShortToast(getApplicationContext(), "Home Settings");
                 return true;
+            case R.id.action_home_sign_out:
+                // remove "auto-login-ability"
+                prefs.edit().putBoolean(Keys.PREFS.AUTO_LOGIN.name(), false).commit();
+                Log.d(TAG, "Signing out. auto login = " + prefs.getBoolean(Keys.PREFS.AUTO_LOGIN.name(), false));
+                Intent intent = new Intent(this, MyLoginActivity.class);
+                this.startActivity(intent);
         }
-
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        overridePendingTransition(0, 0);
-        quizPersister.addNewQuizListener(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        quizPersister.removeNewQuizListener(this);
-    }
-
-    @Override
-    public void onNewQuizStored(Quiz quiz) {
-    //    buttonStartQuiz.setActivated(true);
-    //    buttonStartQuiz.setBackgroundColor(getResources().getColor(R.color.blue));
-        setProgressBarIndeterminateVisibility(false);
-        Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
-        startActivity(intent);
     }
 }

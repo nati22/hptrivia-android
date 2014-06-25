@@ -6,6 +6,7 @@
 
     <!-- HomeActivity menu -->
     <string name="action_home_settings">Settings</string>
+    <string name="action_home_sign_out">Sign Out</string>
 
     <!-- QuizActivity menu -->
     <string name="action_quiz_settings">Settings</string>
@@ -16,7 +17,6 @@
     <string name="button_start_quiz">Start Quiz</string>
     <string name="button_create_quiz">Create Quiz</string> <!-- remove this once Create Quiz button is removed -->
     <string name="button_continue_quiz">Continue</string>
-
     <string name="title_activity_results">ResultsActivity</string>
     <string name="action_settings">Settings</string>
     <string name="title_results">Results</string>
@@ -27,5 +27,6 @@
     <!-- ResultsActivity cells -->
     <string name="correct_answer">correct answer: </string>
     <string name="your_answer">you answered:</string>
+    <string name="title_activity_my_login">MyLoginActivity</string>
 
 </resources>

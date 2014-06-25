@@ -32,5 +32,4 @@
         android:textStyle="bold"
         android:text="@string/button_start_quiz" />
 
-
 </RelativeLayout>

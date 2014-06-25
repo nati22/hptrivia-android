@@ -28,7 +28,7 @@ public final class RestClientImpl implements RestClient {
 
         List<NameValuePair> parameters = new ArrayList<NameValuePair>();
         parameters.add(new BasicNameValuePair(Keys.REST_API.NUM_QUESTIONS.name(), numQuestions + ""));
-        new NewQuizAsyncTask(context, parameters).execute();
+        new PostQuizAsyncTask(context, parameters).execute();
 
     }
 }

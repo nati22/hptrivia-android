@@ -4,6 +4,13 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Permission to retrieve the account name (email) as part of sign-in -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!--
+    To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user.
+    This disconnect option is required to comply with the Google+ Sign-In developer policies
+    -->
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
     <application
         android:name=".util.BaseApplication"
@@ -14,11 +21,6 @@
         <activity
             android:name=".activity.HomeActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activity.QuizActivity"
@@ -33,6 +35,28 @@
             android:label="@string/title_activity_results"
             android:parentActivityName=".activity.HomeActivity" >
         </activity>
+        <activity
+            android:name=".activity.MyLoginActivity"
+            android:label="@string/title_activity_login" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".activity.LoginActivity.java.MyLoginActivity"
+            android:label="@string/title_activity_my_login" >
+        </activity>
     </application>
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
 </manifest>
