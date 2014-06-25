@@ -21,6 +21,11 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.titan.hptrivia.R;
 import com.titan.hptrivia.util.Utils;
+import com.titan.hptrivia.network.*;
+
+import org.apache.http.NameValuePair;
+
+import java.util.ArrayList;
 
 public class MyLoginActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -101,9 +106,9 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
             Toast.makeText(getApplicationContext(), "connected as " + personName, Toast.LENGTH_SHORT).show();
             String personGooglePlusProfile = currentPerson.getUrl();
 
-            // halt UI thread while i store new User on my server
+            // sign in to my servers
+            new PutUserAsyncTask(this, "", new ArrayList<NameValuePair>()).execute();
 
-            // send user to HomeActivity
 
 //            Intent intent = new Intent(this, HomeActivity.class);
 //            startActivity(intent);

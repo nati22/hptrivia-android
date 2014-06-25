@@ -2,9 +2,11 @@ package com.titan.hptrivia.network;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.titan.hptrivia.activity.HomeActivity;
 import com.titan.hptrivia.network.base.BasePutRequestAsyncTask;
 import com.titan.hptrivia.util.Keys;
 
@@ -15,16 +17,16 @@ import java.util.List;
 /**
  * Created by ntessema on 6/24/14.
  */
-final class NewUserAsyncTask extends BasePutRequestAsyncTask<String> {
+public final class PutUserAsyncTask extends BasePutRequestAsyncTask<String> {
 
-    private static final String TAG = NewUserAsyncTask.class.getSimpleName();
-    private static final String uriSuffix = "/users/";
+    private static final String TAG = PutUserAsyncTask.class.getSimpleName();
+    private static final String uriSuffix = "/user/";
 
     // create progress dialog
     private ProgressDialog pDialog;
     // try to create a new user
 
-    protected NewUserAsyncTask(Context context, String id, List<NameValuePair> params) {
+    public PutUserAsyncTask(Context context, String id, List<NameValuePair> params) {
         super(context, uriSuffix + id, params);
 
         // initialize ProgressDialog
@@ -34,10 +36,13 @@ final class NewUserAsyncTask extends BasePutRequestAsyncTask<String> {
     }
 
     @Override
-    public String call() throws Exception {
-
-       // display dialog
+    protected void onPreExecute() {
+        super.onPreExecute();
         pDialog.show();
+    }
+
+    @Override
+    public String call() throws Exception {
 
         // Execute the PUT request
         super.call();
@@ -48,15 +53,17 @@ final class NewUserAsyncTask extends BasePutRequestAsyncTask<String> {
     @Override
     protected void onSuccess(String s) throws Exception {
         super.onSuccess(s);
-        Log.v(TAG, "Server response: \"" + s + "\"");
+        Log.v(TAG, "Server response: " + s);
 
         // store in SharedPrefs that user should auto-login next time
         PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(Keys.PREFS.AUTO_LOGIN.name(), true).commit();
         // TODO remove this from SharedPrefs when the user signs out
 
-//        Intent intent = new Intent(context, HomeActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // remove MyLoginActivity from backstack
-//        context.startActivity(intent);
+        pDialog.dismiss();
+
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // remove MyLoginActivity from backstack
+        context.startActivity(intent);
 
     }
 

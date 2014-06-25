@@ -14,12 +14,12 @@ import java.util.List;
 /**
  * Created by ntessema on 6/3/14.
  */
-final class NewQuizAsyncTask extends BasePostRequestAsyncTask<String> {
+final class PostQuizAsyncTask extends BasePostRequestAsyncTask<String> {
 
-    private static final String TAG = NewQuizAsyncTask.class.getSimpleName();
+    private static final String TAG = PostQuizAsyncTask.class.getSimpleName();
     private static final String uriSuffix = "/questionset";
 
-    protected NewQuizAsyncTask(Context context, List<NameValuePair> parameters) {
+    protected PostQuizAsyncTask(Context context, List<NameValuePair> parameters) {
         super(context, uriSuffix, parameters);
     }
 
