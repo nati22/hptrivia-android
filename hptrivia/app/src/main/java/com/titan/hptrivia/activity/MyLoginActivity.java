@@ -1,5 +1,6 @@
 package com.titan.hptrivia.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -19,7 +20,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.titan.hptrivia.R;
-import com.titan.hptrivia.util.Keys;
 import com.titan.hptrivia.util.Utils;
 
 public class MyLoginActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -30,6 +30,8 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
 
     // UI
     private SignInButton buttonGoogleSignIn;
+    /* This dialog is displayed while registering the user on my servers */
+    private ProgressDialog pDialog;
 
     // Google+ auth
     /* Request code used to invoke sign in user interactions. */
@@ -39,13 +41,11 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
     private GoogleApiClient mGoogleApiClient;
 
     /* A flag indicating that a PendingIntent is in progress and prevents
-     * us from starting further intents.
-     */
+     * us from starting further intents. */
     private boolean mIntentInProgress;
 
     /* Track whether the sign-in button has been clicked so that we know to resolve
-    * all issues preventing sign-in without waiting.
-    */
+    * all issues preventing sign-in without waiting. */
     private boolean mSignInClicked = false;
 
     /* Store the connection result from onConnectionFailed callbacks so that we can
@@ -103,15 +103,13 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
 
             // halt UI thread while i store new User on my server
 
-            // store in SharedPrefs that user should auto-login next time
-            prefs.edit().putBoolean(Keys.PREFS.AUTO_LOGIN.name(), true).commit();
-            // TODO remove this from SharedPrefs when the user signs out
-
             // send user to HomeActivity
-            Intent intent = new Intent(this, HomeActivity.class);
-            startActivity(intent);
 
-            finish();
+//            Intent intent = new Intent(this, HomeActivity.class);
+//            startActivity(intent);
+
+//            finish();
+
 
         } else Log.e(TAG, "current person == NULL");
     }
@@ -140,7 +138,6 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
                 resolveSignInError();
             }
         }
-
     }
 
     /* A helper method to resolve the current ConnectionResult error. */

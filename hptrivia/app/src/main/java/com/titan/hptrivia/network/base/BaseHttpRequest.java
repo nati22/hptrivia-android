@@ -1,4 +1,4 @@
-package com.titan.hptrivia.network;
+package com.titan.hptrivia.network.base;
 
 import android.content.Context;
 import android.util.Log;

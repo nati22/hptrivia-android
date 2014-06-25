@@ -1,9 +1,9 @@
-package com.titan.hptrivia.network;
+package com.titan.hptrivia.network.base;
 
 import android.content.Context;
 import android.util.Log;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
@@ -11,11 +11,12 @@ import org.apache.http.util.EntityUtils;
 /**
  * Created by ntessema on 5/30/14.
  */
-class BaseDeleteRequestAsyncTask<ResultT> extends BaseHttpRequest<ResultT> {
+public abstract class BaseGetRequestAsyncTask<ResultT> extends
+        BaseHttpRequest<ResultT> {
 
-    private static final String TAG = BaseDeleteRequestAsyncTask.class.getSimpleName();
+    private static final String TAG = BaseGetRequestAsyncTask.class.getSimpleName();
 
-    protected BaseDeleteRequestAsyncTask(Context context, String uriSuffix) {
+    protected BaseGetRequestAsyncTask(Context context, String uriSuffix) {
         super(context, uriSuffix);
     }
 
@@ -23,19 +24,20 @@ class BaseDeleteRequestAsyncTask<ResultT> extends BaseHttpRequest<ResultT> {
     public ResultT call() throws Exception {
 
         HttpClient client = new DefaultHttpClient();
-        HttpUriRequest deleteRequest = new HttpDelete(uri);
+        HttpUriRequest getRequest = new HttpGet(uri);
 
-		Log.v("BaseDeleteRequestAsyncTask", "Sending DELETE request with URI: "
+		Log.v("BaseGetRequestAsyncTask.call", "Sending GET request with URI: "
                 + uri);
-        String responseString = EntityUtils.toString(client.execute(
-                deleteRequest).getEntity());
+
+        // The actual network call
+        String responseString = EntityUtils.toString(client.execute(getRequest)
+                .getEntity());
 
         if (responseString != null) {
-			Log.v("BaseDeleteRequestAsyncTask", "Got HTTP result: "
+			Log.v("BaseGetRequestAsyncTask.call", "Got HTTP result: "
 					+ responseString);
         } else {
-            throw new Exception(
-                    "DELETE request receieved null response string.");
+            throw new Exception("GET request receieved null response string.");
         }
 
         // Save the responseString internally, for inheriting classes to use
@@ -44,4 +46,5 @@ class BaseDeleteRequestAsyncTask<ResultT> extends BaseHttpRequest<ResultT> {
 
         return null;
     }
+
 }

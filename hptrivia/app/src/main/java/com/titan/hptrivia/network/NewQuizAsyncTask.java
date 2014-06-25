@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.titan.hptrivia.model.QuizManager;
 import com.titan.hptrivia.model.QuizPersister;
+import com.titan.hptrivia.network.base.BasePostRequestAsyncTask;
 
 import org.apache.http.NameValuePair;
 
