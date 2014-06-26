@@ -127,11 +127,11 @@ public class QuizManager {
         if (isQuizComplete) Log.e(TAG, "THIS SHOULDN'T HAPPEN! questionComplete shouldn't be called on a complete Quiz.");
 
         // store the data about the User's feedback
-        Log.d(TAG, "\nQuestion " + (questionNumber) + ": " + question.getQuestionText()
-                + "\n\tUser answer: " + answer.getText()  + ((answer.equals(question.getCorrectAnswer())) ? "Correct" : "Wrong"));
+//        Log.d(TAG, "\nQuestion " + (questionNumber) + ": " + question.getQuestionText()
+//                + "\n\tUser answer: " + answer.getText()  + ((answer.equals(question.getCorrectAnswer())) ? "Correct" : "Wrong"));
 
         quizResponse.addNewResponse(new QuestionResponse(question, answer));
-        Log.d(TAG, "quizResponse has size " + quizResponse.size());
+//        Log.d(TAG, "quizResponse has size " + quizResponse.size());
 
         // check if we're done
         isQuizComplete = (questionNumber == quiz.size());

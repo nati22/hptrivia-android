@@ -107,6 +107,8 @@ public class ResultsActivity extends ActionBarActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
+            Log.d(TAG, "position: " + position);
+
             QuestionResponse questionResponse = questionResponses.get(position);
 
             if (convertView == null) {
@@ -128,7 +130,7 @@ public class ResultsActivity extends ActionBarActivity {
                 textViewUserAnswer.setBackgroundColor(getResources().getColor(questionResponse.isCorrect() ? R.color.green : R.color.red));
 
             } else {
-                Log.d(TAG, "ListView view at index " + position + " != null");
+            //    Log.d(TAG, "ListView view at index " + position + " != null");
             }
 
             return convertView;

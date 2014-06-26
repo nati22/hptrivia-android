@@ -48,6 +48,8 @@ public class Quiz {
         }
         Log.d("Quiz", "done with while loop.");
 
+        for (Question q : questionList) Log.d("question: ", q.getQuestionText());
+
     /*    for (int i = 1; i <= numQuestions; i++) {
             JSONObject questionJSON = (JSONObject) quizJSON.remove(Keys.QUIZ_JSON.QUESTION.name() + i);
             if (questionJSON == null) {
