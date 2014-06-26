@@ -6,7 +6,7 @@ package com.titan.hptrivia.util;
 public class Keys {
 
     public enum PREFS {
-        QUIZ_EXISTS, ALL_QUESTIONS, LAST_QUESTION, AUTO_LOGIN
+        QUIZ_EXISTS, ALL_QUESTIONS, LAST_QUESTION, AUTO_LOGIN, GOOGLE_PLUS_ID
     }
 
     public enum QUESTION_JSON {
@@ -16,6 +16,10 @@ public class Keys {
     public enum QUIZ_JSON {
         QUESTION // TODO Am I sure that Quiz JSON objects will always only have Questions as elements?
                  // TODO (contd) See Quiz.parseQuiz()
+    }
+
+    public enum USER_JSON {
+        _new, id
     }
 
 
