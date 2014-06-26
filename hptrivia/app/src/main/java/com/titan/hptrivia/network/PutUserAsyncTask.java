@@ -20,7 +20,7 @@ import java.util.List;
 public final class PutUserAsyncTask extends BasePutRequestAsyncTask<String> {
 
     private static final String TAG = PutUserAsyncTask.class.getSimpleName();
-    private static final String uriSuffix = "/user/";
+    private static final String uriSuffix = "/users/";
 
     // create progress dialog
     private ProgressDialog pDialog;

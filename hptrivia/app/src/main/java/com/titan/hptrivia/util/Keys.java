@@ -18,8 +18,10 @@ public class Keys {
                  // TODO (contd) See Quiz.parseQuiz()
     }
 
+
+
     public enum REST_API {
-        NUM_QUESTIONS
+        NUM_QUESTIONS, fn, ln
     }
 
     public static final String KEY_QUIZ_RESPONSE = "quiz_response";
