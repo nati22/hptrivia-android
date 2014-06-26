@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
+import android.support.v4.content.IntentCompat;
 
 import com.titan.hptrivia.activity.HomeActivity;
 import com.titan.hptrivia.network.base.BasePutRequestAsyncTask;
@@ -59,6 +60,9 @@ public final class PutUserAsyncTask extends BasePutRequestAsyncTask<String> {
         String id = (String) jsonObject.get(Keys.USER_JSON.id.name());
         String newUser = (String) jsonObject.get(Keys.USER_JSON._new.name());
 
+        // if user was created successfully, let's close the login page
+        // notify
+
         // store in SharedPrefs that user should auto-login next time
         PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(Keys.PREFS.AUTO_LOGIN.name(), true).commit();
         // TODO remove this from SharedPrefs when the user signs out
@@ -70,6 +74,7 @@ public final class PutUserAsyncTask extends BasePutRequestAsyncTask<String> {
 
         Intent intent = new Intent(context, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // remove MyLoginActivity from backstack
+        intent.addFlags(IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
 
     }

@@ -64,7 +64,7 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        tryToAutoLogin();
+    //    tryToAutoLogin();
 
         restClient = new RestClientImpl(this);
 
@@ -202,6 +202,4 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
             }
         }
     }
-
-
 }
