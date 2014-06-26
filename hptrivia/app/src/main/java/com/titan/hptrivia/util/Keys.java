@@ -6,7 +6,7 @@ package com.titan.hptrivia.util;
 public class Keys {
 
     public enum PREFS {
-        QUIZ_EXISTS, ALL_QUESTIONS, LAST_QUESTION, AUTO_LOGIN
+        QUIZ_EXISTS, ALL_QUESTIONS, LAST_QUESTION, AUTO_LOGIN, GOOGLE_PLUS_ID
     }
 
     public enum QUESTION_JSON {
@@ -18,8 +18,14 @@ public class Keys {
                  // TODO (contd) See Quiz.parseQuiz()
     }
 
+    public enum USER_JSON {
+        _new, id
+    }
+
+
+
     public enum REST_API {
-        NUM_QUESTIONS
+        NUM_QUESTIONS, fn, ln
     }
 
     public static final String KEY_QUIZ_RESPONSE = "quiz_response";

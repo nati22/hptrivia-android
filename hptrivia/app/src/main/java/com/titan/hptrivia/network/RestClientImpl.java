@@ -1,6 +1,9 @@
 package com.titan.hptrivia.network;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.titan.hptrivia.util.Keys;
 
@@ -28,7 +31,34 @@ public final class RestClientImpl implements RestClient {
 
         List<NameValuePair> parameters = new ArrayList<NameValuePair>();
         parameters.add(new BasicNameValuePair(Keys.REST_API.NUM_QUESTIONS.name(), numQuestions + ""));
-        new PostQuizAsyncTask(context, parameters).execute();
+
+        String id = PreferenceManager.getDefaultSharedPreferences(context).getString(Keys.PREFS.GOOGLE_PLUS_ID.name(), "");
+
+        // Sanity check
+        if (id.length() == 0) {
+            Toast.makeText(context, "There was an error creating your quiz.", Toast.LENGTH_SHORT).show();
+            // take user to login screen
+            Log.d(TAG, "Shared Prefs has google+ id: \"" + id + "\"");
+            return;
+        }
+
+        new PostQuizAsyncTask(context, id, parameters).execute();
+    }
+
+    public void createNewUser(String id, String firstName, String lastName) {
+
+        ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair(Keys.REST_API.fn.name(), firstName));
+        params.add(new BasicNameValuePair(Keys.REST_API.ln.name(), lastName));
+
+        if (id.length() == 0) {
+            Toast.makeText(context, "There was an error setting up your account.", Toast.LENGTH_SHORT).show();
+            // take user to login screen
+            Log.d(TAG, "google+ returned id: \"" + id + "\"");
+            return;
+        }
+
+        new PutUserAsyncTask(context, id, params).execute();
 
     }
 }

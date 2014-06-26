@@ -20,18 +20,16 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.titan.hptrivia.R;
+import com.titan.hptrivia.network.RestClientImpl;
+import com.titan.hptrivia.util.Keys;
 import com.titan.hptrivia.util.Utils;
-import com.titan.hptrivia.network.*;
-
-import org.apache.http.NameValuePair;
-
-import java.util.ArrayList;
 
 public class MyLoginActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = MyLoginActivity.class.getSimpleName();
 
     private SharedPreferences prefs;
+    private RestClientImpl restClient;
 
     // UI
     private SignInButton buttonGoogleSignIn;
@@ -65,6 +63,10 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
         getSupportActionBar().hide();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+    //    tryToAutoLogin();
+
+        restClient = new RestClientImpl(this);
 
         // Google+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -106,15 +108,10 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
             Toast.makeText(getApplicationContext(), "connected as " + personName, Toast.LENGTH_SHORT).show();
             String personGooglePlusProfile = currentPerson.getUrl();
 
-            // sign in to my servers
-            new PutUserAsyncTask(this, "", new ArrayList<NameValuePair>()).execute();
-
-
-//            Intent intent = new Intent(this, HomeActivity.class);
-//            startActivity(intent);
-
-//            finish();
-
+            // try to create new user
+            restClient.createNewUser(currentPerson.getId(),
+                    currentPerson.getName().getGivenName(),
+                    currentPerson.getName().getFamilyName());
 
         } else Log.e(TAG, "current person == NULL");
     }
@@ -142,6 +139,18 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
                 // errors until the user is signed in, or they cancel.
                 resolveSignInError();
             }
+        }
+    }
+
+    private void tryToAutoLogin() {
+        if (prefs.getBoolean(Keys.PREFS.AUTO_LOGIN.name(), false)) {
+            Log.d(TAG, "Auto-logging in...");
+
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // remove MyLoginActivity from backstack
+            startActivity(intent);
+
+            finish();
         }
     }
 
@@ -193,6 +202,4 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
             }
         }
     }
-
-
 }

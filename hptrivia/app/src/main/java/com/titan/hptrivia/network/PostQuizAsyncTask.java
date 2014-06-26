@@ -17,10 +17,11 @@ import java.util.List;
 final class PostQuizAsyncTask extends BasePostRequestAsyncTask<String> {
 
     private static final String TAG = PostQuizAsyncTask.class.getSimpleName();
-    private static final String uriSuffix = "/questionset";
+    private static final String uriPrefix = "/users/";
+    private static final String uriSuffix = "/quiz/random";
 
-    protected PostQuizAsyncTask(Context context, List<NameValuePair> parameters) {
-        super(context, uriSuffix, parameters);
+    protected PostQuizAsyncTask(Context context, String id, List<NameValuePair> parameters) {
+        super(context, uriPrefix + id + uriSuffix, parameters);
     }
 
     @Override
