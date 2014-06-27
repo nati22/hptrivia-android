@@ -50,7 +50,6 @@ public final class RestClientImpl implements RestClient {
         ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair(Keys.REST_API.fn.name(), firstName));
         params.add(new BasicNameValuePair(Keys.REST_API.ln.name(), lastName));
-        params.add(new BasicNameValuePair(Keys.REST_API.NUM_QUESTIONS.name(), "5"));
 
         if (id.length() == 0) {
             Toast.makeText(context, "There was an error setting up your account.", Toast.LENGTH_SHORT).show();

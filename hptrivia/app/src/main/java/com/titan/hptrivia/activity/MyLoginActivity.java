@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
@@ -105,7 +104,6 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
 
             String personName = currentPerson.getDisplayName();
-            Toast.makeText(getApplicationContext(), "connected as " + personName, Toast.LENGTH_SHORT).show();
             String personGooglePlusProfile = currentPerson.getUrl();
 
             // try to create new user

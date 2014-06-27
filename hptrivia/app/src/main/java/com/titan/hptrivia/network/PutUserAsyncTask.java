@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v4.content.IntentCompat;
+import android.widget.Toast;
 
 import com.titan.hptrivia.activity.HomeActivity;
 import com.titan.hptrivia.network.base.BasePutRequestAsyncTask;
@@ -55,6 +56,9 @@ public final class PutUserAsyncTask extends BasePutRequestAsyncTask<String> {
     protected void onSuccess(String s) throws Exception {
         super.onSuccess(s);
 
+        Toast.makeText(context, "Connected", Toast.LENGTH_SHORT).show();
+
+
         // get server response
         JSONObject jsonObject = new JSONObject(s);
         String id = (String) jsonObject.get(Keys.USER_JSON.id.name());
@@ -73,8 +77,10 @@ public final class PutUserAsyncTask extends BasePutRequestAsyncTask<String> {
         pDialog.dismiss();
 
         Intent intent = new Intent(context, HomeActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // remove MyLoginActivity from backstack
+        // remove MyLoginActivity from backstack
         intent.addFlags(IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         context.startActivity(intent);
 
     }

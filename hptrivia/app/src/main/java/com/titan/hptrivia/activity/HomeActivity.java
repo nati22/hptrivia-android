@@ -70,7 +70,6 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
         buttonStartQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 setProgressBarIndeterminateVisibility(true);
                 restClient.generateNewQuiz(5);
             }
