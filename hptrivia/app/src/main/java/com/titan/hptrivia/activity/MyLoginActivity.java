@@ -4,6 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -11,7 +14,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
@@ -22,6 +27,8 @@ import com.titan.hptrivia.R;
 import com.titan.hptrivia.network.RestClientImpl;
 import com.titan.hptrivia.util.Keys;
 import com.titan.hptrivia.util.Utils;
+
+import java.io.InputStream;
 
 public class MyLoginActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -105,11 +112,17 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
 
             String personName = currentPerson.getDisplayName();
             String personGooglePlusProfile = currentPerson.getUrl();
+            String personPhotoURL = currentPerson.getImage().getUrl();
+            Log.d(TAG, "image = " + personPhotoURL);
+
+            // get image
+            new DownloadImageTask((ImageView) findViewById(R.id.profile_pic)).execute(personPhotoURL);
+
 
             // try to create new user
-            restClient.createNewUser(currentPerson.getId(),
-                    currentPerson.getName().getGivenName(),
-                    currentPerson.getName().getFamilyName());
+//            restClient.createNewUser(currentPerson.getId(),
+//                    currentPerson.getName().getGivenName(),
+//                    currentPerson.getName().getFamilyName());
 
         } else Log.e(TAG, "current person == NULL");
     }
@@ -200,4 +213,38 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
             }
         }
     }
+
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+
+        private ImageView img;
+
+        public DownloadImageTask(ImageView img) {
+            this.img = img;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+
+            // write image to storage
+
+            // store location in SharedPrefs
+            img.setImageBitmap(result);
+
+            Toast.makeText(getApplicationContext(), "Image downloaded", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
