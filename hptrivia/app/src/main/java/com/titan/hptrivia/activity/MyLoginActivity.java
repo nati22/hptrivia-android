@@ -14,9 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
@@ -109,17 +107,13 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
 
         if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-
-            String personName = currentPerson.getDisplayName();
-            String personGooglePlusProfile = currentPerson.getUrl();
             String personPhotoURL = currentPerson.getImage().getUrl();
 
             // TODO store info in shared prefs
             prefs.edit().putString(Keys.PREFS.GOOGLE_IMG_URL.name(), personPhotoURL).commit();
 
-            // get image
-        //    new DownloadImageTask((ImageView) findViewById(R.id.profile_pic)).execute(personPhotoURL);
-
+            // get image TODO check if pic is on internal storage first? or do i want a fresh copy?
+            new DownloadImageTask().execute(personPhotoURL);
 
             // try to create new user
             restClient.createNewUser(currentPerson.getId(),
@@ -127,6 +121,30 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
                     currentPerson.getName().getFamilyName());
 
         } else Log.e(TAG, "current person == NULL");
+    }
+
+    private void tryToAutoLogin() {
+        if (prefs.getBoolean(Keys.PREFS.AUTO_LOGIN.name(), false)) {
+            Log.d(TAG, "Auto-logging in...");
+
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // remove MyLoginActivity from backstack
+            startActivity(intent);
+
+            finish();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -155,18 +173,6 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
         }
     }
 
-    private void tryToAutoLogin() {
-        if (prefs.getBoolean(Keys.PREFS.AUTO_LOGIN.name(), false)) {
-            Log.d(TAG, "Auto-logging in...");
-
-            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // remove MyLoginActivity from backstack
-            startActivity(intent);
-
-            finish();
-        }
-    }
-
     /* A helper method to resolve the current ConnectionResult error. */
     private void resolveSignInError() {
         if (mConnectionResult.hasResolution()) {
@@ -190,18 +196,6 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
         Log.d(TAG, "onActivityResult called");
         if (requestCode == RC_SIGN_IN) {
@@ -216,14 +210,9 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
         }
     }
 
-
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
-        private ImageView img;
-
-        public DownloadImageTask(ImageView img) {
-            this.img = img;
-        }
+        public DownloadImageTask() {}
 
         protected Bitmap doInBackground(String... urls) {
             String urldisplay = urls[0];
@@ -241,11 +230,12 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
         protected void onPostExecute(Bitmap result) {
 
             // write image to storage
+            String imgLoc = Utils.storeImage(getApplicationContext(), result, prefs.getString(Keys.PREFS.GOOGLE_PLUS_ID.name(), ""));
 
             // store location in SharedPrefs
-            img.setImageBitmap(Utils.convertToCircularBitmap(result));
+            prefs.edit().putBoolean(Keys.PREFS.GOOGLE_IMG_EXISTS_LOCALLY.name(), true).commit();
+            prefs.edit().putString(Keys.PREFS.GOOGLE_IMG_LOCAL_PATH.name(), imgLoc).commit();
 
-            Toast.makeText(getApplicationContext(), "Image downloaded", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -3,6 +3,7 @@ package com.titan.hptrivia.activity;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.titan.hptrivia.R;
@@ -96,6 +98,20 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
         super.onResume();
         overridePendingTransition(0, 0);
         quizPersister.addNewQuizListener(this);
+
+        // set image
+    //    FileInputStream fis;
+
+        if (prefs.getBoolean(Keys.PREFS.GOOGLE_IMG_EXISTS_LOCALLY.name(), false)) {
+    //        try {
+    //            fis = openFileInput(prefs.getString(Keys.PREFS.GOOGLE_IMG_LOCAL_PATH.name(), ""));
+                ((ImageView)findViewById(R.id.profile_pic))
+                        .setImageBitmap(BitmapFactory.decodeFile(prefs.getString(Keys.PREFS.GOOGLE_IMG_LOCAL_PATH.name(), "")));
+    //            fis.close();
+    //        } catch (FileNotFoundException e) { e.printStackTrace();
+    //        } catch (IOException e) { e.printStackTrace(); }
+        }
+
     }
 
     @Override

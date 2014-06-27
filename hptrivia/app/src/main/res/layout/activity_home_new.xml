@@ -32,4 +32,12 @@
         android:textStyle="bold"
         android:text="@string/button_start_quiz" />
 
+    <ImageView
+        android:id="@+id/profile_pic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/buttonStartQuiz"
+        android:layout_margin="10dp"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
