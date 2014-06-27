@@ -85,7 +85,7 @@ public class QuizActivity extends ActionBarActivity implements QuestionCompletio
                 Utils.makeShortToast(getApplicationContext(), "Settings");
                 return true;
             case R.id.action_quiz_report:
-                Utils.makeShortToast(getApplicationContext(), "Challenge the question");
+                Utils.makeShortToast(getApplicationContext(), "Not implemented yet :(");
                 return true;
             case android.R.id.home:
                 onBackPressed();

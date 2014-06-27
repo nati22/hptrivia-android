@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -139,6 +140,9 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
                 prefs.edit().putBoolean(Keys.PREFS.AUTO_LOGIN.name(), false).commit();
                 Log.d(TAG, "Signing out. auto login = " + prefs.getBoolean(Keys.PREFS.AUTO_LOGIN.name(), false));
                 Intent intent = new Intent(this, MyLoginActivity.class);
+                intent.addFlags(IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 this.startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
