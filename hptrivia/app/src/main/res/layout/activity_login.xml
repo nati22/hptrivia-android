@@ -12,7 +12,7 @@
         android:textSize="50dp"
         android:textStyle="bold"
         android:layout_margin="10dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="80dp"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -24,15 +24,5 @@
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"/>
-
-    <ImageView
-        android:id="@+id/profile_pic"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_below="@id/sign_in_button"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="10dp" />
-
-
 
 </RelativeLayout>

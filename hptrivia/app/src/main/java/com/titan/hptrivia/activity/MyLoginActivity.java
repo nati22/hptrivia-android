@@ -113,16 +113,18 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
             String personName = currentPerson.getDisplayName();
             String personGooglePlusProfile = currentPerson.getUrl();
             String personPhotoURL = currentPerson.getImage().getUrl();
-            Log.d(TAG, "image = " + personPhotoURL);
+
+            // TODO store info in shared prefs
+            prefs.edit().putString(Keys.PREFS.GOOGLE_IMG_URL.name(), personPhotoURL).commit();
 
             // get image
-            new DownloadImageTask((ImageView) findViewById(R.id.profile_pic)).execute(personPhotoURL);
+        //    new DownloadImageTask((ImageView) findViewById(R.id.profile_pic)).execute(personPhotoURL);
 
 
             // try to create new user
-//            restClient.createNewUser(currentPerson.getId(),
-//                    currentPerson.getName().getGivenName(),
-//                    currentPerson.getName().getFamilyName());
+            restClient.createNewUser(currentPerson.getId(),
+                    currentPerson.getName().getGivenName(),
+                    currentPerson.getName().getFamilyName());
 
         } else Log.e(TAG, "current person == NULL");
     }
@@ -241,7 +243,7 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
             // write image to storage
 
             // store location in SharedPrefs
-            img.setImageBitmap(result);
+            img.setImageBitmap(Utils.convertToCircularBitmap(result));
 
             Toast.makeText(getApplicationContext(), "Image downloaded", Toast.LENGTH_SHORT).show();
         }
