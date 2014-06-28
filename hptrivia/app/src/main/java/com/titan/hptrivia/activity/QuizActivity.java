@@ -29,6 +29,7 @@ public class QuizActivity extends ActionBarActivity implements QuestionCompletio
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 

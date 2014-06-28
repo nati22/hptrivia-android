@@ -62,6 +62,7 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
@@ -239,4 +240,9 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
         }
     }
 
+    @Override
+    public void finish() {
+        Utils.makeShortToast(this, "finishing");
+        super.finish();
+    }
 }

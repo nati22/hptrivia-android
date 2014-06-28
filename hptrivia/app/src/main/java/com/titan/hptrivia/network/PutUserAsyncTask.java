@@ -5,11 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v4.content.IntentCompat;
-import android.widget.Toast;
 
 import com.titan.hptrivia.activity.HomeActivity;
 import com.titan.hptrivia.network.base.BasePutRequestAsyncTask;
 import com.titan.hptrivia.util.Keys;
+import com.titan.hptrivia.util.Utils;
 
 import org.apache.http.NameValuePair;
 import org.json.JSONObject;
@@ -56,8 +56,7 @@ public final class PutUserAsyncTask extends BasePutRequestAsyncTask<String> {
     protected void onSuccess(String s) throws Exception {
         super.onSuccess(s);
 
-        Toast.makeText(context, "Connected", Toast.LENGTH_SHORT).show();
-
+        Utils.makeShortToast(context, "Connected");
 
         // get server response
         JSONObject jsonObject = new JSONObject(s);

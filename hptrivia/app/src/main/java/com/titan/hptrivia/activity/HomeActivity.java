@@ -40,6 +40,7 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 //        getSupportActionBar().hide();
