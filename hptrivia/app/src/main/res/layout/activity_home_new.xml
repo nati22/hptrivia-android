@@ -21,8 +21,47 @@
         android:layout_height="wrap_content" />
 
 
+<!--    <RelativeLayout
+        android:id="@+id/videoViewHolder"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@id/textView_appTitle"
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true" >
+
+        <ImageView
+            android:id="@+id/hedwig_last"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/harry_hedwig_last"/>
+
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/hedwig_first"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/harry_hedwig_first"/>
+
+    </RelativeLayout>
+    -->
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_margin="10dp"
+        android:layout_below="@id/textView_appTitle"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true" />
+
+
     <Button
         android:id="@+id/buttonStartQuiz"
+        android:layout_below="@id/videoView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

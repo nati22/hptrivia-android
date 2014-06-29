@@ -3,6 +3,7 @@ package com.titan.hptrivia.activity;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.titan.hptrivia.R;
 import com.titan.hptrivia.model.NewQuizListener;
@@ -25,6 +27,10 @@ import com.titan.hptrivia.network.RestClientImpl;
 import com.titan.hptrivia.util.CustomTextView;
 import com.titan.hptrivia.util.Keys;
 import com.titan.hptrivia.util.Utils;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class HomeActivity extends ActionBarActivity implements NewQuizListener {
 
@@ -53,6 +59,7 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
 
         inflateXML();
         setTitleBarFont();
+        setupAnimation();
 
         // Make sure we're logged in
 
@@ -76,6 +83,47 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
                 restClient.generateNewQuiz(5);
             }
         });
+
+    }
+
+    private void setupAnimation() {
+
+//        final VideoView videoView = ((VideoView) findViewById(R.id.videoView));
+//        final ImageView picFront = ((ImageView) findViewById(R.id.hedwig_first));
+//        final ImageView picLast = ((ImageView) findViewById(R.id.hedwig_last));
+
+        final ScheduledExecutorService worker =
+                Executors.newSingleThreadScheduledExecutor();
+
+        Log.d(TAG, "creating runnable");
+        final VideoView view = (VideoView) findViewById(R.id.videoView);
+        view.setVideoPath("android.resource://" + getPackageName() + "/" + R.raw.harry_eyeroll);
+        view.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(false);
+            }
+        });
+        view.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+       //         view.
+            }
+        });
+        view.start();
+        view.seekTo(10);
+        view.pause();
+//        view.seekTo(0);
+
+        Runnable task = new Runnable() {
+            public void run() {
+                Log.d(TAG, "running video");
+                view.start();
+            }
+        };
+
+        worker.schedule(task, 2, TimeUnit.SECONDS);
+
 
     }
 
@@ -148,4 +196,5 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
