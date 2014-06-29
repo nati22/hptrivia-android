@@ -11,10 +11,10 @@
     <!-- QuizActivity menu -->
     <string name="action_quiz_settings">Settings</string>
     <string name="action_quiz_report">Challenge</string>
-    <string name="title_activity_quiz">QuizActivity</string>
+    <string name="title_activity_quiz">quiz</string>
 
     <!-- UI Buttons -->
-    <string name="button_start_quiz">Start Quiz</string>
+    <string name="button_start_quiz">start quiz</string>
     <string name="button_create_quiz">Create Quiz</string> <!-- remove this once Create Quiz button is removed -->
     <string name="button_continue_quiz">Continue</string>
     <string name="title_activity_results">ResultsActivity</string>

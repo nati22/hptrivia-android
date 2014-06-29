@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -65,7 +66,7 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getSupportActionBar().hide();
+    //    getSupportActionBar().hide();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -100,6 +101,9 @@ public class MyLoginActivity extends ActionBarActivity implements GoogleApiClien
         TextView titleText = ((TextView) findViewById(R.id.textView_loginTitle));
         titleText.setTypeface(Utils.getPotterTypeface(getApplicationContext()));
         titleText.setTextSize(80);
+
+        // set poster width
+        ((ImageView)findViewById(R.id.poster)).setScaleType(ImageView.ScaleType.FIT_XY);
     }
 
     @Override

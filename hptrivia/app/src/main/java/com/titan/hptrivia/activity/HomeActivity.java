@@ -3,7 +3,6 @@ package com.titan.hptrivia.activity;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -17,15 +16,14 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.titan.hptrivia.R;
 import com.titan.hptrivia.model.NewQuizListener;
 import com.titan.hptrivia.model.Quiz;
 import com.titan.hptrivia.model.QuizPersister;
 import com.titan.hptrivia.network.RestClientImpl;
-import com.titan.hptrivia.util.CustomTextView;
 import com.titan.hptrivia.util.Keys;
+import com.titan.hptrivia.util.PotterTextView;
 import com.titan.hptrivia.util.Utils;
 
 import java.util.concurrent.Executors;
@@ -49,8 +47,9 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-//        getSupportActionBar().hide();
-        setContentView(R.layout.activity_home_new);
+    //    getSupportActionBar().hide();
+
+        setContentView(R.layout.activity_home);
 
         quizPersister = QuizPersister.getInstance();
         restClient = new RestClientImpl(getApplicationContext());
@@ -59,7 +58,6 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
 
         inflateXML();
         setTitleBarFont();
-        setupAnimation();
 
         // Make sure we're logged in
 
@@ -86,47 +84,6 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
 
     }
 
-    private void setupAnimation() {
-
-//        final VideoView videoView = ((VideoView) findViewById(R.id.videoView));
-//        final ImageView picFront = ((ImageView) findViewById(R.id.hedwig_first));
-//        final ImageView picLast = ((ImageView) findViewById(R.id.hedwig_last));
-
-        final ScheduledExecutorService worker =
-                Executors.newSingleThreadScheduledExecutor();
-
-        Log.d(TAG, "creating runnable");
-        final VideoView view = (VideoView) findViewById(R.id.videoView);
-        view.setVideoPath("android.resource://" + getPackageName() + "/" + R.raw.harry_eyeroll);
-        view.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.setLooping(false);
-            }
-        });
-        view.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-       //         view.
-            }
-        });
-        view.start();
-        view.seekTo(10);
-        view.pause();
-//        view.seekTo(0);
-
-        Runnable task = new Runnable() {
-            public void run() {
-                Log.d(TAG, "running video");
-                view.start();
-            }
-        };
-
-        worker.schedule(task, 2, TimeUnit.SECONDS);
-
-
-    }
-
     private void setTitleBarFont() {
         this.getSupportActionBar().setDisplayShowCustomEnabled(true);
         this.getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -135,7 +92,7 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
         View v = inflator.inflate(R.layout.custom_title, null);
 
         // if you need to customize anything else about the text, do it here.
-        ((CustomTextView)v.findViewById(R.id.customTitle)).setText(this.getTitle());
+        ((PotterTextView)v.findViewById(R.id.customTitle)).setText(this.getTitle());
 
         // assign the view to the actionbar
         this.getSupportActionBar().setCustomView(v);
@@ -152,6 +109,25 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
 //                ((ImageView)findViewById(R.id.profile_pic))
 //                        .setImageBitmap(BitmapFactory.decodeFile(prefs.getString(Keys.PREFS.GOOGLE_IMG_LOCAL_PATH.name(), "")));
         }
+    }
+
+    private void bringActionBarBack() {
+        final ScheduledExecutorService worker =
+                Executors.newSingleThreadScheduledExecutor();
+
+        Runnable task = new Runnable() {
+            public void run() {
+                Log.d(TAG, "running video");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getSupportActionBar().show();
+                    }
+                });
+            }
+        };
+
+        worker.schedule(task, 2, TimeUnit.SECONDS);
 
     }
 

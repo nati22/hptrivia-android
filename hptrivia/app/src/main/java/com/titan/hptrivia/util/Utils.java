@@ -46,6 +46,14 @@ public class Utils {
         return Typeface.createFromAsset(context.getAssets(), "fonts/HARRYP.TTF");
     }
 
+    public static Typeface getRegularTypeface(Context context) {
+        return Typeface.createFromAsset(context.getAssets(), "fonts/IMPERATOR.TTF");
+    }
+
+    public static Typeface getRegularBoldTypeface(Context context) {
+        return Typeface.createFromAsset(context.getAssets(), "fonts/IMPERATOR_BOLD.TTF");
+    }
+
     public class CONSTANTS {
         public static final int MILLIS_PER_QUESTION = 10000;
         public static final int MILLIS_UPDATE_FREQUENCY = 1000;
