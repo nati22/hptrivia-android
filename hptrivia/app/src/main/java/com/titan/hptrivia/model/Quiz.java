@@ -23,10 +23,12 @@ public class Quiz {
 
     public int size() { return questions.size(); }
 
-    public static Quiz parseQuiz(String quizJSONString) throws JSONException {
-        Log.d("Quiz.parseQuiz", "received " + quizJSONString);
+    public static Quiz parseQuiz(String JSONString) throws JSONException {
+        Log.d("Quiz.parseQuiz", "received " + JSONString);
 
-        JSONObject quizJSON = new JSONObject(quizJSONString.trim());        // TODO should i trim? from (http://stackoverflow.com/questions/9151619/java-iterate-over-jsonobject)
+        JSONObject responseJSON = new JSONObject(JSONString.trim());        // TODO should i trim? from (http://stackoverflow.com/questions/9151619/java-iterate-over-jsonobject)
+        JSONObject quizJSON = new JSONObject(responseJSON.getString("content").replace("\\\"", "\""));
+        Log.d("Quiz.parseQuiz", "content = " + responseJSON.getString("content").replace("\\\"", "\""));
         ArrayList<Question> questionList = new ArrayList<Question>();
 
         // TODO Can I be sure that every element of the Quiz JSON is a Question?
