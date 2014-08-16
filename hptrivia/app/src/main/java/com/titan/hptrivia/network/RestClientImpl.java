@@ -42,7 +42,13 @@ public final class RestClientImpl implements RestClient {
             return;
         }
 
-        new PostQuizAsyncTask(context, id, parameters).execute();
+        new PostQuizAuthenticatedAsyncTask(context, id, parameters).execute();
+    }
+
+    @Override
+    public void generateNewAnonymousQuiz(int numQuestions) {
+
+        new GetAnonQuizAsyncTask(context).execute();
     }
 
     public void createNewUser(String id, String firstName, String lastName) {

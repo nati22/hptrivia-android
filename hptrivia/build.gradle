@@ -9,10 +9,6 @@ buildscript {
     }
 }
 
-task sample {
-    println 'Hello there'
-}
-
 allprojects {
     repositories {
         mavenCentral()

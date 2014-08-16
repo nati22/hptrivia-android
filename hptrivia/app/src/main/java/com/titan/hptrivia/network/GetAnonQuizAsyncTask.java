@@ -5,23 +5,18 @@ import android.util.Log;
 
 import com.titan.hptrivia.model.QuizManager;
 import com.titan.hptrivia.model.QuizPersister;
-import com.titan.hptrivia.network.base.BasePostRequestAsyncTask;
-
-import org.apache.http.NameValuePair;
-
-import java.util.List;
+import com.titan.hptrivia.network.base.BaseGetRequestAsyncTask;
 
 /**
  * Created by ntessema on 6/3/14.
  */
-final class PostQuizAsyncTask extends BasePostRequestAsyncTask<String> {
+final class GetAnonQuizAsyncTask extends BaseGetRequestAsyncTask<String> {
 
-    private static final String TAG = PostQuizAsyncTask.class.getSimpleName();
-    private static final String uriPrefix = "/users/";
-    private static final String uriSuffix = "/quiz/random";
+    private static final String TAG = GetAnonQuizAsyncTask.class.getSimpleName();
+    private static final String url = "/public/quiz/random";
 
-    protected PostQuizAsyncTask(Context context, String id, List<NameValuePair> parameters) {
-        super(context, uriPrefix + id + uriSuffix, parameters);
+    protected GetAnonQuizAsyncTask(Context context) {
+        super(context, url);
     }
 
     @Override
