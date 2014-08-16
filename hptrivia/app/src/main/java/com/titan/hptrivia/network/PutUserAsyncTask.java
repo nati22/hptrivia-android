@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v4.content.IntentCompat;
+import android.util.Log;
 
 import com.titan.hptrivia.activity.HomeActivity;
 import com.titan.hptrivia.network.base.BasePutRequestAsyncTask;
@@ -60,8 +61,10 @@ public final class PutUserAsyncTask extends BasePutRequestAsyncTask<String> {
 
         // get server response
         JSONObject jsonObject = new JSONObject(s);
-        String id = (String) jsonObject.get(Keys.USER_JSON.id.name());
-        String newUser = (String) jsonObject.get(Keys.USER_JSON._new.name());
+        JSONObject contentJSON = new JSONObject(jsonObject.getString("content").replace("\\\"", "\""));
+        Log.d(TAG, "contentJson = " + contentJSON.toString());
+        String id = (String) contentJSON.get(Keys.USER_JSON.id.name());
+        String newUser = (String) contentJSON.get(Keys.USER_JSON._new.name());
 
         // if user was created successfully, let's close the login page
         // notify
