@@ -1,6 +1,7 @@
 package com.titan.hptrivia.util;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -133,6 +134,20 @@ public class Utils {
         String mImageName="IMG_" + id + ".png";
         mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
         return mediaFile;
+    }
+
+    public static int getVersionCode(Context context) {
+        int v = 0;
+        try {
+            v = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            // Huh? Really?
+        }
+        return v;
+    }
+
+    public static String getPackageName(Context context) {
+        return context.getPackageName();
     }
 
 }

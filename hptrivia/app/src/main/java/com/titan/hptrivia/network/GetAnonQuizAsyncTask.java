@@ -7,6 +7,8 @@ import com.titan.hptrivia.model.QuizManager;
 import com.titan.hptrivia.model.QuizPersister;
 import com.titan.hptrivia.network.base.BaseGetRequestAsyncTask;
 
+import org.json.JSONObject;
+
 /**
  * Created by ntessema on 6/3/14.
  */
@@ -31,6 +33,11 @@ final class GetAnonQuizAsyncTask extends BaseGetRequestAsyncTask<String> {
     protected void onSuccess(String s) throws Exception {
         super.onSuccess(s);
         Log.v(TAG, "Storing new quiz in the QuizPersister");
+
+        // Get quiz from content
+        JSONObject responseJSON = new JSONObject(s.trim());        // TODO should i trim? from (http://stackoverflow.com/questions/9151619/java-iterate-over-jsonobject)
+        String quizString = responseJSON.getString("content").replace("\\\"", "\"");
+
         QuizPersister qp = QuizPersister.getInstance();
         qp.storeNewQuiz(s);
         Log.d(TAG, "about to load quiz");

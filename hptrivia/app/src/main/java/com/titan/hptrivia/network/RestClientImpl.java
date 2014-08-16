@@ -6,6 +6,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.titan.hptrivia.util.Keys;
+import com.titan.hptrivia.model.OnUpdateStatusReceived;
+import com.titan.hptrivia.util.Utils;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -65,6 +67,12 @@ public final class RestClientImpl implements RestClient {
         }
 
         new PutUserAsyncTask(context, id, params).execute();
+    }
 
+    public void checkIn(OnUpdateStatusReceived listener) {
+
+        ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("vcode", Utils.getVersionCode(context) + ""));
+        new GetAppInfoAsyncTask(context, listener, params).execute();
     }
 }

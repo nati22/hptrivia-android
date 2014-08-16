@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.IntentCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -21,16 +22,18 @@ import com.titan.hptrivia.R;
 import com.titan.hptrivia.model.NewQuizListener;
 import com.titan.hptrivia.model.Quiz;
 import com.titan.hptrivia.model.QuizPersister;
+import com.titan.hptrivia.model.OnUpdateStatusReceived;
 import com.titan.hptrivia.network.RestClientImpl;
 import com.titan.hptrivia.util.Keys;
 import com.titan.hptrivia.util.PotterTextView;
+import com.titan.hptrivia.util.UpdateNeededDialog;
 import com.titan.hptrivia.util.Utils;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class HomeActivity extends ActionBarActivity implements NewQuizListener {
+public class HomeActivity extends ActionBarActivity implements NewQuizListener, OnUpdateStatusReceived {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
 
@@ -60,7 +63,6 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
         setTitleBarFont();
 
         // Make sure we're logged in
-
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -102,6 +104,10 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Check app version
+        restClient.checkIn(this);
+
         overridePendingTransition(0, 0);
         quizPersister.addNewQuizListener(this);
 
@@ -173,6 +179,15 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener {
                 this.startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onUpdateStatusReceived(boolean x) {
+        Log.d(TAG, "onUpdateStatusReceived");
+
+        FragmentManager fm = getSupportFragmentManager();
+        UpdateNeededDialog updateDialog = new UpdateNeededDialog();
+        updateDialog.show(fm, "fragment_update_needed");
+
     }
 
 }

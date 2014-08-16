@@ -28,5 +28,9 @@
     <string name="correct_answer">correct answer: </string>
     <string name="your_answer">you answered:</string>
     <string name="title_activity_my_login">MyLoginActivity</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Update needed dialog -->
+    <string name="update_needed_msg">Sorry, you need to update the app!</string>
 
 </resources>

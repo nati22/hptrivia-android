@@ -73,7 +73,7 @@ public class QuizPersister {
         try {
             inflatedQuiz = Quiz.parseQuiz(entireQuiz);
         } catch (JSONException e ) {
-            Log.e(TAG, "Could not parse stored Quiz.");
+            Log.e(TAG, "Could not parse stored Quiz: " + entireQuiz);
         }
 
         return inflatedQuiz;
