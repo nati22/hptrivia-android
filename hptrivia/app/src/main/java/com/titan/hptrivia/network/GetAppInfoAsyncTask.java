@@ -52,9 +52,17 @@ public class GetAppInfoAsyncTask extends BasePostRequestAsyncTask<String> {
         }
 
         Log.d(TAG, "need update = " + needsToUpdate);
-        if (needsToUpdate) {
-            listener.onUpdateStatusReceived(needsToUpdate);
+        listener.onUpdateStatusReceived(needsToUpdate);
+
+        String lastUpdateDate = "";
+        String lastUpdatedChapter = "";
+        try {
+            lastUpdateDate = responseJSON.getString("last_updated_date");
+            lastUpdatedChapter = responseJSON.getString("last_updated_chapter");
+        } catch (JSONException e) {
+            Log.e(TAG, "JSONException when parsing: " + s);
         }
+        listener.onLastUpdateTimeReceived(lastUpdateDate, lastUpdatedChapter);
     }
 
 

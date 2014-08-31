@@ -49,7 +49,6 @@ public final class RestClientImpl implements RestClient {
 
     @Override
     public void generateNewAnonymousQuiz(int numQuestions) {
-
         new GetAnonQuizAsyncTask(context).execute();
     }
 
@@ -70,7 +69,6 @@ public final class RestClientImpl implements RestClient {
     }
 
     public void checkIn(OnUpdateStatusReceived listener) {
-
         ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("vcode", Utils.getVersionCode(context) + ""));
         new GetAppInfoAsyncTask(context, listener, params).execute();

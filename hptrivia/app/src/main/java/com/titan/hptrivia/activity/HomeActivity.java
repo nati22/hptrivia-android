@@ -45,6 +45,8 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
     // UI elements
     private Button buttonStartQuiz;
 
+    private TextView textViewLastUpdate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -84,6 +86,8 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
                 restClient.generateNewAnonymousQuiz(5);
             }
         });
+
+        textViewLastUpdate = (TextView) findViewById(R.id.textView_lastUpdated);
 
     }
 
@@ -182,12 +186,20 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
     }
 
     public void onUpdateStatusReceived(boolean x) {
-        Log.d(TAG, "onUpdateStatusReceived");
+        Log.d(TAG, "onUpdateStatusReceived: " + x);
 
-        FragmentManager fm = getSupportFragmentManager();
-        UpdateNeededDialog updateDialog = new UpdateNeededDialog();
-        updateDialog.show(fm, "fragment_update_needed");
-
+        if (x){
+            FragmentManager fm = getSupportFragmentManager();
+            UpdateNeededDialog updateDialog = new UpdateNeededDialog();
+            updateDialog.show(fm, "fragment_update_needed");
+        }
     }
 
+    @Override
+    public void onLastUpdateTimeReceived(String date, String ch) {
+        Log.d(TAG, "onLastUpdateTimeReceived");
+        if (ch != null && date != null && !ch.isEmpty() && !date.isEmpty()) {
+            textViewLastUpdate.setText(String.format("Added chapter %s on %s", ch, date));
+        }
+    }
 }
