@@ -42,6 +42,9 @@ public class QuizManager {
         isQuizComplete = false;
         isLoaded = true;
         quizResponse = new QuizResponse();
+
+        Log.d(TAG, "Quiz loaded...");
+        notifyQuizLoadListeners();
     }
 
     /** Resets the QuizManager. Duhhh. */
@@ -66,7 +69,7 @@ public class QuizManager {
             return null;
         }
 
-        Log.d(TAG, "next question is " + quiz.getQuestion(questionNumber));
+    //    Log.d(TAG, "next question is " + quiz.getQuestion(questionNumber));
 
         quizHasStarted = true;
 
@@ -138,6 +141,27 @@ public class QuizManager {
 
         for (QuestionCompletionListener listener : qcListeners)
             listener.onQuestionCompleted(question, answer);
+    }
+
+    //////////*     QuizLoadListener code    *///////////
+    public interface QuizLoadListener {
+        public void quizLoaded();
+    }
+
+    List<QuizLoadListener> quizLoadListeners = new ArrayList<QuizLoadListener>();
+
+    public boolean addQuizLoadListener(QuizLoadListener listener) {
+        return quizLoadListeners.add(listener);
+    }
+
+    public boolean removeQuizLoadListener(QuizLoadListener listener) {
+        return quizLoadListeners.remove(listener);
+    }
+
+    private void notifyQuizLoadListeners() {
+        for (QuizLoadListener listener : quizLoadListeners) {
+            listener.quizLoaded();
+        }
     }
 
 }

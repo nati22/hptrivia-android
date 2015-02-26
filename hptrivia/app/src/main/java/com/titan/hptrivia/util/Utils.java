@@ -15,16 +15,25 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.titan.hptrivia.model.Question;
+import com.titan.hptrivia.model.Quiz;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by ntessema on 5/30/14.
  */
 public class Utils {
 
+    public static final String TAG = Utils.class.getSimpleName();
     /**
      * Returns true IFF this device is connected to the internet, either through
      * WiFi, 3G or 4G.
@@ -148,6 +157,33 @@ public class Utils {
 
     public static String getPackageName(Context context) {
         return context.getPackageName();
+    }
+
+    public static Quiz getQuizFromFullJson(String fullJson) {
+        Quiz quiz = null;
+
+        try {
+            JSONObject responseJSON = new JSONObject(fullJson.trim());
+            JSONObject quizJSON = new JSONObject(responseJSON.getString("content")/*.replace("\\\"", "\"")*/);
+
+            ArrayList<Question> questionList = new ArrayList<Question>();
+            Iterator<?> iterator = quizJSON.keys();
+
+            while( iterator.hasNext() ){
+                String key = (String)iterator.next();
+                if(quizJSON.get(key) instanceof JSONObject ){
+
+                    JSONObject questionJSON = (JSONObject) quizJSON.get(key);
+                    questionList.add(new Question(questionJSON));
+                }
+            }
+
+            quiz = new Quiz(questionList);
+            Log.d(TAG, "Just created a Quiz with " + quiz.size() + " elements");
+        } catch (JSONException e) {
+            Log.e(TAG, "getQuizJsonFromFullJson() failed. Error: " + e);
+        }
+        return quiz;
     }
 
 }

@@ -37,7 +37,7 @@ final class PostQuizAuthenticatedAsyncTask extends BasePostRequestAsyncTask<Stri
         super.onSuccess(s);
         Log.v(TAG, "Storing new quiz in the QuizPersister");
         QuizPersister qp = QuizPersister.getInstance();
-        qp.storeNewQuiz(s);
+        qp.storeQuizData(s);
         Log.d(TAG, "about to load quiz");
         QuizManager.getInstance().loadQuiz(qp.getStoredQuiz());
     }

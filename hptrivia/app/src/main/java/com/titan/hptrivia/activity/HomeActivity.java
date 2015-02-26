@@ -20,9 +20,9 @@ import android.widget.TextView;
 
 import com.titan.hptrivia.R;
 import com.titan.hptrivia.model.NewQuizListener;
-import com.titan.hptrivia.model.Quiz;
-import com.titan.hptrivia.model.QuizPersister;
 import com.titan.hptrivia.model.OnUpdateStatusReceived;
+import com.titan.hptrivia.model.QuizManager;
+import com.titan.hptrivia.model.QuizPersister;
 import com.titan.hptrivia.network.RestClientImpl;
 import com.titan.hptrivia.util.Keys;
 import com.titan.hptrivia.util.PotterTextView;
@@ -33,7 +33,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class HomeActivity extends ActionBarActivity implements NewQuizListener, OnUpdateStatusReceived {
+public class HomeActivity extends ActionBarActivity implements NewQuizListener,
+        QuizManager.QuizLoadListener,
+        OnUpdateStatusReceived {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
 
@@ -51,12 +53,15 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         super.onCreate(savedInstanceState);
+
+        Log.d(TAG, "onCreate");
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
     //    getSupportActionBar().hide();
 
         setContentView(R.layout.activity_home);
 
         quizPersister = QuizPersister.getInstance();
+        QuizManager.getInstance().addQuizLoadListener(this);
         restClient = new RestClientImpl(getApplicationContext());
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -149,7 +154,7 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
     }
 
     @Override
-    public void onNewQuizStored(Quiz quiz) {
+    public void onNewQuizStored() {
         setProgressBarIndeterminateVisibility(false);
         Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
         startActivity(intent);
@@ -201,5 +206,12 @@ public class HomeActivity extends ActionBarActivity implements NewQuizListener, 
         if (ch != null && date != null && !ch.isEmpty() && !date.isEmpty()) {
             textViewLastUpdate.setText(String.format("Added chapter %s on %s", ch, date));
         }
+    }
+
+    @Override
+    public void quizLoaded() {
+        Log.d(TAG, "quiz loaded");
+        Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
+        startActivity(intent);
     }
 }

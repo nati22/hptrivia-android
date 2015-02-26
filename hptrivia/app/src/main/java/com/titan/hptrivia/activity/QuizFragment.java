@@ -64,7 +64,7 @@ public class QuizFragment extends Fragment {
             try {
                 question = Question.convertJSONObjectToQuestion(new JSONObject(questionString));
             } catch (JSONException e) {
-                Log.e(TAG, "Can't parse the Question string: " + questionString);
+                Log.e(TAG, "Can't parse the Question string: " + questionString + ".\n Error: " + e);
                 return;
             }
         }
@@ -93,6 +93,10 @@ public class QuizFragment extends Fragment {
         button_wrong2 = (RegularButton) view.findViewById(arrayList.remove(0));
         button_wrong3 = (RegularButton) view.findViewById(arrayList.remove(0));
 
+        if (question == null) {
+            Log.d(TAG, "question == null");
+        }
+
         // set values
         textView_questionText.setText(question.getQuestionText());
         button_correct.setText(question.getCorrectAnswer().getText());
@@ -100,6 +104,9 @@ public class QuizFragment extends Fragment {
         button_wrong2.setText(question.getWrongAnswer2().getText());
         button_wrong3.setText(question.getWrongAnswer3().getText());
         // TODO add Book name, Movie name, etc
+
+        // set question info
+        textView_questionInfo.setText(String.format("Book %d, Chapter %d", question.getBook(), question.getChapter()));
 
         /*    timer = new CountDownTimer(Utils.CONSTANTS.MILLIS_PER_QUESTION, Utils.CONSTANTS.MILLIS_UPDATE_FREQUENCY) {
 

@@ -6,8 +6,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.titan.hptrivia.util.Keys;
-
-import org.json.JSONException;
+import com.titan.hptrivia.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,29 +38,35 @@ public class QuizPersister {
         this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public void storeNewQuiz(String jsonString) {
+    // TODO this actually stores everything (not just the quiz)
+    public void storeQuizData(String everything) {
 
-        Log.d(TAG + ".storeNewQuiz", "Storing Quiz: " + jsonString);
+        Log.d(TAG + ".storeQuizData", "Storing Quiz: " + everything);
 
         // TODO i should store the time that i received the quiz
         SharedPreferences.Editor editor = prefs.edit();
 
-        editor.putString(Keys.PREFS.ALL_QUESTIONS.name(), jsonString);
+        editor.putString(Keys.PREFS.ALL_QUESTIONS.name(), everything);
         editor.putBoolean(Keys.PREFS.QUIZ_EXISTS.name(), true);
 
         editor.commit();
 
-        for (NewQuizListener listener : newQuizListeners) {
-            try {
-                listener.onNewQuizStored(Quiz.parseQuiz(jsonString));
-            } catch (JSONException e) {
-                Log.e(TAG, "Couldn't notify the NewQuizListeners");
-                return;
-            }
-        }
+        // TODO this code is trying to pass an actual Quiz object to anyone waiting for a new quiz
+//        Quiz q;
+//        try {
+//            q = Quiz.parseQuiz(jsonString);
+//        } catch (JSONException e) {
+//            Log.e(TAG, "Couldn't notify the NewQuizListeners");
+//            return;
+//        }
+//        for (NewQuizListener listener : newQuizListeners) {
+//            if (q.size() != 0) { listener.onNewQuizStored(q); }
+//            else { Log.e(TAG, "quiz wasn't inflated properly from the json string: \n" + jsonString); }
+//        }
     }
 
     public Quiz getStoredQuiz() {
+        Log.d(TAG, "getting stored quiz");
 
         String entireQuiz = prefs.getString(Keys.PREFS.ALL_QUESTIONS.name(), null);
         if (entireQuiz == null) {
@@ -69,13 +74,9 @@ public class QuizPersister {
             return new Quiz(null);
         }
 
-        Quiz inflatedQuiz = new Quiz(null);
-        try {
-            inflatedQuiz = Quiz.parseQuiz(entireQuiz);
-        } catch (JSONException e ) {
-            Log.e(TAG, "Could not parse stored Quiz: " + entireQuiz);
-        }
-
+        Quiz inflatedQuiz = null;
+        inflatedQuiz = Utils.getQuizFromFullJson(entireQuiz);
+        Log.d(TAG, "returning stored quiz");
         return inflatedQuiz;
     }
 

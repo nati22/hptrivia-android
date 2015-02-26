@@ -5,6 +5,6 @@ package com.titan.hptrivia.model;
  */
 public interface NewQuizListener {
 
-    public void onNewQuizStored(Quiz quiz);
+    public void onNewQuizStored();
 
 }

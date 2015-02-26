@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class QuizResponse implements Parcelable {
 
-
+    private static final String TAG = QuizResponse.class.getSimpleName();
     private ArrayList<QuestionResponse> questionResponses;
 
     public QuizResponse() {
@@ -39,7 +39,7 @@ public class QuizResponse implements Parcelable {
     public QuizResponse(Parcel in) {
         questionResponses = new ArrayList<QuestionResponse>();
         in.readTypedList(questionResponses, QuestionResponse.CREATOR);
-        Log.d("QuizResponse.constructor", "read " + questionResponses.size() + " elements from the Parcel");
+        Log.d(TAG + ".constructor", "read " + questionResponses.size() + " elements from the Parcel");
     }
 
     @Override
@@ -49,7 +49,7 @@ public class QuizResponse implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        Log.d("QuizResponse.writeToParcel", "writing " + questionResponses.size() + " elements to the Parcel");
+        Log.d(TAG + "writeToParcel", "writing " + questionResponses.size() + " elements to the Parcel");
         dest.writeTypedList(questionResponses);
     }
 

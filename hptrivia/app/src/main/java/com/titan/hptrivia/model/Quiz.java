@@ -13,6 +13,7 @@ import java.util.Iterator;
  */
 public class Quiz {
 
+    private static final String TAG = Quiz.class.getSimpleName();
     private ArrayList<Question> questions;
 
     public Quiz(ArrayList questions) {
@@ -23,11 +24,19 @@ public class Quiz {
 
     public int size() { return questions.size(); }
 
+    /**
+     * Inflates a JSON representation of a Quiz into a full-blown Quiz object.
+     * @param JSONString
+     * @return a Quiz
+     * @throws JSONException
+     */
     public static Quiz parseQuiz(String JSONString) throws JSONException {
         Log.d("Quiz.parseQuiz", "received " + JSONString);
 
-        JSONObject responseJSON = new JSONObject(JSONString.trim());        // TODO should i trim? from (http://stackoverflow.com/questions/9151619/java-iterate-over-jsonobject)
+        JSONObject responseJSON = new JSONObject(JSONString.trim());       // TODO should i trim? from (http://stackoverflow.com/questions/9151619/java-iterate-over-jsonobject)
+
         JSONObject quizJSON = new JSONObject(responseJSON.getString("content").replace("\\\"", "\""));
+
         Log.d("Quiz.parseQuiz", "content = " + responseJSON.getString("content").replace("\\\"", "\""));
         ArrayList<Question> questionList = new ArrayList<Question>();
 
@@ -36,11 +45,11 @@ public class Quiz {
         // TODO (cont'd) See Keys.QUIZ_JSON
 
         // as we remove the questions, length will decrease
-        int numQuestions = quizJSON.length();
+    //    int numQuestions = quizJSON.length();
 
         Iterator<?> iterator = quizJSON.keys();
 
-        Log.d("Quiz", "entering while loop (jsonobj has " + numQuestions + " elements)");
+    //    Log.d("Quiz", "entering while loop (jsonobj has " + numQuestions + " elements)");
         while( iterator.hasNext() ){
             String key = (String)iterator.next();
             if(quizJSON.get(key) instanceof JSONObject ){
@@ -49,10 +58,12 @@ public class Quiz {
                 questionList.add(new Question(questionJSON));
             }
         }
-        Log.d("Quiz", "done with while loop.");
+        Log.d("Quiz", "done looping to get questions from json");
 
-        for (Question q : questionList) Log.d("question: ", q.getQuestionText());
+        Log.d(TAG, "printing questions: ");
+        for (Question q : questionList) Log.d("\tquestion: ", q.getQuestionText());
 
+        Log.d(TAG + ".parseQuiz()", "done parsing Quiz. Quiz object created");
     /*    for (int i = 1; i <= numQuestions; i++) {
             JSONObject questionJSON = (JSONObject) quizJSON.remove(Keys.QUIZ_JSON.QUESTION.name() + i);
             if (questionJSON == null) {
