@@ -35,6 +35,11 @@ public class QuizActivity extends ActionBarActivity implements QuestionCompletio
 
         quizManager = QuizManager.getInstance();
 
+        // TODO ////////////////////////////////////////////////
+            // TODO -  there appears to be a bug here when the back button is pressed from
+            // TODO -  ResultsActivity. find out why QuizActivity is being called instead of
+            // TODO -  having the app go back to HomeActivity
+        // TODO ////////////////////////////////////////////////
         // Kickstarts start quiz
         if (!quizManager.hasStarted())
             displayNextQuestion(quizManager.getNextQuestion());
@@ -111,6 +116,7 @@ public class QuizActivity extends ActionBarActivity implements QuestionCompletio
             startActivity(intent);
             quizManager.reset();
             QuizPersister.getInstance().deleteStoredQuiz();
+            // TODO deleting the local quiz data should happen in onSuccess of an AsyncTask that returns the QuizResult to the server
             finish();
         }
     }
